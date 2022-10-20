@@ -1,25 +1,35 @@
-import logo from './logo.svg';
+import React, {Component} from 'react';
 import './App.css';
+import './index2.css';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import "bootstrap/dist/css/bootstrap.min.css";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import Navbar from './Navbar/Navbar';
+
+import Dashboard from './components/Dashboard';
+import SelectProject from './components/SelectProject';
+import UploadTranscripts from './components/UploadTranscripts';
+import AnalyzeTranscripts from './components/AnalyzeTranscripts';
+
+
+class App extends Component {
+  render () {
+    return (
+      <div> 
+        <Router>
+          <Navbar />
+          <br />
+          <Routes>
+            <Route exact path='/Dashboard' element={< Dashboard />} />
+            <Route exact path='/SelectProject' element={< SelectProject />} />
+            <Route exact path='/UploadTranscripts' element={< UploadTranscripts />} />
+            <Route exact path='/AnalyzeTranscripts' element={< AnalyzeTranscripts />} />
+          </Routes>
+        </Router>
+      </div>
+    );
+  }
 }
+
 
 export default App;

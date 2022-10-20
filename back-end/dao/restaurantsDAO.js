@@ -1,5 +1,7 @@
+import mongodb from "mongodb"
 
 let restaurants
+let transcripts
 
 export default class RestaurantsDAO {
 
@@ -8,9 +10,13 @@ export default class RestaurantsDAO {
     if (restaurants) {
       return
     }
+    if (transcripts) {
+      return
+    }
     try {
         // This let's you connect to a specific database and a specific collection in that database
       restaurants = await conn.db(process.env.RESTREVIEWS_NS).collection("restaurants")
+      transcripts = await conn.db(process.env.RESTREVIEWS_NS).collection("transcripts")
     } catch (e) {
       console.error(
         `Unable to establish a collection handle in restaurantsDAO: ${e}`,
@@ -19,12 +25,13 @@ export default class RestaurantsDAO {
   }
 
 
-// A fucntion to get a list of all restaurants
+  // A fucntion to get a list of all restaurants and the number of restaurants
   static async getRestaurants({
     filters = null,
     page = 0,
     restaurantsPerPage = 20,
-  } = {}) {
+  } = {}) 
+  {
     let query
     // Filter algo for the database with 3 different queries
     if (filters) {
@@ -61,6 +68,21 @@ export default class RestaurantsDAO {
         `Unable to convert cursor to array or problem counting documents, ${e}`,
       )
       return { restaurantsList: [], totalNumRestaurants: 0 }
+    }
+  }
+
+// A function to add a restaurant to the DB
+  static async addTranscript(projectId, transcriptData) { 
+    try {
+      const transcriptDoc = { 
+        project_id: projectId,
+        transcript_data: transcriptData
+      }
+
+      return await transcripts.insertOne(transcriptDoc)
+    } catch (e) {
+      console.error(`Unable to post transcripts: ${e}`)
+      return { error: e }
     }
   }
 }

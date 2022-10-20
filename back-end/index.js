@@ -21,7 +21,7 @@ MongoClient.connect(
     process.exit(1)
   })
   .then(async client => {
-    voiceflowAPI.getData();
+    // voiceflowAPI.getData();
     await RestaurantsDAO.injectDB(client)
     app.listen(port, () => {
       console.log(`listening on port ${port}`)

@@ -1,7 +1,8 @@
 import express from "express"
 import cors from "cors"
-import transcripts from "./api/transcripts.route.js"
+import transcripts from "./api/routes/transcripts.route.js"
 
+// This is the express config file
 const app = express()
 
 app.use(cors())

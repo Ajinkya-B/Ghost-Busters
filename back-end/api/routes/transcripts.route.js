@@ -1,5 +1,5 @@
 import express from "express"
-import TranscriptsCtrl from "./transcripts.controller.js"
+import TranscriptsCtrl from "../controllers/transcripts.controller.js"
 
 const router = express.Router()
 

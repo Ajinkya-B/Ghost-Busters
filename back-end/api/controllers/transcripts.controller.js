@@ -1,4 +1,4 @@
-import TranscriptsDAO from "../dao/transcriptsDAO.js"
+import TranscriptsDAO from "../../dao/transcriptsDAO.js"
 import axios from "axios";
 
 export default class TranscriptsController {

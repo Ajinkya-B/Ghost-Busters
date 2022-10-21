@@ -1,4 +1,4 @@
-import React, { Component, useState } from 'react';
+import React, { Component } from 'react';
 import SubmitTranscript from './SubmitTranscript';
 
 import axios from 'axios';
@@ -9,19 +9,15 @@ class UploadTranscripts extends Component {
   };
 
   async postData() {
-    const data = {
-      title: this.state.title,
-      body: this.state.body
-    };
     axios
-      .post(`http://localhost:5000/api/v1/restaurants`, data)
+      .post(`http://localhost:5000/api/v1/restaurants`)
       .then(res => console.log(res))
       .catch(err => console.log(err));
   }
 
   async getData() {
     try{
-      const students = await axios.get(`http://localhost:5000/api/v1/restaurants`)
+      const students = await axios.get(`http://localhost:5000/api/v1/transcripts`)
       console.log(students)
       console.log("SUCCESS!!!")
     }catch(e){

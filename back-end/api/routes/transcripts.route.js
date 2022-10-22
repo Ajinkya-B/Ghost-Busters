@@ -10,11 +10,11 @@ router.route("/")
     .get(TranscriptsCtrl.apiGetTranscripts)
     .post(TranscriptsCtrl.apiPostTranscripts)
 
-router.route("/test")
+router.route("/trimmed")
     .get(voiceflowAPI.getData)
 
 router.route("/raw")
-    .get(voiceflowAPI.getRaw)
+    .get(voiceflowAPI.putRaw)
 
 
 export default router

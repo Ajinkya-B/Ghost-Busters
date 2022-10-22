@@ -19,7 +19,7 @@ export default class voiceflowAPI{
         // }
     };
 
-    static async getRaw() {
+    static async putRaw() {
         const res = await axios.get(`https://api-dm-test.voiceflow.fr/exportraw/${process.env.VOICEFLOW_API_KEY}?versionID=${process.env.VOICEFLOW_VERSION}`);
         await controller.addRaw(res);
         return res

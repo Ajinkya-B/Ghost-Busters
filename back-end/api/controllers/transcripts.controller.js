@@ -118,7 +118,7 @@ export default class TranscriptsController {
     const myJson = await response.json();
 
       for(let x = 0; x < myJson.length; x++){
-        await dbo.collection("Raw").insertOne(myJson[x]);
+        await dbo.collection("Raw").insertMany(myJson[x]);
         console.log(myJson[x])
       }
   }

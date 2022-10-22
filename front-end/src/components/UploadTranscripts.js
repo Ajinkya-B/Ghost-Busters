@@ -10,20 +10,32 @@ class UploadTranscripts extends Component {
 
   async postData() {
     axios
-      .post(`http://localhost:5000/api/v1/restaurants`)
+      .get(`http://localhost:8000/api/v1/transcripts/test`)
       .then(res => console.log(res))
       .catch(err => console.log(err));
   }
 
   async getData() {
     try{
-      const students = await axios.get(`http://localhost:5000/api/v1/transcripts`)
+      const students = await axios.get(`http://localhost:8000/api/v1/transcripts`)
       console.log(students)
       console.log("SUCCESS!!!")
     }catch(e){
       console.log(e)
     }
   }
+
+  async getRawData() {
+    try{
+      const students = await axios.get(`http://localhost:8000/api/v1/transcripts/raw`)
+      console.log(students)
+      console.log("SUCCESS!!!")
+    }catch(e){
+      console.log(e)
+    }
+  }
+
+
 
 ///////////////////
 
@@ -53,6 +65,7 @@ class UploadTranscripts extends Component {
       >
         <button onClick={ () => this.postData() }> Post Data </button>
         <button onClick={ () => this.getData() }> Get Data </button>
+        <button onClick={ () => this.getRawData() }> Get Raw Data </button>
         {/* <SubmitTranscript></SubmitTranscript> */}
 
         {/* <form onSubmit={this.handleSubmit}>

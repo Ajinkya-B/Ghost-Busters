@@ -1,5 +1,7 @@
 import express from "express"
 import TranscriptsCtrl from "../controllers/transcripts.controller.js"
+import voiceflowAPI from "../voiceflowAPI.js";
+
 
 const router = express.Router()
 
@@ -7,5 +9,12 @@ const router = express.Router()
 router.route("/")
     .get(TranscriptsCtrl.apiGetTranscripts)
     .post(TranscriptsCtrl.apiPostTranscripts)
+
+router.route("/test")
+    .get(voiceflowAPI.getData)
+
+router.route("/raw")
+    .get(voiceflowAPI.getRaw)
+
 
 export default router

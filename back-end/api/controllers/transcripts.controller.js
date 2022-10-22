@@ -1,5 +1,15 @@
 import TranscriptsDAO from "../../dao/transcriptsDAO.js"
 import axios from "axios";
+import {MongoClient} from "mongodb";
+import fetch from 'node-fetch';
+
+class transcript {
+
+  constructor(text, speaker) {
+    this.text = text;
+    this.speaker = speaker;
+  }
+}
 
 export default class TranscriptsController {
 // A function that takes the querry and gets all the transcripts data from MongoDB.
@@ -46,5 +56,72 @@ export default class TranscriptsController {
       res.json({ status: "failure" })
     }
   }
+
+  static async dropDB(db){
+      db.dropDatabase();
+  }
+
+  // Function that adds the questions and text to the database
+  static async addClean(req, res, next){
+
+    //Creates a database object
+    const client = new MongoClient(process.env.MONGO_DB_URI);
+    const dbo = client.db("VoiceFlowAPIData")
+
+    const response = await fetch(process.env.VOICEFLOW_API_LINK);
+
+    const myJson = await response.json();
+    let tempBotChat = [];
+
+    for (let i = 0; i < myJson.length; i++) {
+      for (let x = 0; x < myJson[i].length; x++) {
+        try {
+          if (myJson[i][x].payload.payload.message !== undefined) {
+            var question = String(myJson[i][x].payload.payload.message);
+
+            if (!question.includes("audio")) {
+              // console.log(
+              //   question.substring(
+              //     question.indexOf(">") + 1,
+              //     question.lastIndexOf("<")
+              //   )
+              // );
+              tempBotChat.push(
+                  question.substring(
+                      question.indexOf(">") + 1,
+                      question.lastIndexOf("<")
+                  )
+              );
+            }
+          }
+          if (myJson[i][x].payload.payload.query !== undefined) {
+            var answer = String(myJson[i][x].payload.payload.query);
+            let tempBotObject = new transcript(tempBotChat, "bot");
+            await dbo.collection("Trimmed").insertOne(tempBotObject);
+            console.log(tempBotObject);
+            tempBotChat = [];
+            let tempHumanObject = new transcript(answer, "human");
+            await dbo.collection("Trimmed").insertOne(tempHumanObject);
+            console.log(tempHumanObject);
+          }
+        } catch (err) {}
+      }
+    }
+
+  }
+
+  static async addRaw(req, res, next){
+
+    const client = new MongoClient(process.env.MONGO_DB_URI);
+    const dbo = client.db("VoiceFlowAPIData")
+    const response = await fetch(process.env.VOICEFLOW_API_LINK);
+    const myJson = await response.json();
+
+      for(let x = 0; x < myJson.length; x++){
+        await dbo.collection("Raw").insertOne(myJson[x]);
+        console.log(myJson[x])
+      }
+  }
+
   
 }

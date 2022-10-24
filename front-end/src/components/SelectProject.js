@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Table from './Table';
-import Form from './Form';
+import AddProject from "./AddProject";
 
 
 class SelectProject extends Component {
@@ -10,9 +10,9 @@ class SelectProject extends Component {
 
     removeProject = index => {
         const { projects } = this.state;
-    
+
         this.setState({
-            projects: projects.filter((proj, i) => { 
+            projects: projects.filter((proj, i) => {
                 return i !== index;
             })
         });
@@ -20,9 +20,9 @@ class SelectProject extends Component {
 
     selectProject = index => {
         const { projects } = this.state;
-    
+
         this.setState({
-            projects: projects.filter((proj, i) => { 
+            projects: projects.filter((proj, i) => {
                 return i !== index;
             })
         });
@@ -34,7 +34,7 @@ class SelectProject extends Component {
 
     render() {
       const { projects } = this.state;
-        
+
         return (
           <div
             style={{
@@ -45,16 +45,17 @@ class SelectProject extends Component {
             }}
           >
             <h2> Add a new project: </h2>
-            <Form handleSubmit={this.handleSubmit} />
+            <AddProject />
+              {/*<Form handleSubmit={this.handleSubmit} />*/}
 
             <br />
 
             <h2> Select an existing project: </h2>
-            <Table
-              projectData={projects}
-              selectProject={this.selectProject}
-              removeProject={this.removeProject}
-            />
+              <Table
+                  projectData={projects}
+                  selectProject={this.selectProject}
+                  removeProject={this.removeProject}
+              />
           </div>
         );
     }

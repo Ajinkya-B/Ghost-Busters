@@ -107,7 +107,7 @@ export default class TranscriptsController {
         } catch (err) {}
       }
     }
-
+    console.log("Trimmed Data added");
   }
 
   static async addRaw(req, res, next){
@@ -118,22 +118,30 @@ export default class TranscriptsController {
       for(let x = 0; x < myJson.length; x++){
         await TranscriptsDAO.addRawTranscript(myJson[x]);
       }
+    console.log("Raw Data added");
   }
 
   static async flushDB(req, res, next){
     await TranscriptsDAO.flushDatabase('Trimmed');
     await TranscriptsDAO.flushDatabase('Raw');
+    console.log("Database Flushed");
   }
 
   static async getTrim(req, res, next){
+    let itemsSoFar = []
     let response =  await TranscriptsDAO.getTrimmedTranscripts()
-    console.log(response);
-
+    for (let x = 0; x < response.length; x++){
+      let tempObject = new transcript(response[x]["text"], response[x]["speaker"]);
+      itemsSoFar.push(tempObject);
+    }
+    console.log(itemsSoFar)
+    return itemsSoFar
   }
 
   static async createProject(req, res, next){
     console.log(req.body)
     await TranscriptsDAO.createProject(req.body);
+    console.log("Project Created");
   }
 
 }

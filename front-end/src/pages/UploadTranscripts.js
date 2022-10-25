@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import SubmitTranscript from './SubmitTranscript';
-
 import axios from 'axios';
 
 class UploadTranscripts extends Component {

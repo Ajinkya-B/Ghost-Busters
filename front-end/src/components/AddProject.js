@@ -40,16 +40,20 @@ class AddProject extends Component {
         event.preventDefault()
 
         const addedProject = {
-            projectName: this.state.projectName,
-            projectID: this.state.projectID,
-            // apiKey: this.state.apiKey,
-            transcripts: this.state.transcripts,
-            analyzedData: this.state.analyzedData
+
+            // this is received from the fields
+            project_name: document.getElementById("project_name").value,
+            project_id: document.getElementById("project_id").value
+            // projectName: this.state.projectName,
+            // projectID: this.state.projectID,
+            // // apiKey: this.state.apiKey,
+            // transcripts: this.state.transcripts,
+            // analyzedData: this.state.analyzedData
         }
 
-        // axios.post('...', addedProject)
-        //     .then(response => console.log(response.data))
-        //
+        axios.post('http://localhost:8000/api/v1/transcripts/createProject', addedProject)
+            .then(response => console.log(response.data))
+
         // this.setState({
         //     projectName:'',
         //     projectID:'',
@@ -67,14 +71,12 @@ class AddProject extends Component {
                         <form onSubmit={this.onSubmit}>
                             <input type='text'
                                    placeholder='Project Name'
-                                   onChange={this.addProjectName}
-                                   value={this.state.projectName}
+                                   id="project_name"
                                    className='form-control form-group'
                             />
                             <input type='text'
                                    placeholder='Project ID'
-                                   onChange={this.addProjectID}
-                                   value={this.state.projectID}
+                                   id="project_id"
                                    className='form-control form-group'
                             />
                             {/*<input type='text'*/}

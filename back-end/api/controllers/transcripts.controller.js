@@ -97,11 +97,11 @@ export default class TranscriptsController {
           if (myJson[i][x].payload.payload.query !== undefined) {
             var answer = String(myJson[i][x].payload.payload.query);
             let tempBotObject = new transcript(tempBotChat, "bot");
-            await dbo.collection("Trimmed").insertOne(tempBotObject);
+            await TranscriptsDAO.addTrimmedTranscript(tempBotObject);
             console.log(tempBotObject);
             tempBotChat = [];
             let tempHumanObject = new transcript(answer, "human");
-            await dbo.collection("Trimmed").insertOne(tempHumanObject);
+            await TranscriptsDAO.addTrimmedTranscript(tempHumanObject);
             console.log(tempHumanObject);
           }
         } catch (err) {}
@@ -112,16 +112,28 @@ export default class TranscriptsController {
 
   static async addRaw(req, res, next){
 
-    const client = new MongoClient(process.env.MONGO_DB_URI);
-    const dbo = client.db("VoiceFlowAPIData")
     const response = await fetch(process.env.VOICEFLOW_API_LINK);
     const myJson = await response.json();
 
       for(let x = 0; x < myJson.length; x++){
-        await dbo.collection("Raw").insertMany(myJson[x]);
-        console.log(myJson[x])
+        await TranscriptsDAO.addRawTranscript(myJson[x]);
       }
   }
 
-  
+  static async flushDB(req, res, next){
+    await TranscriptsDAO.flushDatabase('Trimmed');
+    await TranscriptsDAO.flushDatabase('Raw');
+  }
+
+  static async getTrim(req, res, next){
+    let response =  await TranscriptsDAO.getTrimmedTranscripts()
+    console.log(response);
+
+  }
+
+  static async createProject(req, res, next){
+    console.log(req.body)
+    await TranscriptsDAO.createProject(req.body);
+  }
+
 }

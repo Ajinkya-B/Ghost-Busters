@@ -1,4 +1,5 @@
 import TranscriptsDAO from "../../dao/transcriptsDAO.js"
+import voiceflowAPI from "../../helpers/voiceflowAPI.js";
 import axios from "axios";
 import {MongoClient} from "mongodb";
 import fetch from 'node-fetch';
@@ -12,8 +13,8 @@ class transcript {
 }
 
 export default class TranscriptsController {
-// A function that takes the querry and gets all the transcripts data from MongoDB.
 
+  // GET API: A function that gets transcript data matching with the querry from MongoDB.
   static async apiGetTranscripts(req, res, next) {
 
     let filters = {}
@@ -31,16 +32,18 @@ export default class TranscriptsController {
     }
     res.json(response)
   }
+  
+  // POST API: sends all the transcripts saved in the Voiceflow to Mongo DB
 
+  // TODO 1: Work on filtering the Vioceflow API data before sending it to Mongo
+  // TODO 2: Change from POST -> PUT (so there are no duplicates)
   static async apiPostTranscripts(req, res, next){
-    // Retriving data on a project using Vioceflow API
-    let response;
-    try {
-      response = await axios.get(`https://api-dm-test.voiceflow.fr/exportraw/${process.env.VOICEFLOW_API_KEY}?versionID=${process.env.VOICEFLOW_VERSION}`);
-    } catch (e) {
-        console.log("Error in the Voiceflow API call!")
-    }
     try{
+      // Get transcript data for a project given the API KEY and VERSION ID.
+      const response = await voiceflowAPI.getData(
+        process.env.VOICEFLOW_API_KEY,
+        process.env.VOICEFLOW_VERSION,
+      );
       response.data.forEach(async function(transcript) {
         const projectId = transcript[0].projectID
         const transcriptData = transcript
@@ -57,11 +60,32 @@ export default class TranscriptsController {
     }
   }
 
+  // TODO 3: Is this a duplicate of the function above? 
+  static async addRaw(req, res, next){
+    try{
+      const response = await voiceflowAPI.getData(
+        process.env.VOICEFLOW_API_KEY,
+        process.env.VOICEFLOW_VERSION,
+      );
+      response.forEach(async function(transcript){
+        await TranscriptsDAO.addRawTranscript(transcript);
+      })
+
+      res.json({ status: "success" })
+    }catch(e){
+      res.json({ status: "failure" })
+    }
+    
+  }
+
   static async dropDB(db){
       db.dropDatabase();
   }
 
   // Function that adds the questions and text to the database
+  // TODO 3: Refractor this whole method:
+  //            1. Connect with the DB in a DAO file (eiter build it on top of transcripsDAO or create a new one(recommended))
+  //            2. The logic to 'clean' the data can go in the helpers folder
   static async addClean(req, res, next){
 
     //Creates a database object
@@ -110,17 +134,6 @@ export default class TranscriptsController {
     console.log("Trimmed Data added");
   }
 
-  static async addRaw(req, res, next){
-
-    const response = await fetch(process.env.VOICEFLOW_API_LINK);
-    const myJson = await response.json();
-
-      for(let x = 0; x < myJson.length; x++){
-        await TranscriptsDAO.addRawTranscript(myJson[x]);
-      }
-    console.log("Raw Data added");
-  }
-
   static async flushDB(req, res, next){
     await TranscriptsDAO.flushDatabase('Trimmed');
     await TranscriptsDAO.flushDatabase('Raw');
@@ -138,6 +151,7 @@ export default class TranscriptsController {
     return itemsSoFar
   }
 
+  // POST API: 
   static async createProject(req, res, next){
     console.log(req.body)
     await TranscriptsDAO.createProject(req.body);

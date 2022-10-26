@@ -1,6 +1,5 @@
 import express from "express"
 import TranscriptsCtrl from "../controllers/transcripts.controller.js"
-import voiceflowAPI from "../voiceflowAPI.js";
 import controller from "../../api/controllers/transcripts.controller.js"
 
 

@@ -20,7 +20,6 @@ export default class TranscriptsDAO {
   }
 
 
-
   // A function to get a list of all transcripts and the number of transcripts
   static async getTranscripts({
     filters = null

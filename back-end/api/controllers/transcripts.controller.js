@@ -1,5 +1,6 @@
 import TranscriptsDAO from "../../dao/transcriptsDAO.js"
 import voiceflowAPI from "../../helpers/voiceflowAPI.js";
+import transcriptDataFormatter from "../../helpers/transcriptDataFormatter.js";
 import axios from "axios";
 import {MongoClient} from "mongodb";
 import fetch from 'node-fetch';
@@ -46,7 +47,7 @@ export default class TranscriptsController {
       );
       response.data.forEach(async function(transcript) {
         const projectId = transcript[0].projectID
-        const transcriptData = transcript
+        const transcriptData = transcriptDataFormatter.cleanData(transcript)
 
         const ReviewResponse = await TranscriptsDAO.addTranscript(
           projectId,

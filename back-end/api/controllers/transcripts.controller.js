@@ -35,8 +35,8 @@ export default class TranscriptsController {
   
   // POST API: sends all the transcripts saved in the Voiceflow to Mongo DB
 
-  // TODO 1: Work on filtering the Vioceflow API data before sending it to Mongo
-  // TODO 2: Change from POST -> PUT (so there are no duplicates)
+  // TODO 1(AJ): Work on filtering the Vioceflow API data before sending it to Mongo
+  // TODO 2(AJ): Change from POST -> PUT (so there are no duplicates)
   static async apiPostTranscripts(req, res, next){
     try{
       // Get transcript data for a project given the API KEY and VERSION ID.
@@ -60,7 +60,7 @@ export default class TranscriptsController {
     }
   }
 
-  // TODO 3: Is this a duplicate of the function above? 
+  // TODO 3(Marco): Is this a duplicate of the function above? 
   static async addRaw(req, res, next){
     try{
       const response = await voiceflowAPI.getData(
@@ -83,9 +83,11 @@ export default class TranscriptsController {
   }
 
   // Function that adds the questions and text to the database
-  // TODO 3: Refractor this whole method:
-  //            1. Connect with the DB in a DAO file (eiter build it on top of transcripsDAO or create a new one(recommended))
-  //            2. The logic to 'clean' the data can go in the helpers folder
+  // TODO 3(Marco): Refractor this whole method:
+  //                  1. Connect with the DB in a DAO file (eiter build it on top of transcripsDAO or 
+  //                     create a new one(recommended))
+  //                  2. The logic to 'clean' the data can go in the helpers folder
+  // TODO 4(Anyone): Creata a different DAO for 'textTranscripts'. efer to issue #1 on github
   static async addClean(req, res, next){
 
     //Creates a database object

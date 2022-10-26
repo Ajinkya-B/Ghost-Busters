@@ -3,14 +3,15 @@ import voiceflowAPI from "../../helpers/voiceflowAPI.js";
 import axios from "axios";
 import {MongoClient} from "mongodb";
 import fetch from 'node-fetch';
+import {textTranscript} from "../../entities/textTranscript.js";
 
-class transcript {
+/*class transcript {
 
   constructor(text, speaker) {
     this.text = text;
     this.speaker = speaker;
   }
-}
+}*/
 
 export default class TranscriptsController {
 
@@ -122,11 +123,11 @@ export default class TranscriptsController {
           }
           if (myJson[i][x].payload.payload.query !== undefined) {
             var answer = String(myJson[i][x].payload.payload.query);
-            let tempBotObject = new transcript(tempBotChat, "bot");
+            let tempBotObject = new textTranscript(tempBotChat, "bot");
             await TranscriptsDAO.addTrimmedTranscript(tempBotObject);
             console.log(tempBotObject);
             tempBotChat = [];
-            let tempHumanObject = new transcript(answer, "human");
+            let tempHumanObject = new textTranscript(answer, "human");
             await TranscriptsDAO.addTrimmedTranscript(tempHumanObject);
             console.log(tempHumanObject);
           }
@@ -146,7 +147,7 @@ export default class TranscriptsController {
     let itemsSoFar = []
     let response =  await TranscriptsDAO.getTrimmedTranscripts()
     for (let x = 0; x < response.length; x++){
-      let tempObject = new transcript(response[x]["text"], response[x]["speaker"]);
+      let tempObject = new textTranscript(response[x]["text"], response[x]["speaker"]);
       itemsSoFar.push(tempObject);
     }
     console.log(itemsSoFar)

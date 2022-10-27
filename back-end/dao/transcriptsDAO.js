@@ -1,3 +1,5 @@
+import {MongoClient} from "mongodb";
+
 let transcripts
 
 export default class TranscriptsDAO {
@@ -18,8 +20,7 @@ export default class TranscriptsDAO {
   }
 
 
-
-  // A fucntion to get a list of all transcripts and the number of transcripts
+  // A function to get a list of all transcripts and the number of transcripts
   static async getTranscripts({
     filters = null
   } = {}) 
@@ -58,4 +59,52 @@ export default class TranscriptsDAO {
       return { error: e }
     }
   }
+
+  // A function to add an unedited transcript into the database
+  static async addRawTranscript(transcripts){
+    const client = new MongoClient(process.env.MONGO_DB_URI);
+    const dbo = client.db("VoiceFlowAPIData")
+
+    try {
+      await dbo.collection("Raw").insertMany(transcripts);
+    } catch (e) {
+      console.error(`Unable to post transcripts: ${e}`)
+      return { error: e }
+    }
+  }
+
+  // A function to add a transcript object into the database, with text and who says it
+  static async addTrimmedTranscript(transcriptObject){
+    const client = new MongoClient(process.env.MONGO_DB_URI);
+    const dbo = client.db("VoiceFlowAPIData")
+
+    try {
+      await dbo.collection("Trimmed").insertOne(transcriptObject);
+    } catch (e) {
+      console.error(`Unable to post transcripts: ${e}`)
+      return { error: e }
+    }
+  }
+
+  //A function to clear the database with the given name
+  static async flushDatabase(name){
+    const client = new MongoClient(process.env.MONGO_DB_URI);
+    const dbo = client.db("VoiceFlowAPIData")
+    await dbo.collection(name).deleteMany({})
+  }
+
+  //A function to get the trimmed transcripts
+  static async getTrimmedTranscripts() {
+    const client = new MongoClient(process.env.MONGO_DB_URI);
+    const dbo = client.db("VoiceFlowAPIData")
+    return await dbo.collection("Trimmed").find().toArray()
+  }
+
+  // Creates a project in mongoDB with two fields project name and project id
+  static async createProject(req, res, next){
+    const client = new MongoClient(process.env.MONGO_DB_URI);
+    const dbo = client.db("ProjectsDB")
+    await dbo.collection("Projects").insertOne(req)
+  }
+
 }

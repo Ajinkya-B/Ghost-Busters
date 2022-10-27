@@ -18,7 +18,7 @@ const Navbar = () => {
 
         <Bars />
         <NavMenu>
-          <NavLink to='/SelectProject' activeStyle>
+          <NavLink to='/ManageProject' activeStyle>
             Select Project
           </NavLink>
         </NavMenu>

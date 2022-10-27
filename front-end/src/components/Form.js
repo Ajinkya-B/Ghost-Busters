@@ -1,3 +1,5 @@
+// This file will probably be deleted soon. I'm keeping it for reference for now. - Chelsea
+
 import React, {Component} from 'react';
 
 class Form extends Component {

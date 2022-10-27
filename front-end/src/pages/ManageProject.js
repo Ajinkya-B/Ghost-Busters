@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Table from '../components/Table';
 import AddProject from "../components/AddProject";
-
+// import ExistingProject from "../components/ExistingProject";
 
 class ManageProject extends Component {
     render() {
@@ -14,17 +14,16 @@ class ManageProject extends Component {
               //height: '90vh'
             }}
           >
-            <h2> Add a new project: </h2>
-            <AddProject />
-
-            <br />
-
-            <h2> Select an existing project: </h2>
+              <h2> Add a new project: </h2>
+              <AddProject />
+              <br />
+              <h2> Select an existing project: </h2>
               <Table
-                  // projectData={projects}
-                  // selectProject={this.selectProject}
-                  // removeProject={this.removeProject}
+              // projectData={projects}
+              // selectProject={this.selectProject}
+              // removeProject={this.removeProject}
               />
+              {/*<ExistingProject />*/}
           </div>
         );
     }

@@ -69,7 +69,7 @@ export default class TranscriptsController {
         process.env.VOICEFLOW_API_KEY,
         process.env.VOICEFLOW_VERSION,
       );
-      response.forEach(async function(transcript){
+      response.data.forEach(async function(transcript){
         await TranscriptsDAO.addRawTranscript(transcript);
       })
 

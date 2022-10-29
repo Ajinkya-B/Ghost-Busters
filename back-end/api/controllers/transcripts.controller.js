@@ -6,13 +6,6 @@ import {MongoClient} from "mongodb";
 import fetch from 'node-fetch';
 import {textTranscript} from "../../entities/textTranscript.js";
 
-/*class transcript {
-
-  constructor(text, speaker) {
-    this.text = text;
-    this.speaker = speaker;
-  }
-}*/
 
 export default class TranscriptsController {
 
@@ -37,7 +30,6 @@ export default class TranscriptsController {
   
   // POST API: sends all the transcripts saved in the Voiceflow to Mongo DB
 
-  // TODO 1(AJ): Work on filtering the Vioceflow API data before sending it to Mongo
   // TODO 2(AJ): Change from POST -> PUT (so there are no duplicates)
   static async apiPostTranscripts(req, res, next){
     try{
@@ -46,7 +38,7 @@ export default class TranscriptsController {
         process.env.VOICEFLOW_API_KEY,
         process.env.VOICEFLOW_VERSION,
       );
-      response.data.forEach(async function(transcript) {
+      response.data.forEach(async function(transcript){
         const projectId = transcript[0].projectID
         const transcriptData = transcriptDataFormatter.cleanData(transcript)
 
@@ -61,24 +53,7 @@ export default class TranscriptsController {
       res.json({ status: "failure" })
     }
   }
-
-  // TODO 3(Marco): Is this a duplicate of the function above? 
-  static async addRaw(req, res, next){
-    try{
-      const response = await voiceflowAPI.getData(
-        process.env.VOICEFLOW_API_KEY,
-        process.env.VOICEFLOW_VERSION,
-      );
-      response.forEach(async function(transcript){
-        await TranscriptsDAO.addRawTranscript(transcript);
-      })
-
-      res.json({ status: "success" })
-    }catch(e){
-      res.json({ status: "failure" })
-    }
-    
-  }
+  
 
   static async dropDB(db){
       db.dropDatabase();

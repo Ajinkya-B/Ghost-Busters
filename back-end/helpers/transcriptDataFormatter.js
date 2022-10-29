@@ -1,4 +1,6 @@
 export default class transcriptDataFormatter{
+    
+    // helper for getting a cleaned up version of a transcript
     static cleanData(transcript){
         var res = []
         var block

@@ -1,6 +1,10 @@
-export class textTranscript{
-    constructor(text, speaker) {
-        this.text = text;
-        this.speaker = speaker;
+export class TextTranscript{
+    TextTranscript(transcript) {
+        this.transcript = transcript
+        return 
+    }
+
+    getTranscript(){
+        return this.transcript
     }
 }

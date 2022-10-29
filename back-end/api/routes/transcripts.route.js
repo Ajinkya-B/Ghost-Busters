@@ -13,9 +13,6 @@ router.route("/")
 router.route("/trimmed")
     .get(controller.addClean)
 
-router.route("/raw")
-    .get(controller.addRaw)
-
 router.route("/flush")
     .get(controller.flushDB)
 

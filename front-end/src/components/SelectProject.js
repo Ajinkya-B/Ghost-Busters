@@ -8,7 +8,7 @@ class SelectProject extends Component {
     // This is incomplete! We want to display the project names on the frontend (i.e., the ManageProject page)
     async getAllProjects() {
         try{
-            await axios.get(`http://localhost:8000/api/v1/transcripts/getAllProjects`)
+            await axios.get(`http://localhost:8000/api/v1/projects/getAllProjects`)
 
         } catch(e) {
             console.log(e)

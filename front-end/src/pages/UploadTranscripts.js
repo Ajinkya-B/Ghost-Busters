@@ -85,16 +85,6 @@ class UploadTranscripts extends Component {
         <button onClick={ () => this.flushDB() }> Flush DB</button>
         <br/>
         <button onClick={ () => this.getTrimmed() }> Get Trimmed</button>
-        {/* <SubmitTranscript></SubmitTranscript> */}
-
-        {/* <form onSubmit={this.handleSubmit}>
-          <label>
-            Person Name:
-            <input type="text" name="name" onChange={this.handleChange} />
-          </label>
-          <button type="submit">Add</button>
-        </form> */}
-        
       </div>
     );
   }

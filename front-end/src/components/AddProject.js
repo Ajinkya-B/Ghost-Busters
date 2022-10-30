@@ -64,7 +64,7 @@ class AddProject extends Component {
             transcripts: this.state.transcripts // This is another way to write the above code
         }
 
-        axios.post('http://localhost:8000/api/v1/transcripts/createProject', addedProject)
+        axios.post('http://localhost:8000/api/v1/projects/createProject', addedProject)
             .then(response => console.log(response.data))
 
         // Reset form after submission

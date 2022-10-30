@@ -1,11 +1,11 @@
 import express from "express"
 import TranscriptsCtrl from "../controllers/transcripts.controller.js"
 import controller from "../../api/controllers/transcripts.controller.js"
-
+import ProjectsController from "../controllers/projects.controller.js";
 
 const router = express.Router()
 
-// uses the controller to call a specific api
+// TRANSCRIPT ROUTES: uses the transcript controllers to call a specific api
 router.route("/")
     .get(TranscriptsCtrl.apiGetTranscripts)
     .post(TranscriptsCtrl.apiPostTranscripts)
@@ -22,8 +22,13 @@ router.route("/flush")
 router.route("/getTrimmed")
     .get(controller.getTrim)
 
+
+// PROJECT ROUTES
 router.route('/createProject')
-    .post(controller.createProject)
+    .post(ProjectsController.apiCreateProject)
+
+router.route('/getAllProjects')
+    .get(ProjectsController.apiGetAllProjects)
 
 
 export default router

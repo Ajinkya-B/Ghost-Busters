@@ -1,6 +1,6 @@
 import express from "express"
 import cors from "cors"
-import transcripts from "./api/routes/transcripts.route.js"
+import transcripts from "./api/routes/routes.js"
 
 // This is the express config file
 const app = express()

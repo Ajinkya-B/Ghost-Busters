@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import Table from '../components/Table';
 import AddProject from "../components/AddProject";
-// import ExistingProject from "../components/ExistingProject";
+import SelectProject from "../components/SelectProject";
+
 
 class ManageProject extends Component {
+
     render() {
         return (
           <div
@@ -18,12 +20,8 @@ class ManageProject extends Component {
               <AddProject />
               <br />
               <h2> Select an existing project: </h2>
-              <Table
-              // projectData={projects}
-              // selectProject={this.selectProject}
-              // removeProject={this.removeProject}
-              />
-              {/*<ExistingProject />*/}
+              <Table />
+              <SelectProject />
           </div>
         );
     }

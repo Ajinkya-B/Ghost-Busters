@@ -154,11 +154,5 @@ export default class TranscriptsController {
     return itemsSoFar
   }
 
-  // POST API: 
-  static async createProject(req, res, next){
-    console.log(req.body)
-    await TranscriptsDAO.createProject(req.body);
-    console.log("Project Created");
-  }
 
 }

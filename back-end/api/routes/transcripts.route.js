@@ -11,7 +11,7 @@ router.route("/")
     .post(TranscriptsCtrl.apiPostTranscripts)
 
 router.route("/trimmed")
-    .get(controller.addClean)
+    .post(controller.addClean)
 
 router.route("/flush")
     .get(controller.flushDB)

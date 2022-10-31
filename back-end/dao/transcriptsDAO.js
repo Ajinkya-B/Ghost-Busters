@@ -5,7 +5,7 @@ let transcripts
 export default class TranscriptsDAO {
 
   /**
-   * Sets up an initial connection with MongoDB and store sit onto a variable named textTranscripts
+   * Sets up an initial connection with MongoDB and store sit onto a variable named transcripts
    * @param conn : mongo client for the database URI
    * @returns : throws an error if the conenction is nto estabilshed
    */

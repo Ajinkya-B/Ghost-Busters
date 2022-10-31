@@ -48,24 +48,16 @@ export default class ProjectsDAO {
 
     /**
      * Create a project object in MongoDB (see AddProject.js in /front-end for more info).
-     * @param req
-     * @param res
-     * @param next
-     * @returns {Promise<void>}
      */
     static async createProject(req, res, next){
-        const client = new MongoClient(process.env.MONGO_DB_URI);
-        const dbo = client.db("ProjectsDB")
-        await dbo.collection("Projects").insertOne(req)
+        await projects.insertOne(req)
     }
 
     /**
      * Get an array of all project objects from MongoDB.
      */
     static async getAllProjects() {
-        const client = new MongoClient(process.env.MONGO_DB_URI);
-        const dbo = client.db("ProjectsDB");
-        return await dbo.collection("Projects").find().toArray();
+        return await projects.find().toArray();
     }
 
 }

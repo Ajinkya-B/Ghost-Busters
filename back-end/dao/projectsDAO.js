@@ -4,11 +4,6 @@ let projects
 
 export default class ProjectsDAO {
 
-    /**
-     * Sets up an initial connection with MongoDB and stores it into a project variable.
-     * @param conn : mongo client for the database URI
-     * @returns : throws an error if the connection is not established
-     */
     static async injectDB(conn) {
         if (projects) {
             return

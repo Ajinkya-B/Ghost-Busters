@@ -18,26 +18,40 @@ class AddProject extends Component {
         this.onSubmit = this.onSubmit.bind(this)
     }
 
-    // These methods store the value of the creator input into the state
+    /**
+     * A method that stores the project_name value inputted into the state.
+     * @param event
+     */
     addProjectName(event) {
         this.setState({
             project_name: event.target.value
         })
     }
 
+    /**
+     * A method that stores the project_id value inputted into the state.
+     * @param event
+     */
     addProjectID(event) {
         this.setState({
             project_id: event.target.value
         })
     }
 
+    /**
+     * A method that stores the api_key value inputted into the state.
+     * @param event
+     */
     addApiKey(event) {
         this.setState({
             api_key: event.target.value
         })
     }
 
-    // Submit creator inputs to DB
+    /**
+     * Submit inputs to MongoDB.
+     * @param event
+     */
     onSubmit(event) {
         event.preventDefault() // Prevents form's default behaviour
         // (i.e., prevents page refresh after the creator inputs data
@@ -50,7 +64,7 @@ class AddProject extends Component {
             transcripts: this.state.transcripts // This is another way to write the above code
         }
 
-        axios.post('http://localhost:8000/api/v1/transcripts/createProject', addedProject)
+        axios.post('http://localhost:8000/api/v1/projects/createProject', addedProject)
             .then(response => console.log(response.data))
 
         // Reset form after submission

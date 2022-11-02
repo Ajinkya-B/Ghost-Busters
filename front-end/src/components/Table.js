@@ -1,5 +1,9 @@
+/**
+ * This is the table displayed on the ManageProjects page.
+ * INCOMPLETE.
+ */
+
 import React from 'react';
-import { Link } from 'react-router-dom';
 
 const TableHeader = () => { 
     return (
@@ -13,34 +17,22 @@ const TableHeader = () => {
     );
 }
 
-// THIS CODE DOES NOT WORK; it only works with local storage.
-// The idea is that when a project is added from the AddProject use case, it'll appear in this table.
 // const TableBody = props => {
-//     const rows = props.projectData.map((row, index) => {
+//     const rows = props.characterData.map((row, index) => {
 //         return (
 //             <tr key={index}>
-//                 <td>{row.projectID}</td>
-//                 {/* <td>{row.apiKey}</td> */}
-//                 <td>
-//                     {/* <button onClick={() => props.selectProject(index)}>Select</button> */}
-//                     <button>
-//                         <Link to='/Dashboard'>Select</Link>
-//                     </button>
-//                 </td>
-//                 <td><button onClick={() => props.removeProject(index)}>Delete</button></td>
+//                 <td>{row.project_name}</td>
 //             </tr>
-//         );
-//     });
-//
-//     return <tbody>{rows}</tbody>;
+//         )
+//     })
 // }
 
 const Table = (props) => {
-    // const { projectData, selectProject, removeProject } = props;
+    // const { characterData } = props;
         return (
             <table>
                 <TableHeader />
-                {/*<TableBody projectData={projectData} selectProject={selectProject} removeProject={removeProject} />*/}
+                {/*<TableBody characterData={characterData} />*/}
             </table>
         );
 }

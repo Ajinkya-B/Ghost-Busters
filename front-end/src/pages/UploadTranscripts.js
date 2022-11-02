@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 
+
 class UploadTranscripts extends Component {
-  state = {
-    name: ''
-  };
 
   async postData() {
     axios
@@ -48,17 +46,6 @@ class UploadTranscripts extends Component {
     }
   }
 
-
-
-///////////////////
-
-  // postData() {
-
-  //   let obj = { name: 'Chelsea', age: 420, email:'mail' }
-  //   localStorage.setItem('myData', JSON.stringify(obj));
-
-  // }
-
   // async getData() {
   //   const students = await axios.get(`http://localhost:5000/api/v1/restaurants`)
   //   setStudents(students.data)
@@ -68,33 +55,16 @@ class UploadTranscripts extends Component {
   render() {
      
     return (
-      <div
-        // style={{
-        //   display: 'flex',
-        //   justifyContent: 'center',
-        //   alignItems: 'center',
-        //   height: '90vh'
-        // }}
-      >
+      <div>
         <button onClick={ () => this.postData() }> Put Trimmed Data into DB</button>
         <br/>
         {/*<button onClick={ () => this.getData() }> Get Data </button>*/}
-        <br/>
+        {/*<br/>*/}
         <button onClick={ () => this.putRawData() }> Put Raw Data into DB</button>
         <br/>
         <button onClick={ () => this.flushDB() }> Flush DB</button>
         <br/>
         <button onClick={ () => this.getTrimmed() }> Get Trimmed</button>
-        {/* <SubmitTranscript></SubmitTranscript> */}
-
-        {/* <form onSubmit={this.handleSubmit}>
-          <label>
-            Person Name:
-            <input type="text" name="name" onChange={this.handleChange} />
-          </label>
-          <button type="submit">Add</button>
-        </form> */}
-        
       </div>
     );
   }

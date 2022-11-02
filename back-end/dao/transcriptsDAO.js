@@ -100,11 +100,5 @@ export default class TranscriptsDAO {
     return await dbo.collection("Trimmed").find().toArray()
   }
 
-  // Creates a project in mongoDB with two fields project name and project id
-  static async createProject(req, res, next){
-    const client = new MongoClient(process.env.MONGO_DB_URI);
-    const dbo = client.db("ProjectsDB")
-    await dbo.collection("Projects").insertOne(req)
-  }
 
 }

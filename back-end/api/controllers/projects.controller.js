@@ -19,10 +19,6 @@ export default class ProjectsController {
 
     /**
      * A GET API for getting an array of all project objects from MongoDB.
-     * @param req
-     * @param res
-     * @param next
-     * @returns {Promise<*[]>}
      */
     static async apiGetAllProjects(req, res, next) {
         let itemsSoFar = []
@@ -33,7 +29,7 @@ export default class ProjectsController {
             itemsSoFar.push(tempObject);
         }
         console.log(itemsSoFar);
-        return itemsSoFar;
+        res.json(itemsSoFar);
     }
 
     // Chelsea: Is this function the same as the one above? I made this one

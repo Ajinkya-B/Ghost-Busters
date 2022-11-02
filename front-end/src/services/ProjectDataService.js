@@ -6,6 +6,7 @@ class ProjectDataService {
     getAllProjects() {
         return http.get('/getAllProjects');
     }
+
     get(id) {
         return http.get(`/id/${id}`);
     }

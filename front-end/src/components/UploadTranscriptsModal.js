@@ -1,8 +1,10 @@
 import React from "react";
-import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 
 import UploadTranscripts from "../pages/UploadTranscripts";
+import UploadTranscriptsFromVoiceflow from "./UploadTranscriptsFromVoiceflow";
+import UploadTranscriptsFromDevice from "./UploadTranscriptsFromDevice";
+
 import {NavBtn, NavBtnLink} from "./NavbarElements";
 
 function MyVerticallyCenteredModal(props) {
@@ -22,9 +24,21 @@ function MyVerticallyCenteredModal(props) {
             </Modal.Header>
             <Modal.Body>
                 <center>
+
+                    {/*CHELSEA'S TODO: Center the buttons, and also style the select project and remove project buttons*/}
+
                     <p>Automatically upload from your current project:</p>
-                    <UploadTranscripts />
+                    {/*UploadTranscripts returns a bunch of buttons for getting, posting transcripts*/}
+                    {/*<UploadTranscripts />*/}
+
+                    {/*This component returns a button that logs textTranscripts into the console*/}
+                    <UploadTranscriptsFromVoiceflow />
+
+
                     <p>Upload from your device:</p>
+                    {/*RIGHT NOW THIS COMPONENT RETURNS A NONFUNCTIONAL BUTTON*/}
+                    <UploadTranscriptsFromDevice />
+
                 </center>
             </Modal.Body>
             {/*<Modal.Footer>*/}

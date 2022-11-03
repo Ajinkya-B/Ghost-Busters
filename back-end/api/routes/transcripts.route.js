@@ -2,6 +2,8 @@ import express from "express"
 import TranscriptsCtrl from "../controllers/transcripts.controller.js"
 import controller from "../../api/controllers/transcripts.controller.js"
 
+import server from "../../server.js"
+
 
 const router = express.Router()
 
@@ -21,6 +23,9 @@ router.route("/getTrimmed")
 
 router.route('/createProject')
     .post(controller.createProject)
+
+router.route('/test')
+    .post(controller.enterProject)
 
 
 export default router

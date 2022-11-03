@@ -9,7 +9,7 @@ const UploadTranscriptsFromVoiceflow = () => {
     let transcriptData;
 
     const retrieveTranscripts = () => {
-        axios.get('http://localhost:8000/api/v1/transcripts/trimmed')
+        axios.post('http://localhost:8000/api/v1/transcripts/trimmed')
             .then(response => {
                 // console.log(response);
                 transcriptData = response;

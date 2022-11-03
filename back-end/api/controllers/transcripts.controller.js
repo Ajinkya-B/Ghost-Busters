@@ -2,6 +2,7 @@ import TranscriptsDAO from "../../dao/transcriptsDAO.js";
 import TextTranscriptsDAO from "../../dao/textTranscriptsDAO.js";
 import voiceflowAPI from "../../helpers/voiceflowAPI.js";
 import transcriptDataFormatter from "../../helpers/transcriptDataFormatter.js";
+import cors from "cors";
 
 export default class TranscriptsController {
   /** GET API: Gets transcript data matching with the querry from MongoDB.
@@ -26,6 +27,8 @@ export default class TranscriptsController {
     };
     res.json(response);
   }
+
+  // POST API: sends all the transcripts saved in the Voiceflow to Mongo DB
 
   // TODO 2(AJ): Change from POST -> PUT (so there are no duplicates)
   /**
@@ -68,13 +71,13 @@ export default class TranscriptsController {
    * @param {Object} res : json object that is returned after making an API call
    * @param {Object} next
    */
+  // I found a bug with this function, if you spam the upload button from the upload transcripts modal it breaks teh function
   static async addClean(req, res, next) {
     try {
       const response = await voiceflowAPI.getData(
         process.env.VOICEFLOW_API_KEY,
         process.env.VOICEFLOW_VERSION
       );
-
       response.data.forEach(async function (transcript) {
         const projectId = transcript[0].projectID;
         const formattedTranscript =
@@ -105,5 +108,9 @@ export default class TranscriptsController {
 
   static async dropDB(db) {
     db.dropDatabase();
+  }
+
+  static async enterProject(req, res, next) {
+    // console.log(req);
   }
 }

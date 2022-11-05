@@ -35,9 +35,9 @@ function MyVerticallyCenteredModal(props) {
                     <UploadTranscriptsFromVoiceflow />
 
 
-                    <p>Upload from your device:</p>
+                    {/*<p>Upload from your device:</p>*/}
                     {/*RIGHT NOW THIS COMPONENT RETURNS A NONFUNCTIONAL BUTTON*/}
-                    <UploadTranscriptsFromDevice />
+                    {/*<UploadTranscriptsFromDevice />*/}
 
                 </center>
             </Modal.Body>

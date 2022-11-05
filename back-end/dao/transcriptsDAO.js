@@ -4,7 +4,11 @@ let transcripts
 
 export default class TranscriptsDAO {
 
-    // An async method that initially connects to our database when our server starts
+  /**
+   * Sets up an initial connection with MongoDB and store sit onto a variable named transcripts
+   * @param conn : mongo client for the database URI
+   * @returns : throws an error if the conenction is nto estabilshed
+   */
   static async injectDB(conn) {
     if (transcripts) {
       return
@@ -20,7 +24,11 @@ export default class TranscriptsDAO {
   }
 
 
-  // A function to get a list of all transcripts and the number of transcripts
+  /**
+   * Get a list of all transcripts and the number of transcripts from database
+   * @param filters : A object full of querry filters that you can apply when you get the data
+   * @returns : A list of talk steps for a transcript
+   */
   static async getTranscripts({
     filters = null
   } = {}) 
@@ -45,7 +53,13 @@ export default class TranscriptsDAO {
     }
   }
 
-// A function to add a transcript to the DB
+
+  /**
+   * Add a single transcript to database
+   * @param {String} projectId : Project id associated with a transcipt
+   * @param {Array} transcriptData : Transcript conversation data 
+   * @returns 
+   */
   static async addTranscript(projectId, transcriptData) { 
     try {
       const transcriptDoc = { 
@@ -60,45 +74,12 @@ export default class TranscriptsDAO {
     }
   }
 
-  // A function to add an unedited transcript into the database
-  static async addRawTranscript(transcripts){
-    const client = new MongoClient(process.env.MONGO_DB_URI);
-    const dbo = client.db("VoiceFlowAPIData")
-
-    try {
-      await dbo.collection("Raw").insertMany(transcripts);
-    } catch (e) {
-      console.error(`Unable to post transcripts: ${e}`)
-      return { error: e }
-    }
-  }
-
-  // A function to add a transcript object into the database, with text and who says it
-  static async addTrimmedTranscript(transcriptObject){
-    const client = new MongoClient(process.env.MONGO_DB_URI);
-    const dbo = client.db("VoiceFlowAPIData")
-
-    try {
-      await dbo.collection("Trimmed").insertOne(transcriptObject);
-    } catch (e) {
-      console.error(`Unable to post transcripts: ${e}`)
-      return { error: e }
-    }
-  }
 
   //A function to clear the database with the given name
   static async flushDatabase(name){
-    const client = new MongoClient(process.env.MONGO_DB_URI);
-    const dbo = client.db("VoiceFlowAPIData")
-    await dbo.collection(name).deleteMany({})
+    await transcripts.deleteMany({})
   }
 
-  //A function to get the trimmed transcripts
-  static async getTrimmedTranscripts() {
-    const client = new MongoClient(process.env.MONGO_DB_URI);
-    const dbo = client.db("VoiceFlowAPIData")
-    return await dbo.collection("Trimmed").find().toArray()
-  }
 
 
 }

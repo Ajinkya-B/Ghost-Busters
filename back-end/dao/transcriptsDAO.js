@@ -77,9 +77,7 @@ export default class TranscriptsDAO {
 
   //A function to clear the database with the given name
   static async flushDatabase(name){
-    const client = new MongoClient(process.env.MONGO_DB_URI);
-    const dbo = client.db("VoiceFlowAPIData")
-    await dbo.collection(name).deleteMany({})
+    await transcripts.deleteMany({})
   }
 
 

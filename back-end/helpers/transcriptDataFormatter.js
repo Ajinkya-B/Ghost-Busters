@@ -1,3 +1,4 @@
+
 export default class transcriptDataFormatter {
   /**
    * Cleans up and formats raw transcipt data

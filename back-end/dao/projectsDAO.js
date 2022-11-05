@@ -1,5 +1,3 @@
-import {MongoClient} from "mongodb";
-
 let projects
 
 export default class ProjectsDAO {
@@ -21,7 +19,7 @@ export default class ProjectsDAO {
      * Get an array of all the projects from MongoDB.
      * @returns an array of all the projects from the database
      */
-    static async getProjects({
+    static async getFilteredProjects({
          filters = null
     } = {})
     {
@@ -33,9 +31,7 @@ export default class ProjectsDAO {
                 query = { "project_id": { $eq: filters["project_id"] } }
             }
         }
-
         let cursor
-
         try {
             cursor = await projects
                 .find(query)
@@ -51,6 +47,18 @@ export default class ProjectsDAO {
      */
     static async createProject(req, res, next){
         await projects.insertOne(req)
+    }
+
+    static async deleteProject(projectName) {
+        try {
+            const deleteResponse = await projects.deleteOne({
+                project_name: projectName
+            })
+            return deleteResponse
+        } catch (e) {
+            console.error(`Unable to delete project: ${e}`)
+            return { error: e }
+        }
     }
 
     /**

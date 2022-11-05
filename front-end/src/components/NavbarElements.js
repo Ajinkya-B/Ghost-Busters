@@ -94,3 +94,45 @@ export const NavBtnLink = styled(Link)`
     color: #010606;
   }
 `;
+
+export const NavBtnLink2 = styled(Link)`
+  border-radius: 100000px;
+  background: #bbb;
+  padding: 2px 10px;
+  color: #fff;
+  outline: none;
+  border: none;
+  cursor: pointer;
+  // transition: all 0.2s ease-in-out;
+  text-decoration: none;
+
+  /* Second Nav */
+  margin-left: 24px;
+
+  &:hover {
+    // transition: all 0.2s ease-in-out;
+    background: #8FEA89;
+    color: #138A0C;
+  }
+`;
+
+export const NavBtnLink3 = styled(Link)`
+  border-radius: 100000px;
+  background: #bbb;
+  padding: 2px 10px;
+  color: #fff;
+  outline: none;
+  border: none;
+  cursor: pointer;
+  // transition: all 0.2s ease-in-out;
+  text-decoration: none;
+
+  /* Second Nav */
+  margin-left: 24px;
+
+  &:hover {
+    // transition: all 0.2s ease-in-out;
+    background: #DE4747;
+    color: #7F0909;
+  }
+`;

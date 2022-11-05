@@ -4,11 +4,24 @@ import ProjectsController from "../controllers/projects.controller.js";
 
 const router = express.Router()
 
-router.route('/createProject')
-    .post(ProjectsController.apiCreateProject)
+// CHELSEA: I CHANGED THE ROUTES ON NOV 2
+// router.route('/createProject')
+//     .post(ProjectsController.apiCreateProject)
+//
+// router.route('/deleteProject')
+//     .post(ProjectsController.apiCreateProject)
+//
+// router.route('/getAllProjects')
+//     .get(ProjectsController.apiGetAllProjects)
 
-router.route('/getAllProjects')
+router
+    .route('/')
+    .post(ProjectsController.apiCreateProject)
+    .delete(ProjectsController.apiDeleteProject)
     .get(ProjectsController.apiGetAllProjects)
+
+router.route('/getFilteredProjects')
+    .get(ProjectsController.apiGetFilteredProjects)
 
 
 export default router

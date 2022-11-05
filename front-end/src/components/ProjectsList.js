@@ -1,5 +1,6 @@
 import React, {Component, useState, useEffect } from "react";
-import axios from "axios";
+import ProjectDataService from "../services/ProjectDataService";
+import { NavBtn, NavBtnLink2, NavBtnLink3 } from "./NavbarElements";
 
 // TO DO: Provide each project name with a "select project" button
 
@@ -9,8 +10,8 @@ const TableHeader = () => {
         <thead>
         <tr>
             <th>Project Name</th>
-            <th>Select</th>
-            <th>Remove</th>
+            <th>Action</th>
+            {/*<th>Remove</th>*/}
         </tr>
         </thead>
     );
@@ -22,8 +23,23 @@ const TableBody = props => {
         return (
             <tr key={index}>
                 <td>{row.project_name}</td>
-                <td><button>o</button></td>
-                <td><button>x</button></td>
+                <td>
+                    <NavBtn>
+                        <NavBtnLink2>
+                            Select
+                        </NavBtnLink2>
+                        <NavBtnLink3>
+                            Remove
+                        </NavBtnLink3>
+                    </NavBtn>
+                </td>
+                {/*<td>*/}
+                {/*    <NavBtn>*/}
+                {/*        <NavBtnLink3>*/}
+                {/*            Remove*/}
+                {/*        </NavBtnLink3>*/}
+                {/*    </NavBtn>*/}
+                {/*</td>*/}
             </tr>
         );
     });
@@ -33,20 +49,36 @@ const TableBody = props => {
 const ProjectsList = props => {
     const [projects, setProjects] = useState([]);
 
-    useEffect(() => {
-        const getProjects = async () => {
-            const projectsFromServer = await retrieveProjects()
-            setProjects(projectsFromServer)
-        }
-        getProjects()
-    }, [])
-
     // Getting the Project objects
     const retrieveProjects = async () => {
-        const response = await axios.get('http://localhost:8000/api/v1/projects/getAllProjects')
+        const response = await ProjectDataService.getAllProjects() // axios.get('http://localhost:8000/api/v1/projects')
         const res = await response.data
         return res
     }
+
+    const getProjects = async () => {
+        const projectsFromServer = await retrieveProjects()
+        setProjects(projectsFromServer)
+    }
+
+    useEffect(() => {
+        getProjects()
+    }, [])
+
+    // const deleteProject = (projectName, index) => {
+    //     ProjectDataService.deleteProject(projectName)
+    //         .then(res => {
+    //             setProjects((prevState) => {
+    //                 prevState.projects.splice(index, 1)
+    //                 return({
+    //                     ...prevState
+    //                 })
+    //             })
+    //         })
+    //         .catch (e => {
+    //             console.log(e);
+    //         });
+    // };
 
     return (
         <div>

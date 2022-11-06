@@ -20,6 +20,8 @@ router
     .delete(ProjectsController.apiDeleteProject)
     .get(ProjectsController.apiGetAllProjects)
 
+router.route("/id/:id").get(ProjectsController.apiGetProjectById)
+
 router.route('/getFilteredProjects')
     .get(ProjectsController.apiGetFilteredProjects)
 

@@ -1,3 +1,5 @@
+import mongodb from "mongodb"
+const ObjectId = mongodb.ObjectID
 let projects
 
 export default class ProjectsDAO {
@@ -66,6 +68,52 @@ export default class ProjectsDAO {
      */
     static async getAllProjects() {
         return await projects.find().toArray();
+    }
+
+
+
+    /**
+     * Get a project object with a particular id from MongoDB.
+     * @param id
+     */
+    static async getProjectByID(id) {
+        try {
+            const pipeline = [
+                {
+                    $match: {
+                        _id: new ObjectId(id),
+                    },
+                },
+                {
+                    $lookup: {
+                        from: "transcripts",
+                        let: {
+                            id: "$_id",
+                        },
+                        pipeline: [
+                            {
+                                $match: {
+                                    $expr: {
+                                        $eq: ["$project_id", "$$id"],
+                                    },
+                                },
+                            }
+
+                        ],
+                        as: "transcipts",
+                    },
+                },
+                {
+                    $addFields: {
+                        transcripts: "$transcripts",
+                    },
+                },
+            ]
+            return await projects.aggregate(pipeline).next()
+        } catch (e) {
+            console.error(`Something went wrong in getProjectByID: ${e}`)
+            throw e
+        }
     }
 
 }

@@ -9,6 +9,8 @@ import Navbar from './components/Navbar';
 import Dashboard from './pages/Dashboard';
 import ManageProject from './pages/ManageProject';
 import AnalyzeTranscripts from './pages/AnalyzeTranscripts';
+import Project from './components/Project';
+
 
 class App extends Component {
   render () {
@@ -20,10 +22,14 @@ class App extends Component {
           <Routes>
             <Route exact path='/Dashboard' element={< Dashboard />} />
             <Route exact path='/ManageProject' element={< ManageProject />} />
-            <Route exact path='/AnalyzeTranscripts' element={< AnalyzeTranscripts />} />
+            <Route  path='/projects/:id' element={<Project />} />
+
+            <Route path='/projects/:id/AnalyzeTranscripts' element={< AnalyzeTranscripts />} />
           </Routes>
         </Router>
       </div>
+
+
     );
   }
 }

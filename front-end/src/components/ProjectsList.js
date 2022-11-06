@@ -1,6 +1,8 @@
 import React, {Component, useState, useEffect } from "react";
 import ProjectDataService from "../services/ProjectDataService";
 import { NavBtn, NavBtnLink2, NavBtnLink3 } from "./NavbarElements";
+import Project from "./Project";
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 // TO DO: Provide each project name with a "select project" button
 
@@ -24,14 +26,19 @@ const TableBody = props => {
             <tr key={index}>
                 <td>{row.project_name}</td>
                 <td>
+
                     <NavBtn>
-                        <NavBtnLink2>
+                        {/*<Router>*/}
+                        {/*<Route exact path= '/projects/:id' element = {<Project project_id = {row.project_id}/>} />*/}
+                        {/*</Router>*/}
+                        <NavBtnLink2 to={"/projects/" + row._id}>
                             Select
                         </NavBtnLink2>
                         <NavBtnLink3>
                             Remove
                         </NavBtnLink3>
                     </NavBtn>
+
                 </td>
                 {/*<td>*/}
                 {/*    <NavBtn>*/}

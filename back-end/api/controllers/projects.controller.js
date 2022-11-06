@@ -41,13 +41,13 @@ export default class ProjectsController {
     static async apiGetAllProjects(req, res, next) {
         let itemsSoFar = []
         let response = await ProjectsDAO.getAllProjects()
-        for (let x = 0; x < response.length; x++) {
-            let tempObject = new project(response[x]["project_name"], response[x]["project_id"],
-                response[x]["api_key"], response[x]["transcripts"]);
-            itemsSoFar.push(tempObject);
-        }
-        console.log(itemsSoFar);
-        res.json(itemsSoFar);
+        // for (let x = 0; x < response.length; x++) {
+        //     let tempObject = new project( response[x]["project_name"], response[x]["project_id"],
+        //         response[x]["api_key"], response[x]["transcripts"]);
+        //     itemsSoFar.push(tempObject);
+        // }
+        // console.log(itemsSoFar);
+        res.json(response); // changed this function to return object id as well as other fields.
 
     }
 
@@ -65,11 +65,26 @@ export default class ProjectsController {
             filters
         })
 
-        let response = {
-            projects: projectsList,
-            filters: filters
-        }
+        let response = {projectsList}
         res.json(response)
+    }
+
+    /**
+     * A GET API for getting a project object with a particular id from MongoDB.
+     */
+    static async apiGetProjectById(req, res, next) {
+        try {
+            let id = req.params.id || {}
+            let project = await ProjectsDAO.getProjectByID(id)
+            if (!project) {
+                res.status(404).json({ error: "Not found" })
+                return
+            }
+            res.json(project)
+        } catch (e) {
+            console.log(`api, ${e}`)
+            res.status(500).json({ error: e })
+        }
     }
 
 }

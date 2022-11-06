@@ -11,6 +11,15 @@ class ProjectDataService {
         return http.post('/', data);
     }
 
+    get(id) {
+        return http.get(`/id/${id}`);
+    }
+
+
+    find(query, by = "name") {
+        return http.get(`?${by}=${query}`);
+    }
+
     deleteProject() {
         return http.delete('/')
     }

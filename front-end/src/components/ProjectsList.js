@@ -1,6 +1,6 @@
 import React, {Component, useState, useEffect } from "react";
 import ProjectDataService from "../services/ProjectDataService";
-import { NavBtn, NavBtnLink2, NavBtnLink3 } from "./NavbarElements";
+import { NavBtn, NavBtnLinkSelect, NavBtnLinkRemove } from "./NavbarElements";
 import Project from "./Project";
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
@@ -31,12 +31,12 @@ const TableBody = props => {
                         {/*<Router>*/}
                         {/*<Route exact path= '/projects/:id' element = {<Project project_id = {row.project_id}/>} />*/}
                         {/*</Router>*/}
-                        <NavBtnLink2 to={"/projects/" + row._id}>
+                        <NavBtnLinkSelect to={"/projects/" + row._id}>
                             Select
-                        </NavBtnLink2>
-                        <NavBtnLink3>
+                        </NavBtnLinkSelect>
+                        <NavBtnLinkRemove onClick={() => ProjectsList.deleteProject(row.project_name)}>
                             Remove
-                        </NavBtnLink3>
+                        </NavBtnLinkRemove>
                     </NavBtn>
 
                 </td>
@@ -72,20 +72,20 @@ const ProjectsList = props => {
         getProjects()
     }, [])
 
-    // const deleteProject = (projectName, index) => {
-    //     ProjectDataService.deleteProject(projectName)
-    //         .then(res => {
-    //             setProjects((prevState) => {
-    //                 prevState.projects.splice(index, 1)
-    //                 return({
-    //                     ...prevState
-    //                 })
-    //             })
-    //         })
-    //         .catch (e => {
-    //             console.log(e);
-    //         });
-    // };
+    const deleteProject = (projectName, index) => {
+        ProjectDataService.deleteProject(projectName)
+            .then(res => {
+                setProjects((prevState) => {
+                    prevState.projects.splice(index, 1)
+                    return({
+                        ...prevState
+                    })
+                })
+            })
+            .catch (e => {
+                console.log(e);
+            });
+    };
 
     return (
         <div>

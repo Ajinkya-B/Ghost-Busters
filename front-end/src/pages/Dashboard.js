@@ -1,16 +1,10 @@
 import React from 'react';
+import Project from "../components/Project";
 
 const Dashboard = () => {
   return (
-    <div
-      style={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        height: '90vh'
-      }}
-    >
-      <h1>Dashboard</h1>
+    <div>
+      <Project />
     </div>
   );
 };

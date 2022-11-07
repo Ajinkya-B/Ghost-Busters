@@ -54,8 +54,7 @@ class AddProject extends Component {
      * @param event
      */
     onSubmit(event) {
-        event.preventDefault() // Prevents form's default behaviour
-        // (i.e., prevents page refresh after the creator inputs data
+        event.preventDefault()
 
         const addedProject = {
             // This is received from the fields
@@ -65,8 +64,7 @@ class AddProject extends Component {
             transcripts: this.state.transcripts // This is another way to write the above code
         }
 
-        // axios.post('http://localhost:8000/api/v1/projects', addedProject)
-        ProjectDataService.createProject(addedProject)  // This is the same as the above line!
+        ProjectDataService.createProject(addedProject)
             .then(response => console.log(response.data))
 
         // Reset form after submission

@@ -27,5 +27,11 @@ router.route('/createProject')
 router.route('/test')
     .post(controller.enterProject)
 
+router.route('/store')
+    .post(controller.storeVales)
+
+router.route('/getCredentials')
+    .get(controller.getValues)
+
 
 export default router

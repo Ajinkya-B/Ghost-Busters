@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import ProjectDataService from "../services/ProjectDataService";
 import { Link } from "react-router-dom";
 import { useParams } from 'react-router-dom';
+import axios from "axios";
 
 
 
@@ -21,7 +22,8 @@ const Project = props => {
         ProjectDataService.get(id)
             .then(response => {
                 setProject(response.data);
-                console.log(response.data);
+                let values = [response.data.api_key, response.data.project_id]
+                axios.post("http://localhost:8000/api/v1/transcripts/store", values).then(r => {})
             })
             .catch(e => {
                 console.log(e);

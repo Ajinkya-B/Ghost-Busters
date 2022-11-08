@@ -14,7 +14,7 @@ export default class TextTranscriptsDAO {
       // Connect to a specific database and a specific collection in that database
       textTranscripts = await conn
         .db(process.env.RESTREVIEWS_NS)
-        .collection("text_transcritps");
+        .collection("text_transcripts");
     } catch (e) {
       console.error(
         `Unable to establish a collection handle in textTranscriptsDAO: ${e}`

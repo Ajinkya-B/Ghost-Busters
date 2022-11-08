@@ -1,17 +1,28 @@
-import React, {Component, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import ProjectDataService from "../services/ProjectDataService";
 import { NavBtn, NavBtnLinkSelect, NavBtnLinkRemove } from "./NavbarElements";
-import Table from "./Table"
-import Project from "./Project";
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import {Table} from "react-bootstrap";
 
 
-function ProjectsList() {
+// The header of the table that lists the project names
+const TableHeader = () => {
+    return (
+        <thead>
+        <tr>
+            <th>Project Name</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+    );
+}
+
+
+export default function ProjectsList() {
     const [projects, setProjects] = useState([]);
 
     // Getting the Project objects
     const retrieveProjects = async () => {
-        const response = await ProjectDataService.getAllProjects() // axios.get('http://localhost:8000/api/v1/projects')
+        const response = await ProjectDataService.getAllProjects()
         const res = await response.data
         return res
     }
@@ -25,13 +36,42 @@ function ProjectsList() {
         getProjects()
     }, [])
 
+    const deleteProject = async (projectName) => {
+        await ProjectDataService.deleteProject(projectName)
+        const res = await ProjectDataService.getAllProjects()
+        setProjects(res.data)
+    }
+
+    // The body of the table
+    const TableBody = () => {
+        const rows = projects.map((row, index) => {
+            return (
+                <tr key={index}>
+                    <td>{row.project_name}</td>
+                    <td>
+                        <NavBtn>
+                            <NavBtnLinkSelect to={"/projects/" + row._id}>
+                                Select
+                            </NavBtnLinkSelect>
+                            <NavBtnLinkRemove onClick={() => deleteProject(row.project_name)}>
+                                Remove
+                            </NavBtnLinkRemove>
+                        </NavBtn>
+                    </td>
+                </tr>
+            );
+        });
+        return <tbody>{rows}</tbody>;
+    }
+
+
     return (
-        <div>
-            <table>
-                <Table projectData={projects} />
-            </table>
+        <div className='container-fluid'>
+            <Table striped bordered hover>
+                <TableHeader />
+                <TableBody />
+            </Table>
         </div>
     )
-}
 
-export default ProjectsList;
+}

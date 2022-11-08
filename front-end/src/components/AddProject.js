@@ -11,7 +11,7 @@ class AddProject extends Component {
             project_name:'',
             project_id:'',
             api_key:'',
-            transcripts:''
+            transcripts:'',
         }
         this.addProjectName = this.addProjectName.bind(this)
         this.addProjectID = this.addProjectID.bind(this)
@@ -74,6 +74,7 @@ class AddProject extends Component {
             api_key:'',
             transcripts:'',
         })
+
     }
 
     render() {

@@ -26,9 +26,9 @@ export default class ProjectsController {
      */
     static async apiDeleteProject(req, res, next) {
         try {
-            const projectName = req.query.project_name
+            const projectName = req.body.project_name
             console.log(projectName)
-            const projectResponse = await ProjectsDAO.deleteProject(projectName)
+            await ProjectsDAO.deleteProject(projectName)
             res.json({ status: "success" })
         } catch (e) {
             res.status(500).json({ error: e.message })

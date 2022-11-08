@@ -20,8 +20,8 @@ class ProjectDataService {
         return http.get(`?${by}=${query}`);
     }
 
-    deleteProject() {
-        return http.delete('/')
+    deleteProject(project_name) {
+        return http.delete('/', {data:{project_name: project_name}});
     }
 }
 

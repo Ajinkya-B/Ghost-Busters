@@ -1,5 +1,5 @@
-import mongodb from "mongodb"
-const ObjectId = mongodb.ObjectID
+import { ObjectId } from "mongodb";
+
 let projects
 
 export default class ProjectsDAO {
@@ -45,6 +45,13 @@ export default class ProjectsDAO {
     }
 
     /**
+     * Get an array of all project objects from MongoDB.
+     */
+    static async getAllProjects() {
+        return await projects.find().toArray();
+    }
+
+    /**
      * Create a project object in MongoDB (see AddProject.js in /front-end for more info).
      */
     static async createProject(req, res, next){
@@ -63,14 +70,19 @@ export default class ProjectsDAO {
         }
     }
 
-    /**
-     * Get an array of all project objects from MongoDB.
-     */
-    static async getAllProjects() {
-        return await projects.find().toArray();
+    static async updateProject(projectName, transcript) {
+        try {
+            const updateResponse = await projects.updateOne(
+                { project_name: projectName},
+                { $addToSet: { transcripts: transcript } },
+            )
+
+            return updateResponse
+        } catch (e) {
+            console.error(`Unable to update project: ${e}`)
+            return { error: e }
+        }
     }
-
-
 
     /**
      * Get a project object with a particular id from MongoDB.
@@ -86,7 +98,7 @@ export default class ProjectsDAO {
                 },
                 {
                     $lookup: {
-                        from: "transcripts",
+                        from: "Projects",
                         let: {
                             id: "$_id",
                         },
@@ -100,7 +112,7 @@ export default class ProjectsDAO {
                             }
 
                         ],
-                        as: "transcipts",
+                        as: "transcripts",
                     },
                 },
                 {

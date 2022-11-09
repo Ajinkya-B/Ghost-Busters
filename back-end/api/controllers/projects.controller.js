@@ -26,9 +26,37 @@ export default class ProjectsController {
      */
     static async apiDeleteProject(req, res, next) {
         try {
-            const projectName = req.query.project_name
+            const projectName = req.body.project_name
             console.log(projectName)
-            const projectResponse = await ProjectsDAO.deleteProject(projectName)
+            await ProjectsDAO.deleteProject(projectName)
+            res.json({ status: "success" })
+        } catch (e) {
+            res.status(500).json({ error: e.message })
+        }
+    }
+
+    static async apiUpdateProject(req, res, next) {
+        try {
+            const projectName = req.body.project_name
+            const transcript = req.body.transcripts
+
+            const projectResponse = await ProjectsDAO.updateProject(
+                projectName,
+                // req.body.project_name,
+                transcript
+            )
+
+            const {error} = projectResponse;
+            if (error) {
+                res.status(400).json({ error })
+            }
+
+            if (projectResponse.modifiedCount === 0) {
+                throw new Error(
+                    "unable to update project - project selection may be incorrect",
+                )
+            }
+
             res.json({ status: "success" })
         } catch (e) {
             res.status(500).json({ error: e.message })
@@ -65,14 +93,17 @@ export default class ProjectsController {
             filters
         })
 
-        let response = {projectsList}
+        let response = [
+            projectsList,
+            filters
+        ]
         res.json(response)
     }
 
     /**
      * A GET API for getting a project object with a particular id from MongoDB.
      */
-    static async apiGetProjectById(req, res, next) {
+    static async apiGetProjectByID(req, res, next) {
         try {
             let id = req.params.id || {}
             let project = await ProjectsDAO.getProjectByID(id)

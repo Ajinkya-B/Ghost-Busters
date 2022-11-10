@@ -20,7 +20,7 @@ class App extends Component {
           <Navbar />
           <br />
           <Routes>
-            <Route exact path='/Dashboard' element={< Dashboard />} />
+            <Route exact path='/Dashboard/:id' element={< Dashboard />} />
             <Route exact path='/ManageProject' element={< ManageProject />} />
             <Route  path='/projects/:id' element={<Project />} />
 

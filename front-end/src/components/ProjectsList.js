@@ -50,7 +50,7 @@ export default function ProjectsList() {
                     <td>{row.project_name}</td>
                     <td>
                         <NavBtn>
-                            <NavBtnLinkSelect to={"/projects/" + row._id}>
+                            <NavBtnLinkSelect to={"/Dashboard/" + row._id}>
                                 Select
                             </NavBtnLinkSelect>
                             <NavBtnLinkRemove onClick={() => deleteProject(row.project_name)}>

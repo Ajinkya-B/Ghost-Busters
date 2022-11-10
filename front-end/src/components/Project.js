@@ -10,7 +10,7 @@ const Project = props => {
     const { id } = useParams()
 
     const initialProjectState = {
-        id : id,
+        id : "",
         project_name: "",
         project_id: null,
         api_key:null,
@@ -31,13 +31,14 @@ const Project = props => {
     };
 
     useEffect(() => {
-        getProject(id);
+        getProject(id)
+        props.selectProject(project);
     }, [id]);
 
 
     return (
         <div>
-            {project ?(
+            {project.project_id ?(
                 <div>
                     <h5>{project.project_name}</h5>
                     <p>

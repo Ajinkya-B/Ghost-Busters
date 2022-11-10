@@ -4,6 +4,7 @@ import { NavBtn, NavBtnLinkSelect, NavBtnLinkRemove } from "./NavbarElements";
 import {Table} from "react-bootstrap";
 
 
+
 // The header of the table that lists the project names
 const TableHeader = () => {
     return (
@@ -42,6 +43,9 @@ export default function ProjectsList() {
         setProjects(res.data)
     }
 
+
+
+
     // The body of the table
     const TableBody = () => {
         const rows = projects.map((row, index) => {
@@ -50,7 +54,7 @@ export default function ProjectsList() {
                     <td>{row.project_name}</td>
                     <td>
                         <NavBtn>
-                            <NavBtnLinkSelect to={"/Dashboard/" + row._id}>
+                            <NavBtnLinkSelect to={'/Dashboard/' + row._id} >
                                 Select
                             </NavBtnLinkSelect>
                             <NavBtnLinkRemove onClick={() => deleteProject(row.project_name)}>

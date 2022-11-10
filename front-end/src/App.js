@@ -12,19 +12,30 @@ import AnalyzeTranscripts from './pages/AnalyzeTranscripts';
 import Project from './components/Project';
 
 
-class App extends Component {
-  render () {
+function App (props) {
+  const [project, setProject] = React.useState()
+
+  async function selectProject(project = null) {
+    setProject(project);
+  }
+
+  async function logout() {
+    setProject(null);
+  }
+
+
+
     return (
       <div>
         <Router>
-          <Navbar />
+          <Navbar project={project}/>
           <br />
           <Routes>
-            <Route exact path='/Dashboard/:id' element={< Dashboard />} />
+            <Route path='/Dashboard/:id' element={< Dashboard{...props} selectProject={selectProject}/>} />
             <Route exact path='/ManageProject' element={< ManageProject />} />
-            <Route  path='/projects/:id' element={<Project />} />
 
-            <Route path='/projects/:id/AnalyzeTranscripts' element={< AnalyzeTranscripts />} />
+
+            <Route path='/AnalyzeTranscripts/:id' element={< AnalyzeTranscripts{...props} project={project} />} />
           </Routes>
         </Router>
       </div>
@@ -32,6 +43,6 @@ class App extends Component {
 
     );
   }
-}
+
 
 export default App;

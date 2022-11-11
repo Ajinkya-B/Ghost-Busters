@@ -12,8 +12,8 @@ import AnalyzeTranscripts from './pages/AnalyzeTranscripts';
 import Project from './components/Project';
 
 
-class App extends Component() {
-    render()
+class App extends Component {
+    render(){
 
 
 
@@ -34,8 +34,8 @@ class App extends Component() {
       </div>
 
 
-    );
-  }
+    )
+  }}
 
 
 export default App;

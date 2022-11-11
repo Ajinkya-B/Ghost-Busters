@@ -31,9 +31,9 @@ const Navbar = () => {
         <NavBtn>
           <NavBtnLink to='/AnalyzeTranscripts/:id'>Analyze Transcripts</NavBtnLink>
         </NavBtn>
-      </Nav>)
+      </Nav>
 
-      }
+
     </>
   );
 

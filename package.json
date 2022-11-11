@@ -6,6 +6,7 @@
   },
   "dependencies": {
     "concurrently": "^7.5.0",
-    "save-dev": "^0.0.1-security"
+    "save-dev": "^0.0.1-security",
+    "yarn": "^1.22.19"
   }
 }

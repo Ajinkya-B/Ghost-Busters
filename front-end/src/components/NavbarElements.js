@@ -95,7 +95,7 @@ export const NavBtnLink = styled(Link)`
   }
 `;
 
-export const NavBtnLink2 = styled(Link)`
+export const NavBtnLinkSelect = styled(Link)`
   border-radius: 100000px;
   background: #bbb;
   padding: 2px 10px;
@@ -116,7 +116,7 @@ export const NavBtnLink2 = styled(Link)`
   }
 `;
 
-export const NavBtnLink3 = styled(Link)`
+export const NavBtnLinkRemove = styled(Link)`
   border-radius: 100000px;
   background: #bbb;
   padding: 2px 10px;
@@ -128,11 +128,27 @@ export const NavBtnLink3 = styled(Link)`
   text-decoration: none;
 
   /* Second Nav */
-  margin-left: 24px;
+  margin-left: 50px;
 
   &:hover {
     // transition: all 0.2s ease-in-out;
     background: #DE4747;
     color: #7F0909;
+  }
+`;
+
+export const NavBtnLinkInactive = styled(Link)`
+  border-radius: 4px;
+  background: #bbb;
+  padding: 10px 18px;
+  color: #fff;
+  outline: none;
+  border: none;
+  cursor: not-allowed;
+  text-decoration: none;
+
+  /* Second Nav */
+  margin-left: 24px;
+
   }
 `;

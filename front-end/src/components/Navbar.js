@@ -3,10 +3,15 @@ import { Nav, NavLink, Bars, NavMenu, NavBtn, NavBtnLink } from './NavbarElement
 import UploadTranscriptsModal from "./UploadTranscriptsModal";
 
 const Navbar = () => {
+
+
+
+
   return (
     <>
       <Nav>
-        <NavLink to='/Dashboard'>
+
+        <NavLink to='/Dashboard/:id'>
           <h2>Dashboard</h2>
         </NavLink>
 
@@ -24,11 +29,14 @@ const Navbar = () => {
         <UploadTranscriptsModal />
 
         <NavBtn>
-          <NavBtnLink to='/AnalyzeTranscripts'>Analyze Transcripts</NavBtnLink>
+          <NavBtnLink to='/AnalyzeTranscripts/:id'>Analyze Transcripts</NavBtnLink>
         </NavBtn>
       </Nav>
+
+
     </>
   );
+
 };
 
 export default Navbar;

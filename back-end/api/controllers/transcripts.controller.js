@@ -3,7 +3,8 @@ import TextTranscriptsDAO from "../../dao/textTranscriptsDAO.js";
 import voiceflowAPI from "../../helpers/voiceflowAPI.js";
 import transcriptDataFormatter from "../../helpers/transcriptDataFormatter.js";
 import cors from "cors";
-
+let api_key
+let project_id
 export default class TranscriptsController {
   /** GET API: Gets transcript data matching with the querry from MongoDB.
    * POST API: Sends all the transcripts saved under a project in Voiceflow to Mongo DB
@@ -75,15 +76,19 @@ export default class TranscriptsController {
   static async addClean(req, res, next) {
     try {
       const response = await voiceflowAPI.getData(
-        process.env.VOICEFLOW_API_KEY,
-        process.env.VOICEFLOW_VERSION
+        // process.env.VOICEFLOW_API_KEY,
+        // process.env.VOICEFLOW_VERSION
+          api_key,
+          project_id
       );
+      console.log(api_key)
+      console.log(project_id)
       response.data.forEach(async function (transcript) {
         const projectId = transcript[0].projectID;
         const formattedTranscript =
           await transcriptDataFormatter.cleanTextTranscript(transcript);
         const res = await TextTranscriptsDAO.addTextTranscript(
-          projectId,
+          project_id,
           formattedTranscript
         );
       });
@@ -113,4 +118,23 @@ export default class TranscriptsController {
   static async enterProject(req, res, next) {
     // console.log(req);
   }
+
+  static async storeVales(req, res, next){
+    // let api_key = ""
+    // console.log(api_key)
+    // if (req.body[0] == undefined || req.body[0] == null) {
+    //   api_key = req.query[0]
+    // } else {
+    //   api_key = req.body[0]
+    // }
+    api_key = req.body[0]
+    project_id = req.body[1]
+    res.json([api_key, project_id])
+  }
+
+  static async getValues(req, res, next){
+    res.json([api_key, project_id])
+
+  }
+
 }

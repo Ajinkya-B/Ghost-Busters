@@ -23,7 +23,7 @@ const Project = props => {
             .then(response => {
                 setProject(response.data);
                 let values = [response.data.api_key, response.data.project_id]
-                axios.post("http://localhost:8000/api/v1/transcripts/store", values).then(r => {})
+                axios.post("https://ghost-busters-f6c6b7uoga-uc.a.run.app/api/v1/transcripts/store", values).then(r => {})
             })
             .catch(e => {
                 console.log(e);

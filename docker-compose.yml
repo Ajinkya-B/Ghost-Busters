@@ -1,7 +1,19 @@
 services:
   frontend:
+    stdin_open: true
     build:
       context: ./front-end
       dockerfile: Dockerfile
     ports:
       - "3000:3000"
+    depends_on:
+      - backend
+
+  backend:
+    build:
+      context: ./back-end
+      dockerfile: Dockerfile
+    env_file:
+      - ./back-end/.env
+    ports:
+      - "8000:8000"

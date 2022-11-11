@@ -7,10 +7,13 @@ We're going to help businesses that use Voiceflow's chatbot identify why their c
 
 ## To launch the app
 1. Fetch the project
-2. Run ```npm install``` for both front-end and back-end to download all the dependencies
+2. Run ```npm install``` for all front-end, back-end and the main folder to download all the dependencies
 3. Run ```npm install -g nodemon```
 
 ## To run the app 
 Run ```nodemon server``` to start the server
 
 Run ```npm start``` to start the react app
+
+## Alternative Run Method
+Run ```npm run dev``` to start both the backend and the front end

@@ -1,8 +1,14 @@
+import {MongoClient} from "mongodb";
+
 let transcripts
 
 export default class TranscriptsDAO {
 
-    // An async method that initially connects to our database when our server starts
+  /**
+   * Sets up an initial connection with MongoDB and store sit onto a variable named transcripts
+   * @param conn : mongo client for the database URI
+   * @returns : throws an error if the conenction is nto estabilshed
+   */
   static async injectDB(conn) {
     if (transcripts) {
       return
@@ -18,8 +24,11 @@ export default class TranscriptsDAO {
   }
 
 
-
-  // A fucntion to get a list of all transcripts and the number of transcripts
+  /**
+   * Get a list of all transcripts and the number of transcripts from database
+   * @param filters : A object full of querry filters that you can apply when you get the data
+   * @returns : A list of talk steps for a transcript
+   */
   static async getTranscripts({
     filters = null
   } = {}) 
@@ -44,7 +53,13 @@ export default class TranscriptsDAO {
     }
   }
 
-// A function to add a transcript to the DB
+
+  /**
+   * Add a single transcript to database
+   * @param {String} projectId : Project id associated with a transcipt
+   * @param {Array} transcriptData : Transcript conversation data 
+   * @returns 
+   */
   static async addTranscript(projectId, transcriptData) { 
     try {
       const transcriptDoc = { 
@@ -58,4 +73,13 @@ export default class TranscriptsDAO {
       return { error: e }
     }
   }
+
+
+  //A function to clear the database with the given name
+  static async flushDatabase(name){
+    await transcripts.deleteMany({})
+  }
+
+
+
 }

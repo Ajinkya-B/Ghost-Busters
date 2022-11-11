@@ -1,64 +1,20 @@
-import React, { Component } from 'react';
-import Table from './Table';
-import AddProject from "./AddProject";
-
+import React, {Component, useEffect} from "react";
+import axios from "axios";
 
 class SelectProject extends Component {
-    state = {
-        projects: []
-    };
 
-    removeProject = index => {
-        const { projects } = this.state;
+    // This function displays the project objects from MongoDB on the console/terminal.
+    // This is incomplete! We want to display the project names on the frontend (i.e., the ManageProject page)
 
-        this.setState({
-            projects: projects.filter((proj, i) => {
-                return i !== index;
-            })
-        });
-    }
-
-    selectProject = index => {
-        const { projects } = this.state;
-
-        this.setState({
-            projects: projects.filter((proj, i) => {
-                return i !== index;
-            })
-        });
-    }
-
-    handleSubmit = proj => {
-        this.setState({projects: [...this.state.projects, proj]});
-    }
 
     render() {
-      const { projects } = this.state;
-
         return (
-          <div
-            style={{
-              //display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              //height: '90vh'
-            }}
-          >
-            <h2> Add a new project: </h2>
-            <AddProject />
-              {/*<Form handleSubmit={this.handleSubmit} />*/}
+            <div>
 
-            <br />
-
-            <h2> Select an existing project: </h2>
-              <Table
-                  projectData={projects}
-                  selectProject={this.selectProject}
-                  removeProject={this.removeProject}
-              />
-          </div>
-        );
+            </div>
+        )
     }
+
 }
 
 export default SelectProject;

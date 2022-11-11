@@ -1,127 +1,116 @@
-import TranscriptsDAO from "../../dao/transcriptsDAO.js"
-import axios from "axios";
-import {MongoClient} from "mongodb";
-import fetch from 'node-fetch';
-
-class transcript {
-
-  constructor(text, speaker) {
-    this.text = text;
-    this.speaker = speaker;
-  }
-}
+import TranscriptsDAO from "../../dao/transcriptsDAO.js";
+import TextTranscriptsDAO from "../../dao/textTranscriptsDAO.js";
+import voiceflowAPI from "../../helpers/voiceflowAPI.js";
+import transcriptDataFormatter from "../../helpers/transcriptDataFormatter.js";
+import cors from "cors";
 
 export default class TranscriptsController {
-// A function that takes the querry and gets all the transcripts data from MongoDB.
-
+  /** GET API: Gets transcript data matching with the querry from MongoDB.
+   * POST API: Sends all the transcripts saved under a project in Voiceflow to Mongo DB
+   * @param {Object} req : contains additonal body passed to an API call
+   * @param {Object} res : json object that is returned after making an API call
+   * @param {Object} next
+   */
   static async apiGetTranscripts(req, res, next) {
-
-    let filters = {}
+    let filters = {};
     if (req.query.project_id) {
-      filters.project_id = req.query.project_id
+      filters.project_id = req.query.project_id;
     }
 
     const transcriptsList = await TranscriptsDAO.getTranscripts({
       filters,
-    })
+    });
 
     let response = {
       transcripts: transcriptsList,
       filters: filters,
-    }
-    res.json(response)
+    };
+    res.json(response);
   }
 
-  static async apiPostTranscripts(req, res, next){
-    // Retriving data on a project using Vioceflow API
-    let response;
+  // POST API: sends all the transcripts saved in the Voiceflow to Mongo DB
+
+  // TODO 2(AJ): Change from POST -> PUT (so there are no duplicates)
+  /**
+   * POST API: Adds all the transcripts saved under a project in Voiceflow to Mongo DB
+   * @param {Object} req : contains additonal body passed to an API call
+   * @param {Object} res : json object that is returned after making an API call
+   * @param {Object} next
+   */
+  static async apiPostTranscripts(req, res, next) {
     try {
-      response = await axios.get(`https://api-dm-test.voiceflow.fr/exportraw/${process.env.VOICEFLOW_API_KEY}?versionID=${process.env.VOICEFLOW_VERSION}`);
-    } catch (e) {
-        console.log("Error in the Voiceflow API call!")
-    }
-    try{
-      response.data.forEach(async function(transcript) {
-        const projectId = transcript[0].projectID
-        const transcriptData = transcript
+      // Get transcript data for a project given the API KEY and VERSION ID.
+      const response = await voiceflowAPI.getData(
+        process.env.VOICEFLOW_API_KEY,
+        process.env.VOICEFLOW_VERSION
+      );
+      response.data.forEach(async function (transcript) {
+        const projectId = transcript[0].projectID;
+        const transcriptData = transcriptDataFormatter.cleanData(transcript);
 
         const ReviewResponse = await TranscriptsDAO.addTranscript(
           projectId,
-          transcriptData,
-        )
-      });  
-      
-      res.json({ status: "success" })
-    }catch(e){
-      res.json({ status: "failure" })
+          transcriptData
+        );
+      });
+
+      res.json({ status: "success" });
+    } catch (e) {
+      res.json({ status: "failure" });
     }
   }
 
-  static async dropDB(db){
-      db.dropDatabase();
+  static async getTrim(req, res, next) {
+    const response = await TextTranscriptsDAO.getTextTranscripts({});
+    res.json(response)
   }
 
-  // Function that adds the questions and text to the database
-  static async addClean(req, res, next){
-
-    //Creates a database object
-    const client = new MongoClient(process.env.MONGO_DB_URI);
-    const dbo = client.db("VoiceFlowAPIData")
-
-    const response = await fetch(process.env.VOICEFLOW_API_LINK);
-
-    const myJson = await response.json();
-    let tempBotChat = [];
-
-    for (let i = 0; i < myJson.length; i++) {
-      for (let x = 0; x < myJson[i].length; x++) {
-        try {
-          if (myJson[i][x].payload.payload.message !== undefined) {
-            var question = String(myJson[i][x].payload.payload.message);
-
-            if (!question.includes("audio")) {
-              // console.log(
-              //   question.substring(
-              //     question.indexOf(">") + 1,
-              //     question.lastIndexOf("<")
-              //   )
-              // );
-              tempBotChat.push(
-                  question.substring(
-                      question.indexOf(">") + 1,
-                      question.lastIndexOf("<")
-                  )
-              );
-            }
-          }
-          if (myJson[i][x].payload.payload.query !== undefined) {
-            var answer = String(myJson[i][x].payload.payload.query);
-            let tempBotObject = new transcript(tempBotChat, "bot");
-            await dbo.collection("Trimmed").insertOne(tempBotObject);
-            console.log(tempBotObject);
-            tempBotChat = [];
-            let tempHumanObject = new transcript(answer, "human");
-            await dbo.collection("Trimmed").insertOne(tempHumanObject);
-            console.log(tempHumanObject);
-          }
-        } catch (err) {}
-      }
+  /**
+   * Adds all the transcripts saved under a project in Voiceflow in form of 'textTranscripts' to Mongo DB
+   * @param {Object} req : contains additonal body passed to an API call
+   * @param {Object} res : json object that is returned after making an API call
+   * @param {Object} next
+   */
+  // I found a bug with this function, if you spam the upload button from the upload transcripts modal it breaks teh function
+  static async addClean(req, res, next) {
+    try {
+      const response = await voiceflowAPI.getData(
+        process.env.VOICEFLOW_API_KEY,
+        process.env.VOICEFLOW_VERSION
+      );
+      response.data.forEach(async function (transcript) {
+        const projectId = transcript[0].projectID;
+        const formattedTranscript =
+          await transcriptDataFormatter.cleanTextTranscript(transcript);
+        const res = await TextTranscriptsDAO.addTextTranscript(
+          projectId,
+          formattedTranscript
+        );
+      });
+      res.json({ status: "success" });
+    } catch (e) {
+      res.json({ status: "failure" });
     }
-
   }
 
-  static async addRaw(req, res, next){
-
-    const client = new MongoClient(process.env.MONGO_DB_URI);
-    const dbo = client.db("VoiceFlowAPIData")
-    const response = await fetch(process.env.VOICEFLOW_API_LINK);
-    const myJson = await response.json();
-
-      for(let x = 0; x < myJson.length; x++){
-        await dbo.collection("Raw").insertMany(myJson[x]);
-        console.log(myJson[x])
-      }
+  // POST API:
+  static async createProject(req, res, next) {
+    console.log(req.body);
+    await TranscriptsDAO.createProject(req.body);
+    console.log("Project Created");
   }
 
-  
+  static async flushDB(req, res, next) {
+    await TranscriptsDAO.flushDatabase("Trimmed");
+    await TranscriptsDAO.flushDatabase("Raw");
+    console.log("Database Flushed");
+  }
+
+  static async dropDB(db) {
+    db.dropDatabase();
+  }
+
+  static async enterProject(req, res, next) {
+    // console.log(req);
+  }
 }

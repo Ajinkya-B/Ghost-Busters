@@ -98,7 +98,7 @@ export default class ProjectsDAO {
                 },
                 {
                     $lookup: {
-                        from: "Projects",
+                        from: "text_transcripts",
                         let: {
                             id: "$_id",
                         },

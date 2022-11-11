@@ -32,7 +32,6 @@ const Project = props => {
 
     useEffect(() => {
         getProject(id)
-        props.selectProject(project);
     }, [id]);
 
 
@@ -57,7 +56,7 @@ const Project = props => {
                                         <div className="card">
                                             <div className="card-body">
                                                 <p className="card-text">
-                                                    {transcript.id}<br/>
+                                                    {transcript._id}<br/>
                                                     <strong>Duration: </strong>{"duration"}<br/>
                                                     <strong>Bot's last Text: </strong>{"bot"}<br/>
                                                     <strong>Human's last Text: </strong>{"human"}

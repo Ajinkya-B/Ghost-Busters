@@ -1,11 +1,11 @@
 import React from 'react';
 import Project from "../components/Project";
 
-const Dashboard = (props) => {
-    let selectProject= props.selectProject;
+const Dashboard = () => {
+
   return (
     <div>
-      <Project{...props} selectproject={selectProject}/>
+      <Project/>
     </div>
   );
 };

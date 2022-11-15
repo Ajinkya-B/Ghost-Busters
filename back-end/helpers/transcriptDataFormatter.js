@@ -31,7 +31,9 @@ export default class transcriptDataFormatter {
         if (step.payload) {
           if (step.payload.payload) {
             if (step.payload.payload.message && step.payload.payload.type !== "intent"
-              && step.payload.payload.type !== "start") {
+            && step.payload.payload.type !== "start"
+            && step.payload.payload.type !== "code"
+            && step.payload.payload.type !== "ifV2"){
               question = String(step.payload.payload.message);
               // Checks if current block is said my a bot
               if (!question.includes("audio")) {
@@ -41,7 +43,6 @@ export default class transcriptDataFormatter {
                 //   question.lastIndexOf("<")
                 // );
                 if (tempBotChat !== "") {
-                  console.log(tempBotChat)
                   data = {
                     speaker: "bot",
                     text: tempBotChat,

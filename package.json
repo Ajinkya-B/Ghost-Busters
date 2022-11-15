@@ -1,7 +1,7 @@
 {
   "scripts": {
     "client": "cd back-end && nodemon server",
-    "server": "cd front-end && npm run build",
+    "server": "cd front-end && npm start",
     "dev": "concurrently \"npm run server\" \"npm run client\""
   },
   "dependencies": {

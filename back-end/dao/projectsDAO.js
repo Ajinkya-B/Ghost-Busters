@@ -100,7 +100,26 @@ export default class ProjectsDAO {
                     $lookup: {
                         from: "text_transcripts",
                         let: {
-                            id: "$_id",
+                            id: "$project_id",
+                        },
+                        pipeline: [
+                            {
+                                $match: {
+                                    $expr: {
+                                        $eq: ["$project_id", "$$id"],
+                                    },
+                                },
+                            }
+
+                        ],
+                        as: "text_transcripts",
+                    },
+                },
+                {
+                    $lookup: {
+                        from: "transcripts",
+                        let: {
+                            id: "$project_id",
                         },
                         pipeline: [
                             {
@@ -118,6 +137,7 @@ export default class ProjectsDAO {
                 {
                     $addFields: {
                         transcripts: "$transcripts",
+                        text_transcripts: "$text_transcripts",
                     },
                 },
             ]

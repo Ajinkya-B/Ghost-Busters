@@ -21,19 +21,22 @@ import Project from "../components/Project";
 
 // ----------------------------------------------------------------------
 
+const projectName = 'Example'
+
 export default function Dashboard() {
     const theme = useTheme();
 
     return (
         <div>
-            <Project />
-            {/*<Helmet>*/}
-            {/*    <title> Dashboard | Minimal UI </title>*/}
-            {/*</Helmet>*/}
+            <Helmet>
+                <title> Ghostboard | {projectName} </title>
+            </Helmet>
 
             <Container maxWidth="xl">
-                <Typography variant="h4" sx={{ mb: 5 }}>
-                    Analytics for *project name*
+                <Project />
+
+                <Typography variant="h5" sx={{ mb: 5 }}>
+                    Analytics for {projectName}
                 </Typography>
 
                 {/*COUNTERS*/}

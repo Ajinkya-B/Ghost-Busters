@@ -1,7 +1,7 @@
 import React from "react";
 // @mui
 import PropTypes from 'prop-types';
-import { alpha, styled } from '@mui/material/styles';
+import { styled, alpha } from '@mui/material/styles';
 import { Card, Typography } from '@mui/material';
 // utils
 import {fShortenNumber} from "../utils/formatNumber";
@@ -35,7 +35,7 @@ export default function AppWidgetSummary({ title, total, icon, color = 'primary'
   return (
     <Card
       sx={{
-        py: 5,
+        py: 2,
         boxShadow: 0,
         textAlign: 'center',
         color: (theme) => theme.palette[color].darker,

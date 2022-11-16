@@ -9,5 +9,9 @@ router
     .post(ProjectsController.apiCreateProject)
     .delete(ProjectsController.apiDeleteProject)
     .get(ProjectsController.apiGetAllProjects)
+    .put(ProjectsController.apiUpdateProject)
+
+router.route("/id/:id")
+    .get(ProjectsController.apiGetProjectByID)
 
 export default router

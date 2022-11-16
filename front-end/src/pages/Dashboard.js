@@ -17,6 +17,8 @@ import {
     AppConversionRates,
 } from '../ui/dashboard/app';
 
+import Project from "../components/Project";
+
 // ----------------------------------------------------------------------
 
 export default function Dashboard() {
@@ -24,6 +26,7 @@ export default function Dashboard() {
 
     return (
         <div>
+            <Project />
             {/*<Helmet>*/}
             {/*    <title> Dashboard | Minimal UI </title>*/}
             {/*</Helmet>*/}

@@ -39,21 +39,15 @@ export default class ProjectsController {
      * A GET API for getting an array of all project objects from MongoDB.
      */
     static async apiGetAllProjects(req, res, next) {
-        let itemsSoFar = []
-        let response = await ProjectsDAO.getAllProjects()
-        for (let x = 0; x < response.length; x++) {
-            let tempObject = new project(response[x]["project_name"], response[x]["project_id"],
-                response[x]["api_key"], response[x]["transcripts"]);
-            itemsSoFar.push(tempObject);
-        }
-        console.log(itemsSoFar);
-        res.json(itemsSoFar);
+        // let itemsSoFar = []
+        // let response = await ProjectsDAO.getAllProjects()
+        // for (let x = 0; x < response.length; x++) {
+        //     let tempObject = new project(response[x]["project_name"], response[x]["project_id"],
+        //         response[x]["api_key"], response[x]["transcripts"]);
+        //     itemsSoFar.push(tempObject);
+        // }
+        // console.log(itemsSoFar);
 
-    }
-
-    // Chelsea: Is this function the same as the one above? I made this one
-    // by following that MERN stack tutorial on YT (by free code camp).
-    static async apiGetFilteredProjects(req, res, next) {
         let filters = {}
         if (req.query.project_name) {
             filters.project_name = req.query.project_name
@@ -61,15 +55,16 @@ export default class ProjectsController {
             filters.project_id = req.query.project_id
         }
 
-        const projectsList = await ProjectsDAO.getFilteredProjects({
-            filters
-        })
+        const projectsList = await ProjectsDAO.getAllProjects({filters})
 
-        let response = {
-            projects: projectsList,
-            filters: filters
-        }
-        res.json(response)
+        // let response = {
+        //     projects: projectsList,
+        //     filters: filters
+        // }
+
+        let response = projectsList
+
+        res.json(response);
+
     }
-
 }

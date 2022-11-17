@@ -18,10 +18,9 @@ import {
 } from '../ui/dashboard/app';
 
 import Project from "../components/Project";
+import Navbar from "../components/Navbar";
 
 // ----------------------------------------------------------------------
-
-const projectName = 'Example'
 
 export default function Dashboard() {
     const theme = useTheme();
@@ -29,35 +28,38 @@ export default function Dashboard() {
     return (
         <div>
             <Helmet>
-                <title> Ghostboard | {projectName} </title>
+                <title> Ghostboard </title>
             </Helmet>
+
+            <Navbar />
+            <br />
 
             <Container maxWidth="xl">
                 <Project />
 
-                <Typography variant="h5" sx={{ mb: 5 }}>
-                    Analytics for {projectName}
-                </Typography>
+                {/*<Typography variant="h5" sx={{ mb: 5 }}>*/}
+                {/*    Analytics for {projectName}*/}
+                {/*</Typography>*/}
 
                 {/*COUNTERS*/}
                 <Grid container spacing={4}>
-                    <Grid item xs={10} sm={1} md={2.5}>
+                    <Grid item xs={10} sm={1} md={2.3}>
                         <AppWidgetSummary title="Privacy Concerns" total={714000} icon={'ant-design:android-filled'} />
                     </Grid>
 
-                    <Grid item xs={10} sm={1} md={2.5}>
+                    <Grid item xs={10} sm={1} md={2.3}>
                         <AppWidgetSummary title="Unsatisfactory Solutions" total={1352831} color="info" icon={'ant-design:frown-outline'} />
                     </Grid>
 
-                    <Grid item xs={10} sm={1} md={2.5}>
+                    <Grid item xs={10} sm={1} md={2.3}>
                         <AppWidgetSummary title="Chatbot Repetitions" total={1723315} color="warning" icon={'ant-design:windows-filled'} />
                     </Grid>
 
-                    <Grid item xs={10} sm={1} md={2.5}>
+                    <Grid item xs={10} sm={1} md={2.3}>
                         <AppWidgetSummary title="Lengthy Chat Durations" total={45235} color="error" icon={'ant-design:bug-filled'} />
                     </Grid>
 
-                    <Grid item xs={10} sm={1} md={2}>
+                    <Grid item xs={10} sm={1} md={2.3}>
                         <AppWidgetSummary title="Live Agent Requests" total={234} color="error" icon={'ant-design:bug-filled'} />
                     </Grid>
 

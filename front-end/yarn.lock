@@ -8113,10 +8113,10 @@
   "resolved" "https://registry.npmjs.org/node-releases/-/node-releases-2.0.6.tgz"
   "version" "2.0.6"
 
-"node@^19.0.0":
-  "integrity" "sha512-joJ5busDTd1YUMBXsunjSk1kOlg2NajA87Hkem/bk/4KST6/56w5Pmq3RfIRzjVTwBOIhrcV1iS80qvzEsvZhQ=="
-  "resolved" "https://registry.npmjs.org/node/-/node-19.0.0.tgz"
-  "version" "19.0.0"
+"node@^16.0.0":
+  "integrity" "sha512-EHMU2CraupSd6ipC/NW7sOwQWHWlTKsbdKD+XTDGAJJ5S/bgyW0hJxyXf6frfTtBFbN+SukmXfPw31QDr3ukSg=="
+  "resolved" "https://registry.npmjs.org/node/-/node-16.18.1.tgz"
+  "version" "16.18.1"
   dependencies:
     "node-bin-setup" "^1.0.0"
 

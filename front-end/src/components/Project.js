@@ -39,7 +39,7 @@ const Project = props => {
         <div>
             {project.project_id ?(
                 <div>
-                    <h5>{project.project_name}</h5>
+                    <h4>Analytics for {project.project_name}</h4>
                     <p>
                         <strong>API_KEY: </strong>{project.api_key}<br/>
                         <strong>PROJECT_ID: </strong>{project.project_id}

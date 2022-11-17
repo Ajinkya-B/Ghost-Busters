@@ -11,8 +11,6 @@ export default class ProjectsController {
 ]   */
     static async apiCreateProject(req, res, next) {
         const createUserResult = await ProjectsService.createProject(req.body);
-
-<<<<<<< HEAD
     switch (createUserResult.status) {
       case "success":
         console.log("Project Created!");
@@ -49,55 +47,33 @@ export default class ProjectsController {
   }
 
   static async apiUpdateProject(req, res, next) {
-    try {
-        const projectName = req.body.project_name;
-        const transcript = req.body.transcripts;
+      try {
+          const projectName = req.body.project_name;
+          const transcript = req.body.transcripts;
 
-        const projectResponse = await ProjectsDAO.updateProject(
-            projectName,
-            // req.body.project_name,
-            transcript
-        );
+          const projectResponse = await ProjectsDAO.updateProject(
+              projectName,
+              // req.body.project_name,
+              transcript
+          );
 
-        const { error } = projectResponse;
-        if (error) {
-            res.status(400).json({ error });
-=======
-        switch (createUserResult.status) {
-            case "success":
-                console.log("Project Created!");
-                res.json({ status: "success" });
-                return;
-            case "failure":
-                res.status(500).json({ status: "failure" });
-                return;
->>>>>>> 32-create-services-for-transcript-and-projects
-        }
-    }
-
-    /**
-    * A Delete API for deleting a project object in MongoDB.
-    * @param req
-    * @param res
-    * @param next
-    * @returns {Promise<void>}
-    */
-    static async apiDeleteProject(req, res, next) {
-        const projectName = req.query.project_name;
-        const deleteProjectResponse = await ProjectsService.deleteProject(
-            projectName
-        );
-
-        switch (deleteProjectResponse.status) {
-            case "success":
-                console.log("Project Deleted!");
-                res.json({ status: "success" });
-                return;
-            case "failure":
-                res.status(500).json({ status: "failure" });
-                return;
-        }
-    }
+          const {error} = projectResponse;
+          if (error) {
+              res.status(400).json({error});
+              switch (createUserResult.status) {
+                  case "success":
+                      console.log("Project Created!");
+                      res.json({status: "success"});
+                      return;
+                  case "failure":
+                      res.status(500).json({status: "failure"});
+                      return;
+              }
+          }
+      } catch (e) {
+          res.status(500).json({status: "failure"});
+      }
+  }
 
     /**
     * A GET API for getting an array of all project objects from MongoDB.
@@ -125,29 +101,6 @@ export default class ProjectsController {
         }
     }
 
-    static async apiUpdateProject(req, res, next) {
-        try {
-            const projectNames = req.query.project_name;
-            const transcript = req.body.transcripts;
-
-            const updateProjectResponse = await ProjectsService.updateProject(
-                projectNames,
-                transcript
-            );
-
-            switch (updateProjectResponse.status) {
-                case "success":
-                    console.log("Project Updated!");
-                    res.json({ status: "success" });
-                    return;
-                case "failure":
-                    res.status(500).json({ status: "failure" });
-                    return;
-            }
-        } catch (e) {
-            res.status(500).json({ error: e.message });
-        }
-    }
 
 
     /**

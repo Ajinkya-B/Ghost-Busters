@@ -1,7 +1,7 @@
 {
   "name": "ghostbusters",
   "version": "0.1.0",
-  "proxy": "http://localhost:8000",
+  "proxy": "https://ghost-busters-backend-f6c6b7uoga-uc.a.run.app",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",

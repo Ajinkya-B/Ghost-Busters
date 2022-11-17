@@ -116,6 +116,8 @@ export default class ProjectsController {
             console.log(`api, ${e}`)
             res.status(500).json({ error: e })
         }
+
+
     }
 
 }

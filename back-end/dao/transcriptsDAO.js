@@ -15,7 +15,7 @@ export default class TranscriptsDAO {
     }
     try {
         // Connect to a specific database and a specific collection in that database
-      transcripts = await conn.db(process.env.RESTREVIEWS_NS).collection("transcripts")
+      transcripts = await conn.db("VoiceFlowAPIData").collection("Parsed")
     } catch (e) {
       console.error(
         `Unable to establish a collection handle in transcriptsDAO: ${e}`,
@@ -57,7 +57,7 @@ export default class TranscriptsDAO {
   /**
    * Add a single transcript to database
    * @param {String} projectId : Project id associated with a transcipt
-   * @param {Array} transcriptData : Transcript conversation data 
+   * @param {Array} transcriptData : Transcript conversation data
    * @returns 
    */
   static async addTranscript(projectId, transcriptData) { 
@@ -73,7 +73,6 @@ export default class TranscriptsDAO {
       return { error: e }
     }
   }
-
 
   //A function to clear the database with the given name
   static async flushDatabase(name){

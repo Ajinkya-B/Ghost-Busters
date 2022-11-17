@@ -16,36 +16,11 @@ export default class ProjectsDAO {
     }
   }
 
-  /**
+
+    /**
    * Get an array of all the projects from MongoDB.
    * @returns an array of all the projects from the database
    */
-  static async getFilteredProjects({ filters = null } = {}) {
-    let query;
-    if (filters) {
-      if ("project_name" in filters) {
-        query = { project_name: { $eq: filters["project_name"] } };
-      } else if ("project_id" in filters) {
-        query = { project_id: { $eq: filters["project_id"] } };
-      }
-    }
-    let cursor;
-    try {
-      cursor = await projects.find(query);
-      return cursor.toArray();
-    } catch (e) {
-      console.error(`Unable to issue find command, ${e}`);
-      return [];
-    }
-  }
-
-  /**
-   * Get an array of all project objects from MongoDB.
-   */
-  static async getAllProjects() {
-    return await projects.find().toArray();
-  }
-  
   static async getProjects(query) {
     try {
       return await projects.find(query).toArray();
@@ -59,7 +34,11 @@ export default class ProjectsDAO {
    * Create a project object in MongoDB (see AddProject.js in /front-end for more info).
    */
   static async createProject(req, res, next) {
-    await projects.insertOne(req);
+    try{
+        await projects.insertOne(req);
+    }catch(e){
+        console.error(`Unable to issue insertOne command, ${e}`);
+    }
   }
 
   static async deleteProject(projectName) {

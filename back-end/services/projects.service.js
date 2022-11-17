@@ -43,4 +43,13 @@ export default class ProjectsService {
         };
     }
   }
+
+  static async updateProject(projectName, transcript){
+    try{
+        await ProjectsDAO.updateProject(projectName, transcript);
+        return { status: "success" };
+    }catch(e){
+        return { status: "failure" };
+    }
+  }
 }

@@ -2,7 +2,6 @@ import React, {Component, createContext} from "react";
 import {NavBtn, NavBtnLink} from "./NavbarElements";
 import axios from "axios";
 
-import AnalyzeTranscripts from "../pages/AnalyzeTranscripts";
 
 const UploadTranscriptsFromVoiceflow = () => {
 
@@ -22,7 +21,7 @@ const UploadTranscriptsFromVoiceflow = () => {
 
     return (
         <div>
-            <NavBtn>
+            <NavBtn centered>
                 <NavBtnLink onClick={() => retrieveTranscripts()}>
                     Upload
                 </NavBtnLink>

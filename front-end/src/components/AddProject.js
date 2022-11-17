@@ -1,5 +1,5 @@
 import React, {Component, useEffect} from 'react';
-import "bootstrap/dist/css/bootstrap.css";
+//import "bootstrap/dist/css/bootstrap.css";
 
 import ProjectDataService from "../services/ProjectDataService";
 import ProjectsList from "./ProjectsList";

@@ -1,7 +1,6 @@
 import React from "react";
 import Modal from 'react-bootstrap/Modal';
 
-import UploadTranscripts from "../pages/UploadTranscripts";
 import UploadTranscriptsFromVoiceflow from "./UploadTranscriptsFromVoiceflow";
 import UploadTranscriptsFromDevice from "./UploadTranscriptsFromDevice";
 
@@ -22,25 +21,20 @@ function MyVerticallyCenteredModal(props) {
                     </center>
                 </Modal.Title>
             </Modal.Header>
+
             <Modal.Body>
                 <center>
-
                     {/*CHELSEA'S TODO: Center the buttons, and also style the select project and remove project buttons*/}
-
                     <p>Automatically upload from your current project:</p>
-                    {/*UploadTranscripts returns a bunch of buttons for getting, posting transcripts*/}
-                    {/*<UploadTranscripts />*/}
-
                     {/*This component returns a button that logs textTranscripts into the console*/}
                     <UploadTranscriptsFromVoiceflow />
-
 
                     {/*<p>Upload from your device:</p>*/}
                     {/*RIGHT NOW THIS COMPONENT RETURNS A NONFUNCTIONAL BUTTON*/}
                     {/*<UploadTranscriptsFromDevice />*/}
-
                 </center>
             </Modal.Body>
+
             {/*<Modal.Footer>*/}
             {/*    <Button onClick={props.onHide}>Close</Button>*/}
             {/*</Modal.Footer>*/}
@@ -48,9 +42,8 @@ function MyVerticallyCenteredModal(props) {
     );
 }
 
-function UploadTranscriptsModal() {
+export default function UploadTranscriptsModal() {
     const [modalShow, setModalShow] = React.useState(false);
-
     return (
         <>
             <NavBtn>
@@ -66,5 +59,3 @@ function UploadTranscriptsModal() {
         </>
     );
 }
-
-export default UploadTranscriptsModal;

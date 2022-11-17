@@ -1,3 +1,5 @@
+// THIS PAGE IS NOT USED.
+
 import React, {useRef, Component} from "react";
 import {NavBtn, NavBtnLink} from "./NavbarElements";
 import axios from "axios";

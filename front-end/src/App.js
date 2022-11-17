@@ -20,8 +20,8 @@ class App extends Component {
       <div>
           <HelmetProvider>
             <Router>
-              <Navbar />
-              <br />
+              {/*<Navbar />*/}
+              {/*<br />*/}
               <Routes>
                 <Route path='/Dashboard/:id' element={< Dashboard/>} />
                 <Route exact path='/ManageProject' element={< ManageProject />} />

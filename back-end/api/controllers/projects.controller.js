@@ -32,7 +32,7 @@ export default class ProjectsController {
    * @returns {Promise<void>}
    */
   static async apiDeleteProject(req, res, next) {
-    const projectName = req.query.project_name;
+    const projectName = req.body.project_name;
     const deleteProjectResponse = await ProjectsService.deleteProject(
       projectName
     );

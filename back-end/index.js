@@ -25,7 +25,6 @@ MongoClient.connect(
   .then(async client => {
     await TranscriptsDAO.injectDB(client);
     await ProjectsDAO.injectDB(client);
-    await TranscriptsDAO.injectDB(client)
     await TextTranscriptsDAO.injectDB(client)
     app.listen(port, () => {
       console.log(`listening on port ${port}`)

@@ -7,6 +7,7 @@ COPY ./dao ./dao
 COPY ./entities ./entities
 COPY ./helpers ./helpers
 COPY ./index.js ./index.js
+COPY ./services ./services
 
 RUN yarn install
 RUN npm install

@@ -13,8 +13,8 @@ export default class TextTranscriptsDAO {
     try {
       // Connect to a specific database and a specific collection in that database
       textTranscripts = await conn
-        .db(process.env.RESTREVIEWS_NS)
-        .collection("text_transcripts");
+        .db("VoiceFlowAPIData")
+        .collection("Text");
     } catch (e) {
       console.error(
         `Unable to establish a collection handle in textTranscriptsDAO: ${e}`
@@ -36,8 +36,9 @@ export default class TextTranscriptsDAO {
 
   /**
    * Add a text transcript object into the database
-   * @param {Array} transcriptObject : An array of objects containing a speaker and his text
    * @returns
+   * @param projectId
+   * @param dialogue
    */
   static async addTextTranscript(projectId, dialogue) {
     try {
@@ -51,4 +52,9 @@ export default class TextTranscriptsDAO {
       return { error: e };
     }
   }
+
+  static async flushDatabase(name){
+    await textTranscripts.deleteMany({})
+  }
+
 }

@@ -38,6 +38,7 @@ export default function ProjectsList() {
     }, [])
 
     const deleteProject = async (projectName) => {
+        console.log(projectName)
         await ProjectDataService.deleteProject(projectName)
         const res = await ProjectDataService.getAllProjects()
         setProjects(res.data)

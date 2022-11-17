@@ -24,8 +24,5 @@ router
 router.route("/id/:id")
     .get(ProjectsController.apiGetProjectByID)
 
-router.route('/getFilteredProjects')
-    .get(ProjectsController.apiGetFilteredProjects)
-
 
 export default router

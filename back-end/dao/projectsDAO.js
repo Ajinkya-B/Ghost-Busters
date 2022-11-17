@@ -1,6 +1,7 @@
 import { ObjectId } from "mongodb";
 
-let projects
+let projects;
+let transcripts;
 
 export default class ProjectsDAO {
   static async injectDB(conn) {
@@ -9,6 +10,7 @@ export default class ProjectsDAO {
     }
     try {
       projects = await conn.db(process.env.PROJECTS_NS).collection("Projects");
+      transcripts = await conn.db("VoiceFlowAPIData").collection("Parsed")
     } catch (e) {
       console.error(
         `Unable to establish a collection handle in projectsDAO: ${e}`
@@ -81,9 +83,9 @@ export default class ProjectsDAO {
         },
         {
           $lookup: {
-            from: "Parsed",
+            from: "text_transcripts",
             let: {
-              id: "$_id",
+              id: "$project_id",
             },
             pipeline: [
               {
@@ -95,11 +97,29 @@ export default class ProjectsDAO {
               },
             ],
             as: "transcripts",
+          },},
+
+        {$lookup: {
+            from: "Text",
+            let: {
+              id: "$project_id",
+            },
+            pipeline: [
+              {
+                $match: {
+                  $expr: {
+                    $eq: ["$project_id", "$$id"],
+                  },
+                },
+              },
+            ],
+            as: "text_transcripts",
           },
         },
         {
           $addFields: {
             transcripts: "$transcripts",
+            text_transcripts: "$text_transcripts"
           },
         },
       ];

@@ -1,39 +1,39 @@
-import AnalyseTranscript from "../api/AnalyseTrancriptUseCase/AnalyseTranscriptInteractor"
+import AnalyseTranscript from "./AnalyseTranscriptInteractor.js"
 
 export default class AnalyseProject{
-    constructor(project) {
-        this.project = project;
-        this.text_transcripts = project.text_transcripts;
-        this.transcripts = project.transcripts
 
-    }
-    avgDurationTexts(){
+    static avgDurationTexts(text_transcripts){
+        if (text_transcripts.length > 0){
         let total_duration = 0;
-        for (let text_transcript in this.text_transcripts){
+        for (let text_transcript in text_transcripts){
             total_duration += AnalyseTranscript.getDurationTexts(text_transcript);
         }
-        return total_duration/this.text_transcripts.length;
+        return total_duration/text_transcripts.length;}
+
+        return 0;
 
     }
 
-    avgDurationTime(){
+    static avgDurationTime(transcripts){
         let total_duration = 0;
-        for (let transcript in this.transcripts){
+        for (let transcript in transcripts){
             total_duration += AnalyseTranscript.getDurationTime(transcript);
         }
-        return total_duration/this.transcripts.length;
+        return total_duration/transcripts.length;
 
     }
 
-    totalUsersForceQuit(){
+    static totalUsersForceQuit(transcripts){
         let i = 0;
-        for (let transcript in this.transcripts){
+        for (let transcript in transcripts){
             if (AnalyseTranscript.userForceQuit(transcript)){
                 i += 1;
             }
         }
         return i;
     }
+
+
 
 
 

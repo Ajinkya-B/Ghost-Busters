@@ -107,19 +107,15 @@ export default class ProjectsController {
      * A GET API for getting a project object with a particular id from MongoDB.
      */
     static async apiGetProjectByID(req, res, next) {
-        try {
-            let id = req.params.id || {};
-            let project = await ProjectsDAO.getProjectByID(id);
-            if (!project) {
-                res.status(404).json({ error: "Not found" });
+        let id = req.params.id || {};
+        const getprojectByIDResponse = await ProjectsService.getProjectbyID(id);
+        switch (getprojectByIDResponse.status) {
+            case "success":
+                console.log("Projects Fetched!");
+                res.json(getprojectByIDResponse.data);
                 return;
-            }
-            res.json(project);
-        } catch (e) {
-            console.log(`api, ${e}`);
-            res.status(500).json({ error: e });
+            case "failure":
+                res.status(500).json({ status: "failure" });
+                return;
         }
-
-
-    }
-}
+}}

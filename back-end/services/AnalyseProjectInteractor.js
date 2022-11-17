@@ -1,4 +1,4 @@
-import AnalyseTranscript from "AnalyseTranscriptInteractor.js"
+import AnalyseTranscript from "../api/AnalyseTrancriptUseCase/AnalyseTranscriptInteractor"
 
 export default class AnalyseProject{
     constructor(project) {

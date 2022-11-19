@@ -7,26 +7,37 @@ import Navbar from "../components/Navbar";
 
 function DashboardWelcomeMessage() {
     const style = {
-        margin: "auto",
-        padding: "10% 35% 10% 15%",
-        color: "white"
+        padding: '18%',
+        color: 'white',
+        textAlign: 'center',
     }
     return (
         <div>
             <Navbar />
             <br />
+
             <div style={style}>
-                <h1 className='h1 title'>
+                <h1 className='h1 title fw-bolder'>
                     Welcome to your Ghostboard!
                 </h1>
+
+                <br />
+
                 <h4 className="subtitle">
                     Please select a project.
                 </h4>
+
+                <br />
+
+                <div style={{
+                    display: 'inline-block'
+                }}>
                 <NavBtn>
                     <NavBtnLink to={'/ManageProjects'}>
                         Click me or "Manage Projects"!
                     </NavBtnLink>
                 </NavBtn>
+                </div>
             </div>
         </div>
     )

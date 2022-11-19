@@ -1,12 +1,10 @@
-import AnalyseTranscript from "./AnalyseTranscriptInteractor.js"
+import {getDurationTime, getDurationTexts, userForceQuit} from './AnalyseTranscriptInteractor.js'
 
-export default class AnalyseProject{
-
-    static avgDurationTexts(text_transcripts){
+export function avgDurationTexts(text_transcripts){
         if (text_transcripts.length > 0){
         let total_duration = 0;
         for (let text_transcript in text_transcripts){
-            total_duration += AnalyseTranscript.getDurationTexts(text_transcript);
+            total_duration += getDurationTexts(text_transcript);
         }
         return total_duration/text_transcripts.length;}
 
@@ -14,19 +12,19 @@ export default class AnalyseProject{
 
     }
 
-    static avgDurationTime(transcripts){
+export function avgDurationTime(transcripts){
         let total_duration = 0;
         for (let transcript in transcripts){
-            total_duration += AnalyseTranscript.getDurationTime(transcript);
+            total_duration += getDurationTime(transcript);
         }
         return total_duration/transcripts.length;
 
     }
 
-    static totalUsersForceQuit(transcripts){
+export function totalUsersForceQuit(transcripts){
         let i = 0;
         for (let transcript in transcripts){
-            if (AnalyseTranscript.userForceQuit(transcript)){
+            if (userForceQuit(transcript)){
                 i += 1;
             }
         }
@@ -40,4 +38,3 @@ export default class AnalyseProject{
 
 
 
-}

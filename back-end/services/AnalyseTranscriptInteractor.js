@@ -1,53 +1,49 @@
-export default class AnalyseTranscript{
-
-
-
-     userForceQuit(transcript){
+export function userForceQuit(transcript){
         let l = transcript[2].length;
         if (transcript[2][l -1][0] === "end"){
             return False;
         } else return True;
     }
 
-     getLastText(text_transcript){
+export function getLastText(text_transcript){
         // let transcript = [];
         // transcript = await databaseFunctions.getTrim();
 
-        let l = text_transcript[2].length;
-        console.log([text_transcript[l-1].text, text_transcript[l-1].speaker]);
-        return [text_transcript[l-1].text,  transcript[l-1].speaker] ;
+        let l = text_transcript.dialouge.length;
+        console.log([text_transcript.dialouge[l-1].text, text_transcript.dialouge[l-1].speaker]);
+        return [text_transcript.dialouge[l-1].text,  transcript.dialouge[l-1].speaker] ;
     }
 
-     getLastTextBot(text_transcript){
+export function getLastTextBot(text_transcript){
         // let transcript = [];
         // transcript = await databaseFunctions.getTrim();
 
-        let l = text_transcript[2].length;
+        let l = text_transcript.dialouge.length;
         for (let x = l - 1; x >=0; x --){
-            if (text_transcript[x].speaker == "bot"){
-                console.log([text_transcript[x].text, text_transcript[x].speaker]);
-                return text_transcript[x];
+            if (text_transcript.dialouge[x].speaker == "bot"){
+                console.log([text_transcript.dialouge[x].text, text_transcript.dialouge[x].speaker]);
+                return text_transcript.dialouge[x];
             }
         }
         console.log("Bot doesn't speak during the conversation")
         return "Bot doesn't speak during the conversation"
     }
 
-     getLastTextHuman(text_transcripts){
+export function getLastTextHuman(text_transcript){
         // let transcript = [];
         // transcript = await databaseFunctions.getTrim();
-        let l = text_transcript[2].length;
+        let l = text_transcript.dialouge.length;
         for (let x = l - 1; x >=0; x --){
             if (text_transcript[x].speaker == "human"){
-                console.log([text_transcript[x].text, text_transcript[x].speaker]);
-                return text_transcript[x];
+                console.log([text_transcript.dialouge[x].text, text_transcript.dialouge[x].speaker]);
+                return text_transcript.dialouge[x];
             }
         }
         console.log("Human doesn't speak during the conversation")
         return "Human doesn't speak during the conversation"
     }
 
-     getDurationTexts(text_transcript){
+ export function getDurationTexts(text_transcript){
         // let transcript =[];
         // transcript = await databaseFunctions.getTrim();
 
@@ -56,7 +52,7 @@ export default class AnalyseTranscript{
         return l;
     }
 
-     getDurationTime(transcript){
+export function getDurationTime(transcript){
         // let transcript = [];
         // transcript = await databaseFunctions.getTrim();
 
@@ -66,5 +62,3 @@ export default class AnalyseTranscript{
         console.log(Math.abs(end_time - start_time));
         return Math.abs(end_time - start_time);
     }
-}
-``

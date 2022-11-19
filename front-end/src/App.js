@@ -1,12 +1,11 @@
 import React, {Component} from 'react';
 import './styles/App.css';
-import './styles/index2.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { HelmetProvider} from "react-helmet-async";
 
 import DashboardWelcomePage from "./pages/DashboardWelcome";
 import Dashboard from './pages/Dashboard';
-import ManageProject from './pages/ManageProject';
+import ManageProjects from './pages/ManageProjects';
 
 class App extends Component {
     render() {
@@ -17,7 +16,7 @@ class App extends Component {
                   <Routes>
                     <Route path='/' element={<DashboardWelcomePage />} />
                     <Route path='/Dashboard/:id' element={< Dashboard />} />
-                    <Route exact path='/ManageProject' element={< ManageProject />} />
+                    <Route exact path='/ManageProjects' element={< ManageProjects />} />
                     {/*<Route path='/AnalyzeTranscripts/:id' element={< AnalyzeTranscripts />} />*/}
                   </Routes>
                 </Router>

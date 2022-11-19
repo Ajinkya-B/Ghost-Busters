@@ -1,7 +1,11 @@
+// The UI elements of the application (e.g., buttons and the styling of the Navbar).
+
 import { FaBars } from 'react-icons/fa';
 import { NavLink as Link } from 'react-router-dom';
 import styled from 'styled-components';
 
+
+// NAVBAR ELEMENTS
 export const Nav = styled.nav`
   background: #eee;
   height: 80px;
@@ -95,7 +99,8 @@ export const NavBtnLink = styled(Link)`
   }
 `;
 
-export const NavBtnLinkSelect = styled(Link)`
+// BUTTONS
+export const BtnSelect = styled(Link)`
   border-radius: 100000px;
   background: #bbb;
   padding: 2px 10px;
@@ -116,7 +121,7 @@ export const NavBtnLinkSelect = styled(Link)`
   }
 `;
 
-export const NavBtnLinkRemove = styled(Link)`
+export const BtnRemove = styled(Link)`
   border-radius: 100000px;
   background: #bbb;
   padding: 2px 10px;
@@ -137,7 +142,7 @@ export const NavBtnLinkRemove = styled(Link)`
   }
 `;
 
-export const NavBtnLinkInactive = styled(Link)`
+export const BtnInactive = styled(Link)`
   border-radius: 4px;
   background: #bbb;
   padding: 10px 18px;

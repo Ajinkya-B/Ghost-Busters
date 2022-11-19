@@ -1,5 +1,7 @@
+// This is the application's landing page. It's also displayed when no project is selected.
+
 import React from "react";
-import {NavBtn, NavBtnLink} from "../components/NavbarElements";
+import {NavBtn, NavBtnLink} from "../components/Elements";
 import Navbar from "../components/Navbar";
 
 
@@ -7,7 +9,7 @@ function DashboardWelcomeMessage() {
     const style = {
         margin: "auto",
         padding: "10% 35% 10% 15%",
-        color: "black"
+        color: "white"
     }
     return (
         <div>
@@ -21,7 +23,7 @@ function DashboardWelcomeMessage() {
                     Please select a project.
                 </h4>
                 <NavBtn>
-                    <NavBtnLink to={'/ManageProject'}>
+                    <NavBtnLink to={'/ManageProjects'}>
                         Click me or "Manage Projects"!
                     </NavBtnLink>
                 </NavBtn>

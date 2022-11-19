@@ -1,12 +1,14 @@
+// This component is a modal that appears when the "Upload Transcripts" button is pressed.
+
 import React from "react";
 import Modal from 'react-bootstrap/Modal';
+import {NavBtn, NavBtnLink} from "./Elements";
 
 import UploadTranscriptsFromVoiceflow from "./UploadTranscriptsFromVoiceflow";
-import UploadTranscriptsFromDevice from "./UploadTranscriptsFromDevice";
 
-import {NavBtn, NavBtnLink} from "./NavbarElements";
 
-function MyVerticallyCenteredModal(props) {
+// Create the modal.
+function VerticallyCenteredModal(props) {
     return (
         <Modal
             {...props}
@@ -24,24 +26,21 @@ function MyVerticallyCenteredModal(props) {
 
             <Modal.Body>
                 <center>
-                    {/*CHELSEA'S TODO: Center the buttons, and also style the select project and remove project buttons*/}
+                    {/* CHELSEA'S TODO: Center the buttons */}
                     <p>Automatically upload from your current project:</p>
+
                     {/*This component returns a button that logs textTranscripts into the console*/}
                     <UploadTranscriptsFromVoiceflow />
 
                     {/*<p>Upload from your device:</p>*/}
-                    {/*RIGHT NOW THIS COMPONENT RETURNS A NONFUNCTIONAL BUTTON*/}
                     {/*<UploadTranscriptsFromDevice />*/}
                 </center>
             </Modal.Body>
-
-            {/*<Modal.Footer>*/}
-            {/*    <Button onClick={props.onHide}>Close</Button>*/}
-            {/*</Modal.Footer>*/}
         </Modal>
     );
 }
 
+// Display the modal when the "Upload Transcripts" button is clicked.
 export default function UploadTranscriptsModal() {
     const [modalShow, setModalShow] = React.useState(false);
     return (
@@ -52,7 +51,7 @@ export default function UploadTranscriptsModal() {
                 </NavBtnLink>
             </NavBtn>
 
-            <MyVerticallyCenteredModal
+            <VerticallyCenteredModal
                 show={modalShow}
                 onHide={() => setModalShow(false)}
             />

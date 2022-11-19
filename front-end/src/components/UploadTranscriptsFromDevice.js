@@ -1,7 +1,8 @@
 // THIS PAGE IS NOT USED.
+// This component allows a user to upload a transcript from their device.
 
-import React, {useRef, Component} from "react";
-import {NavBtn, NavBtnLink} from "./NavbarElements";
+import React, {Component} from "react";
+import {NavBtn} from "./Elements";
 import axios from "axios";
 
 
@@ -11,8 +12,8 @@ class UploadTranscriptsFromDevice extends Component {
         this.state = {
             selectedFile: null
         }
-
     }
+
     onClickHandler = () => {
         const data = new FormData()
         data.append('file', this.state.selectedFile)
@@ -30,6 +31,7 @@ class UploadTranscriptsFromDevice extends Component {
             loaded: 0,
         })
     }
+
     render() {
         return (
             <div>

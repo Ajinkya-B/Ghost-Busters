@@ -5,22 +5,20 @@ import { faker } from '@faker-js/faker';
 import { useTheme } from '@mui/material/styles';
 import { Grid, Container, Typography } from '@mui/material';
 // components
-import Iconify from "../ui/dashboard/components/iconify";
+import Iconify from "../dashboard/components/iconify";
 // sections
 import {
     AppOrderTimeline,
-    AppCurrentVisits,
-    AppWebsiteVisits,
+    AppGhostMeter,
+    AppGhostGraph,
     AppTrafficBySite,
-    AppWidgetSummary,
-    AppCurrentSubject,
+    AppCounter,
     AppConversionRates,
-} from '../ui/dashboard/app';
+} from '../dashboard/app';
 
-import Project from "../components/Project";
+import SelectProject from "../components/SelectProject";
 import Navbar from "../components/Navbar";
 
-// ----------------------------------------------------------------------
 
 export default function Dashboard() {
     const theme = useTheme();
@@ -35,7 +33,7 @@ export default function Dashboard() {
             <br />
 
             <Container maxWidth="xl">
-                <Project />
+                <SelectProject />
 
                 {/*<Typography variant="h5" sx={{ mb: 5 }}>*/}
                 {/*    Analytics for {projectName}*/}
@@ -44,28 +42,28 @@ export default function Dashboard() {
                 {/*COUNTERS*/}
                 <Grid container spacing={4}>
                     <Grid item xs={10} sm={1} md={2.3}>
-                        <AppWidgetSummary title="Privacy Concerns" total={714000} icon={'ant-design:android-filled'} />
+                        <AppCounter title="Privacy Concerns" total={714000} icon={'ant-design:android-filled'} />
                     </Grid>
 
                     <Grid item xs={10} sm={1} md={2.3}>
-                        <AppWidgetSummary title="Unsatisfactory Solutions" total={1352831} color="info" icon={'ant-design:frown-outline'} />
+                        <AppCounter title="Unsatisfactory Solutions" total={1352831} color="info" icon={'ant-design:frown-outline'} />
                     </Grid>
 
                     <Grid item xs={10} sm={1} md={2.3}>
-                        <AppWidgetSummary title="Chatbot Repetitions" total={1723315} color="warning" icon={'ant-design:windows-filled'} />
+                        <AppCounter title="Chatbot Repetitions" total={1723315} color="warning" icon={'ant-design:windows-filled'} />
                     </Grid>
 
                     <Grid item xs={10} sm={1} md={2.3}>
-                        <AppWidgetSummary title="Lengthy Chat Durations" total={45235} color="error" icon={'ant-design:bug-filled'} />
+                        <AppCounter title="Lengthy Chat Durations" total={45235} color="error" icon={'ant-design:bug-filled'} />
                     </Grid>
 
                     <Grid item xs={10} sm={1} md={2.3}>
-                        <AppWidgetSummary title="Live Agent Requests" total={234} color="error" icon={'ant-design:bug-filled'} />
+                        <AppCounter title="Live Agent Requests" total={234} color="error" icon={'ant-design:bug-filled'} />
                     </Grid>
 
                     {/*TODO: Change the graph / make it so that a specific graph appears when you click on a counter*/}
                     <Grid item xs={12} md={6} lg={8}>
-                        <AppWebsiteVisits
+                        <AppGhostGraph
                             title="Privacy Concerns"
                             subheader="(+43%) than last year"
                             chartLabels={[
@@ -106,7 +104,7 @@ export default function Dashboard() {
 
                     {/*GhostMeter*/}
                     <Grid item xs={12} md={6} lg={4}>
-                        <AppCurrentVisits
+                        <AppGhostMeter
                             title="GhostMeter"
                             chartData={[
                                 { label: 'Privacy Concerns', value: 4344 },
@@ -140,19 +138,6 @@ export default function Dashboard() {
                                 { label: 'United States', value: 1200 },
                                 { label: 'United Kingdom', value: 1380 },
                             ]}
-                        />
-                    </Grid>
-
-                    <Grid item xs={12} md={6} lg={4}>
-                        <AppCurrentSubject
-                            title="Current Subject"
-                            chartLabels={['English', 'History', 'Physics', 'Geography', 'Chinese', 'Math']}
-                            chartData={[
-                                { name: 'Series 1', data: [80, 50, 30, 40, 100, 20] },
-                                { name: 'Series 2', data: [20, 30, 40, 80, 20, 80] },
-                                { name: 'Series 3', data: [44, 76, 78, 13, 43, 10] },
-                            ]}
-                            chartColors={[...Array(6)].map(() => theme.palette.text.secondary)}
                         />
                     </Grid>
 

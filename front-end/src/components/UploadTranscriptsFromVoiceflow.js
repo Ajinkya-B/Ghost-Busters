@@ -1,5 +1,7 @@
-import React, {Component, createContext} from "react";
-import {NavBtn, NavBtnLink} from "./NavbarElements";
+// This component allows a user to click a button to upload transcripts to their project straight from Voiceflow.
+
+import React from "react";
+import {NavBtn, NavBtnLink} from "./Elements";
 import axios from "axios";
 
 

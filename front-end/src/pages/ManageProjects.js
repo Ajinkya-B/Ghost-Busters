@@ -1,19 +1,21 @@
+// This is the Manage Project page.
+
 import React from 'react';
 import AddProject from "../components/AddProject";
 import ProjectsList from "../components/ProjectsList";
 import Navbar from "../components/Navbar";
 
 
-export default function ManageProject() {
+export default function ManageProjects() {
     return (
       <div>
           <Navbar />
           <br />
 
-          <h2> Add a new project: </h2>
+          <h3> Add a new project: </h3>
           <AddProject />
           <br />
-          <h2> Select an existing project: </h2>
+          <h3> Select an existing project: </h3>
           <ProjectsList />
       </div>
     );

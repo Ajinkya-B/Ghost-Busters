@@ -2,23 +2,22 @@ import React from "react";
 import PropTypes from 'prop-types';
 import ReactApexChart from 'react-apexcharts';
 // @mui
-import { styled } from '@mui/material/styles';
+import { useTheme, styled } from '@mui/material/styles';
 import { Card, CardHeader } from '@mui/material';
+// utils
+import {fNumber} from "../utils/formatNumber";
 // components
 import {useChart} from "../components/chart";
 
 // ----------------------------------------------------------------------
 
-const CHART_HEIGHT = 392;
-
+const CHART_HEIGHT = 372;
 const LEGEND_HEIGHT = 72;
 
 const StyledChartWrapper = styled('div')(({ theme }) => ({
   height: CHART_HEIGHT,
-  marginTop: theme.spacing(2),
-  '& .apexcharts-canvas svg': {
-    height: CHART_HEIGHT,
-  },
+  marginTop: theme.spacing(5),
+  '& .apexcharts-canvas svg': { height: CHART_HEIGHT },
   '& .apexcharts-canvas svg,.apexcharts-canvas foreignObject': {
     overflow: 'visible',
   },
@@ -33,26 +32,37 @@ const StyledChartWrapper = styled('div')(({ theme }) => ({
 
 // ----------------------------------------------------------------------
 
-AppCurrentSubject.propTypes = {
+AppGhostMeter.propTypes = {
   title: PropTypes.string,
   subheader: PropTypes.string,
-  chartData: PropTypes.array.isRequired,
-  chartColors: PropTypes.arrayOf(PropTypes.string).isRequired,
-  chartLabels: PropTypes.arrayOf(PropTypes.string).isRequired,
+  chartColors: PropTypes.arrayOf(PropTypes.string),
+  chartData: PropTypes.array,
 };
 
-export default function AppCurrentSubject({ title, subheader, chartData, chartColors, chartLabels, ...other }) {
+export default function AppGhostMeter({ title, subheader, chartColors, chartData, ...other }) {
+  const theme = useTheme();
+
+  const chartLabels = chartData.map((i) => i.label);
+
+  const chartSeries = chartData.map((i) => i.value);
+
   const chartOptions = useChart({
-    stroke: { width: 2 },
-    fill: { opacity: 0.48 },
+    colors: chartColors,
+    labels: chartLabels,
+    stroke: { colors: [theme.palette.background.paper] },
     legend: { floating: true, horizontalAlign: 'center' },
-    xaxis: {
-      categories: chartLabels,
-      labels: {
-        style: {
-          colors: chartColors,
+    dataLabels: { enabled: true, dropShadow: { enabled: false } },
+    tooltip: {
+      fillSeriesColor: false,
+      y: {
+        formatter: (seriesName) => fNumber(seriesName),
+        title: {
+          formatter: (seriesName) => `${seriesName}`,
         },
       },
+    },
+    plotOptions: {
+      pie: { donut: { labels: { show: false } } },
     },
   });
 
@@ -61,7 +71,7 @@ export default function AppCurrentSubject({ title, subheader, chartData, chartCo
       <CardHeader title={title} subheader={subheader} />
 
       <StyledChartWrapper dir="ltr">
-        <ReactApexChart type="radar" series={chartData} options={chartOptions} height={340} />
+        <ReactApexChart type="pie" series={chartSeries} options={chartOptions} height={280} />
       </StyledChartWrapper>
     </Card>
   );

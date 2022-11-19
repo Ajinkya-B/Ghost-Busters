@@ -23,7 +23,7 @@ const StyledIcon = styled('div')(({ theme }) => ({
 
 // ----------------------------------------------------------------------
 
-AppWidgetSummary.propTypes = {
+AppCounter.propTypes = {
   color: PropTypes.string,
   icon: PropTypes.string,
   title: PropTypes.string.isRequired,
@@ -31,7 +31,7 @@ AppWidgetSummary.propTypes = {
   sx: PropTypes.object,
 };
 
-export default function AppWidgetSummary({ title, total, icon, color = 'primary', sx, ...other }) {
+export default function AppCounter({ title, total, icon, color = 'primary', sx, ...other }) {
   return (
     <Card
       sx={{

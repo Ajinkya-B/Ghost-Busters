@@ -1,7 +1,9 @@
-import React from 'react';
+// This component is the "Analyze Transcripts" button seen on the Navbar.
+// TO BE UPDATED.
 
-import UploadTranscriptsFromVoiceflow from "./UploadTranscriptsFromVoiceflow";
-import {NavBtn, NavBtnLink} from "./NavbarElements";
+import React from 'react';
+import {NavBtn, NavBtnLink} from "./Elements";
+
 
 export default function AnalyzeTranscripts() {
   return (

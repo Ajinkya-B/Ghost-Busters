@@ -1,7 +1,7 @@
 export function userForceQuit(text_transcript){
     const keywords = ["thank you", "next time", "goodbye", "see you soon", "good day", "exit"]
     let l = text_transcript.length;
-    let text = text_transcript[l-1].text;
+    let text = text_transcript[l-1].text.toLowerCase();
     console.log(text);
     if (keywords.some(keyword => text.includes(keyword))){
         console.log(text);

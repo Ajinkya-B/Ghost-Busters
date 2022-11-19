@@ -57,7 +57,7 @@ export function totalUsersForceQuit(text_transcripts){
 
 
 
-
+// sample transcripts to debug the functions
 const transcripts = [
     {
         "_id": "6375d68dbbb300d2ed56ade9",

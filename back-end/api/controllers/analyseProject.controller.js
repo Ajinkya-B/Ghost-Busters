@@ -1,5 +1,12 @@
 import AnalyseProjectService from '../../services/analyseproject.service.js'
 
+
+/**
+ * A Get API to get the analysed metrics of a project.
+ * @param {Object} req : contains additional body passed to an API call
+ * @param {Object} res : json object that is returned after making an API call
+ * @param {Object} next
+ */
 export default class AnalyseProjectController{
     static async getAnalysedData(req, res, next){
         let id = req.params.id || {};

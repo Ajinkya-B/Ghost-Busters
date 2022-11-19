@@ -1,6 +1,12 @@
 import ProjectsDAO from "../dao/projectsDAO.js";
 
+
 export default class ProjectsService {
+    /**
+     * Creates a new project and returns the status.
+     * @param body
+     * @returns {Promise<{status: string}>}
+     */
     static async createProject(body) {
         try {
             console.log(body);
@@ -11,6 +17,11 @@ export default class ProjectsService {
         }
     }
 
+    /**
+     * Deleted a project with the name projectName and returns the status.
+     * @param projectName
+     * @returns {Promise<{status: string}>}
+     */
     static async deleteProject(projectName) {
         try {
             await ProjectsDAO.deleteProject(projectName);
@@ -20,6 +31,12 @@ export default class ProjectsService {
         }
     }
 
+
+    /**
+     * Gets all projects from the databse that satisfy the filters.
+     * @param filters
+     * @returns {Promise<{data: *, status: string}|{data: *[], status: string}>}
+     */
     static async getFilteredProjects({filters = null} = {}) {
         try {
             let query;
@@ -44,6 +61,12 @@ export default class ProjectsService {
         }
     }
 
+    /**
+     *
+     * @param projectName
+     * @param transcript
+     * @returns {Promise<{status: string}>}
+     */
     static async updateProject(projectName, transcript) {
         try {
             await ProjectsDAO.updateProject(projectName, transcript);
@@ -53,6 +76,12 @@ export default class ProjectsService {
         }
     }
 
+    /**
+     * If succuess, returns status and project details of the project with project_id id.
+     * Otherwise, returns status failure and empty array.
+     * @param id
+     * @returns {Promise<{data: *, status: string}|{data: *[], status: string}>}
+     */
     static async getProjectbyID(id) {
         try {
 

@@ -1,5 +1,10 @@
 import {getDurationTime, getDurationTexts, userForceQuit} from './AnalyseTranscriptInteractor.js'
 
+/**
+ * Returns the average length of conversations of the transcripts.
+ * @param text_transcripts
+ * @returns {number}
+ */
 export function avgDurationTexts(text_transcripts){
         if (text_transcripts.length > 0){
         let total_duration = 0;
@@ -14,6 +19,11 @@ export function avgDurationTexts(text_transcripts){
 
     }
 
+/**
+ * Return the average duration of conversations of the transcripts.
+ * @param transcripts
+ * @returns {number}
+ */
 export function avgDurationTime(transcripts) {
     let total_duration = 0;
     let l = transcripts.length;
@@ -24,6 +34,11 @@ export function avgDurationTime(transcripts) {
     return total_duration / transcripts.length;
 }
 
+/**
+ * Returns the total numbers of users that force quit chats or weren't provided with satisfatory solutions.
+ * @param text_transcripts
+ * @returns {number}
+ */
 export function totalUsersForceQuit(text_transcripts){
         let i = 0;
         let l = text_transcripts.length;

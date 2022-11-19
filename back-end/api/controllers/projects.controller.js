@@ -76,8 +76,12 @@ export default class ProjectsController {
   }
 
     /**
-    * A GET API for getting an array of all project objects from MongoDB.
-    */
+     * A GET API for getting an array of all project objects from MongoDB.
+     * @param req
+     * @param res
+     * @param next
+     * @returns {Promise<void>}
+     */
     static async apiGetAllProjects(req, res, next) {
         let filters = {};
         if (req.query.project_name) {
@@ -102,9 +106,12 @@ export default class ProjectsController {
     }
 
 
-
     /**
      * A GET API for getting a project object with a particular id from MongoDB.
+     * @param req
+     * @param res
+     * @param next
+     * @returns {Promise<void>}
      */
     static async apiGetProjectByID(req, res, next) {
         let id = req.params.id || {};

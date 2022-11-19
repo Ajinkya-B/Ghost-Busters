@@ -8,7 +8,11 @@ export const NO_SOLUTION_KEYWORDS = ["sorry", "can't help you", "no solution", "
 export const HUMAN_INTERAC_KEYWORDS = ["talk to agent", "agent", "human"];
 
 
-
+/**
+ * Returns whether the user left the chat due to privacy concerns.
+ * @param dialouges
+ * @returns {boolean}
+ */
 export function isPrivacyConcern(dialouges){
 
     let keywords = PRIVACY_KEYWORDS;
@@ -35,10 +39,4 @@ export function isPrivacyConcern(dialouges){
         }
         return false;
     }
-
-
-
-
-
-
 }

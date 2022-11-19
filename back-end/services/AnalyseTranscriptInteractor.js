@@ -1,11 +1,25 @@
-export function userForceQuit(transcript){
-
-        let l = transcript.length;
-        if (transcript[l-1].type === "end"){
-            return false;
-        }
-        return true;
+export function userForceQuit(text_transcript){
+    const keywords = ["thank you", "next time", "goodbye", "see you soon", "good day", "exit"]
+    let l = text_transcript.length;
+    let text = text_transcript[l-1].text;
+    console.log(text);
+    if (keywords.some(keyword => text.includes(keyword))){
+        console.log(text);
+        return false;
     }
+    return true;
+
+    // let l = transcript.length;
+    // try {
+    //     if (transcript[l - 1].payload.type === "exit") {
+    //         return false;
+    //     }
+    //     return true;
+    // } catch (e) {
+    //     return true;
+    //
+    // }
+}
 
 export function getLastText(text_transcript){
         // let transcript = [];
@@ -49,8 +63,7 @@ export function getLastTextHuman(text_transcript){
         // let transcript =[];
         // transcript = await databaseFunctions.getTrim();
 
-        let l = text_transcript.dialouge.length;
-        console.log(l);
+        let l = text_transcript.length;
         return l;
     }
 
@@ -58,9 +71,11 @@ export function getDurationTime(transcript){
         // let transcript = [];
         // transcript = await databaseFunctions.getTrim();
 
-        let l = transcript[2].length;
-        let end_time = new Date( transcript[2][l-1][1]) ;
-        let start_time = new Date(transcript[0][1])
-        console.log(Math.abs(end_time - start_time));
+        const l = transcript.length;
+
+        let end_time = Date.parse( transcript[l-1].startTime) ;
+        let start_time = Date.parse(transcript[0].startTime);
+        // console.log(start_time);
+        // console.log(Math.abs(end_time - start_time));
         return Math.abs(end_time - start_time);
     }

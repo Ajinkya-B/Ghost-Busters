@@ -3,32 +3,34 @@ import {getDurationTime, getDurationTexts, userForceQuit} from './AnalyseTranscr
 export function avgDurationTexts(text_transcripts){
         if (text_transcripts.length > 0){
         let total_duration = 0;
-        for (let text_transcript in text_transcripts){
-            total_duration += getDurationTexts(text_transcript);
+        let l = text_transcripts.length;
+        for (let j=0; j< l; j++){
+            total_duration += getDurationTexts(text_transcripts[j].dialogue);
         }
-        return total_duration/text_transcripts.length;
+        return total_duration/l;
         }
 
         return 0;
 
     }
 
-export function avgDurationTime(transcripts){
-        let total_duration = 0;
-        for (let transcript in transcripts){
-            total_duration += getDurationTime(transcript);
-        }
-        return total_duration/transcripts.length;
-
+export function avgDurationTime(transcripts) {
+    let total_duration = 0;
+    let l = transcripts.length;
+    for (let j = 0; j < l; j++) {
+        let transcript = transcripts[j];
+        total_duration += getDurationTime(transcript.transcript_data);
     }
+    return total_duration / transcripts.length;
+}
 
-export function totalUsersForceQuit(transcripts){
+export function totalUsersForceQuit(text_transcripts){
         let i = 0;
-        let l = transcripts.length;
+        let l = text_transcripts.length;
         for (let j=0; j < l; j ++){
 
-            let transcript = transcripts[j];
-            if (userForceQuit(transcript.transcript_data)){
+            let transcript = text_transcripts[j];
+            if (userForceQuit(transcript.dialogue)){
                 i += 1;
             }
         }
@@ -7780,5 +7782,341 @@ const transcripts = [
     }
 ]
 
+let text_transcripts = [
+    {
+        "_id": "63785effbca96fb0c6d187de",
+        "project_id": "636bf5eb6ca8dfcaff6070c7",
+        "dialogue": [
+            {
+                "speaker": "bot",
+                "text": "The Voiceflow hotel would like to extend a warm welcome to all of our guests. Who am I speaking to?"
+            },
+            {
+                "speaker": "human",
+                "text": "Joe"
+            },
+            {
+                "speaker": "bot",
+                "text": "Nice to meet you Joe! Do you have a reservation?"
+            },
+            {
+                "speaker": "bot",
+                "text": "Awesome! In order to authenticate your hotel reservation, we must validate your booking number. It's important to remember that it's a five-digit number."
+            },
+            {
+                "speaker": "human",
+                "text": "12345"
+            },
+            {
+                "speaker": "bot",
+                "text": "entering flow `636bf5ec6ca8dfcaff6070cd`"
+            },
+            {
+                "speaker": "bot",
+                "text": "Perfect. I've located your booking. Depending on what you're looking for I can likely point you in the right direction! Please select one of the options below."
+            },
+            {
+                "speaker": "human",
+                "text": "Recommendations "
+            },
+            {
+                "speaker": "bot",
+                "text": "I can provide you with some of the city's best offers as well as information on restaurants and cultural events. What can I search for you?"
+            },
+            {
+                "speaker": "human",
+                "text": "Library"
+            },
+            {
+                "speaker": "bot",
+                "text": "Seems that the utterance you used is not an template's options. You can open each intent to view the utterances or add the one you said. Let's try and get information about ."
+            },
+            {
+                "speaker": "human",
+                "text": "Fod"
+            },
+            {
+                "speaker": "bot",
+                "text": "Try triggering a hotel concierge assistant option now."
+            },
+            {
+                "speaker": "human",
+                "text": "Food"
+            }
+        ]
+    },
+    {
+        "_id": "63785effbca96fb0c6d187e0",
+        "project_id": "636bf5eb6ca8dfcaff6070c7",
+        "dialogue": [
+            {
+                "speaker": "bot",
+                "text": "The Voiceflow hotel would like to extend a warm welcome to all of our guests. Who am I speaking to?"
+            },
+            {
+                "speaker": "human",
+                "text": "Bill"
+            },
+            {
+                "speaker": "bot",
+                "text": "Nice to meet you Bill! Do you have a reservation?"
+            },
+            {
+                "speaker": "bot",
+                "text": "Awesome! In order to authenticate your hotel reservation, we must validate your booking number. It's important to remember that it's a five-digit number."
+            },
+            {
+                "speaker": "human",
+                "text": "12345"
+            },
+            {
+                "speaker": "bot",
+                "text": "entering flow `636bf5ec6ca8dfcaff6070cd`"
+            },
+            {
+                "speaker": "bot",
+                "text": "Perfect. I've located your booking. Depending on what you're looking for I can likely point you in the right direction! Please select one of the options below."
+            },
+            {
+                "speaker": "human",
+                "text": "Recommendations "
+            },
+            {
+                "speaker": "bot",
+                "text": "I can provide you with some of the city's best offers as well as information on restaurants and cultural events. What can I search for you?"
+            },
+            {
+                "speaker": "human",
+                "text": "Culture"
+            },
+            {
+                "speaker": "bot",
+                "text": "matched command **jump** - jumping to node"
+            },
+            {
+                "speaker": "bot",
+                "text": "could not handle step - redirecting to the next step"
+            },
+            {
+                "speaker": "bot",
+                "text": "What can we recommend for you today?"
+            },
+            {
+                "speaker": "bot",
+                "text": "If you leave through the front entrance of the hotel and make a right down Ferry Street you can find the Exhibition. The distance is approximately 0.3 km. You can buy tickets for $20 dollars at the front gate."
+            },
+            {
+                "speaker": "bot",
+                "text": "entering flow `636bf5ec6ca8dfcaff6070cc`"
+            },
+            {
+                "speaker": "bot",
+                "text": "What else can I do for you?  Depending on what you need, you can trigger the below options."
+            },
+            {
+                "speaker": "human",
+                "text": "Recommendations"
+            },
+            {
+                "speaker": "bot",
+                "text": "I can provide you with some of the city's best offers as well as information on restaurants and cultural events. What can I search for you?"
+            },
+            {
+                "speaker": "human",
+                "text": "Sleep"
+            }
+        ]
+    },
+    {
+        "_id": "63785f00bca96fb0c6d187e2",
+        "project_id": "636bf5eb6ca8dfcaff6070c7",
+        "dialogue": [
+            {
+                "speaker": "bot",
+                "text": "The Voiceflow hotel would like to extend a warm welcome to all of our guests. Who am I speaking to?"
+            },
+            {
+                "speaker": "human",
+                "text": "Bob"
+            },
+            {
+                "speaker": "bot",
+                "text": "Nice to meet you Bob! Do you have a reservation?"
+            },
+            {
+                "speaker": "bot",
+                "text": "Awesome! In order to authenticate your hotel reservation, we must validate your booking number. It's important to remember that it's a five-digit number."
+            },
+            {
+                "speaker": "human",
+                "text": "12345"
+            },
+            {
+                "speaker": "bot",
+                "text": "entering flow `636bf5ec6ca8dfcaff6070cd`"
+            },
+            {
+                "speaker": "bot",
+                "text": "Perfect. I've located your booking. Depending on what you're looking for I can likely point you in the right direction! Please select one of the options below."
+            },
+            {
+                "speaker": "human",
+                "text": "Recommendations "
+            },
+            {
+                "speaker": "bot",
+                "text": "I can provide you with some of the city's best offers as well as information on restaurants and cultural events. What can I search for you?"
+            },
+            {
+                "speaker": "human",
+                "text": "Restaurants"
+            },
+            {
+                "speaker": "bot",
+                "text": "matched command **jump** - jumping to node"
+            },
+            {
+                "speaker": "bot",
+                "text": "could not handle step - redirecting to the next step"
+            },
+            {
+                "speaker": "bot",
+                "text": "Near the Voiceflow hotel, there are a variety of local culinary options. The city center is 0.5km away, where you'll discover BellaNappoli's restaurant , and La casa de Voiceflow, all of which are delicious restaurants."
+            },
+            {
+                "speaker": "bot",
+                "text": "entering flow `636bf5ec6ca8dfcaff6070cc`"
+            },
+            {
+                "speaker": "bot",
+                "text": "Is there anything else I can do? Please keep in mind that you can select from the available options below."
+            },
+            {
+                "speaker": "human",
+                "text": "Hotel"
+            },
+            {
+                "speaker": "bot",
+                "text": "matched command **jump** - jumping to node"
+            },
+            {
+                "speaker": "bot",
+                "text": "could not handle step - redirecting to the next step"
+            },
+            {
+                "speaker": "bot",
+                "text": "I'm here to assist you with everything hotel-related, such as changing your accommodation, or modify night's booked."
+            },
+            {
+                "speaker": "human",
+                "text": "Room change"
+            },
+            {
+                "speaker": "bot",
+                "text": "matched command **jump** - jumping to node"
+            },
+            {
+                "speaker": "bot",
+                "text": "could not handle step - redirecting to the next step"
+            },
+            {
+                "speaker": "bot",
+                "text": "You have a room on the 5th floor available. 503 is your new room number. Take the elevators to the left of the hotel lobby to the 5th floor to find your room. After that, turn right and proceed straight down the corridor."
+            },
+            {
+                "speaker": "bot",
+                "text": "We hope you enjoy this new room."
+            },
+            {
+                "speaker": "bot",
+                "text": "entering flow `636bf5ec6ca8dfcaff6070cc`"
+            },
+            {
+                "speaker": "bot",
+                "text": "Is there anything else I can do? Please keep in mind that you can select from the available options below."
+            },
+            {
+                "speaker": "human",
+                "text": "Recommendations"
+            },
+            {
+                "speaker": "bot",
+                "text": "I can provide you with some of the city's best offers as well as information on restaurants and cultural events. What can I search for you?"
+            },
+            {
+                "speaker": "human",
+                "text": "Food"
+            }
+        ]
+    },
+    {
+        "_id": "63785f00bca96fb0c6d187e4",
+        "project_id": "636bf5eb6ca8dfcaff6070c7",
+        "dialogue": [
+            {
+                "speaker": "bot",
+                "text": "The Voiceflow hotel would like to extend a warm welcome to all of our guests. Who am I speaking to?"
+            },
+            {
+                "speaker": "human",
+                "text": "Chelsea"
+            },
+            {
+                "speaker": "bot",
+                "text": "I didn't get your name. Could you repeat it?"
+            },
+            {
+                "speaker": "human",
+                "text": "Chelsea"
+            },
+            {
+                "speaker": "bot",
+                "text": "Could you repeat your name, please?"
+            },
+            {
+                "speaker": "human",
+                "text": "Chelsea"
+            }
+        ]
+    },
+    {
+        "_id": "63785f00bca96fb0c6d187e6",
+        "project_id": "636bf5eb6ca8dfcaff6070c7",
+        "dialogue": [
+            {
+                "speaker": "bot",
+                "text": "The Voiceflow hotel would like to extend a warm welcome to all of our guests. Who am I speaking to?"
+            },
+            {
+                "speaker": "human",
+                "text": "Bob"
+            },
+            {
+                "speaker": "bot",
+                "text": "Nice to meet you Bob! Do you have a reservation?"
+            },
+            {
+                "speaker": "bot",
+                "text": "Do not worry about getting a reservation! You can visit our website at voiceflow.com or call our front desk at 123123123 for more information. We are available at any time."
+            },
+            {
+                "speaker": "bot",
+                "text": "entering flow `636bf5ec6ca8dfcaff6070db`"
+            },
+            {
+                "speaker": "bot",
+                "text": "Until next time! Feel free to reach out to me if you need anything."
+            },
+            {
+                "speaker": "bot",
+                "text": "exiting session - saving location/resolving stack"
+            }
+        ]
+    }
+]
+
 console.log(transcripts[0].transcript_data.length)
-console.log(totalUsersForceQuit(transcripts))
+console.log(totalUsersForceQuit(text_transcripts))
+console.log(avgDurationTime(transcripts))
+console.log(avgDurationTexts(text_transcripts))
+// console.log(Date.parse("2022-11-15T02:16:42.196Z"))

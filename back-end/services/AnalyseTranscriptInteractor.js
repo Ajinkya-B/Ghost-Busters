@@ -1,8 +1,10 @@
 export function userForceQuit(transcript){
-        let l = transcript[2].length;
-        if (transcript[2][l -1][0] === "end"){
-            return False;
-        } else return True;
+
+        let l = transcript.length;
+        if (transcript[l-1].type === "end"){
+            return false;
+        }
+        return true;
     }
 
 export function getLastText(text_transcript){

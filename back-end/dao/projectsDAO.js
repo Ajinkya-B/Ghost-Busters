@@ -97,7 +97,8 @@ export default class ProjectsDAO {
               },
             ],
             as: "transcripts",
-          },},
+          },
+        },
 
         {$lookup: {
             from: "Text",
@@ -119,7 +120,7 @@ export default class ProjectsDAO {
         {
           $addFields: {
             transcripts: "$transcripts",
-            text_transcripts: "$text_transcripts"
+            text_transcripts: "$text_transcripts",
           },
         },
       ];

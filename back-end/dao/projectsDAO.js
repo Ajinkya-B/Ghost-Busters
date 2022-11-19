@@ -1,3 +1,5 @@
+import { ObjectId } from "mongodb";
+
 let projects
 
 export default class ProjectsDAO {
@@ -43,6 +45,13 @@ export default class ProjectsDAO {
     }
 
     /**
+     * Get an array of all project objects from MongoDB.
+     */
+    static async getAllProjects() {
+        return await projects.find().toArray();
+    }
+
+    /**
      * Create a project object in MongoDB (see AddProject.js in /front-end for more info).
      */
     static async createProject(req, res, next){
@@ -61,11 +70,62 @@ export default class ProjectsDAO {
         }
     }
 
+    static async updateProject(projectName, transcript) {
+        try {
+            const updateResponse = await projects.updateOne(
+                { project_name: projectName},
+                { $addToSet: { transcripts: transcript } },
+            )
+
+            return updateResponse
+        } catch (e) {
+            console.error(`Unable to update project: ${e}`)
+            return { error: e }
+        }
+    }
+
     /**
-     * Get an array of all project objects from MongoDB.
+     * Get a project object with a particular id from MongoDB.
+     * @param id
      */
-    static async getAllProjects() {
-        return await projects.find().toArray();
+    static async getProjectByID(id) {
+        try {
+            const pipeline = [
+                {
+                    $match: {
+                        _id: new ObjectId(id),
+                    },
+                },
+                {
+                    $lookup: {
+                        from: "text_transcripts",
+                        let: {
+                            id: "$_id",
+                        },
+                        pipeline: [
+                            {
+                                $match: {
+                                    $expr: {
+                                        $eq: ["$project_id", "$$id"],
+                                    },
+                                },
+                            }
+
+                        ],
+                        as: "transcripts",
+                    },
+                },
+                {
+                    $addFields: {
+                        transcripts: "$transcripts",
+                    },
+                },
+            ]
+            return await projects.aggregate(pipeline).next()
+        } catch (e) {
+            console.error(`Something went wrong in getProjectByID: ${e}`)
+            throw e
+        }
     }
 
 }

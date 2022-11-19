@@ -33,7 +33,7 @@ function DashboardWelcomeMessage() {
 
 export default function DashboardWelcomePage() {
     const style = {
-        "background-image": `url("../images/ghostbg.jpeg")`,
+        "background-image": `url(https://res.cloudinary.com/dx7wj0tty/image/upload/v1668827026/ghostbg_umg39u.jpg)`,
         "background-repeat": "no-repeat",
         "background-size": "cover",
         position: "absolute",

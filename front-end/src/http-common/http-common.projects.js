@@ -1,3 +1,5 @@
+// API for the project entities.
+
 import axios from "axios";
 
 export default axios.create({

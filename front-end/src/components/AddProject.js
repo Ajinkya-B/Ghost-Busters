@@ -1,20 +1,21 @@
+// This component allows the user to create a new project.
+// It is visible on the Manage Project page.
+
 import React, {Component, useEffect} from 'react';
-import "bootstrap/dist/css/bootstrap.css";
-
 import ProjectDataService from "../services/ProjectDataService";
-import ProjectsList from "./ProjectsList";
 
-class AddProject extends Component {
+
+export default class AddProject extends Component {
     constructor() {
         super()
         this.state = {
             project_name:'',
-            project_id:'',
+            version_id:'',
             api_key:'',
-            transcripts:'',
+            transcripts: [],
         }
         this.addProjectName = this.addProjectName.bind(this)
-        this.addProjectID = this.addProjectID.bind(this)
+        this.addVersionID = this.addVersionID.bind(this)
         this.addApiKey = this.addApiKey.bind(this)
         this.onSubmit = this.onSubmit.bind(this)
     }
@@ -33,9 +34,9 @@ class AddProject extends Component {
      * A method that stores the project_id value inputted into the state.
      * @param event
      */
-    addProjectID(event) {
+    addVersionID(event) {
         this.setState({
-            project_id: event.target.value
+            version_id: event.target.value
         })
     }
 
@@ -57,9 +58,9 @@ class AddProject extends Component {
         event.preventDefault()
 
         const addedProject = {
-            // This is received from the fields
+            // The user input received from the fields
             project_name: document.getElementById("project_name").value,
-            project_id: document.getElementById("project_id").value,
+            version_id: document.getElementById("version_id").value,
             api_key: document.getElementById("api_key").value,
             transcripts: this.state.transcripts // This is another way to write the above code
         }
@@ -67,12 +68,12 @@ class AddProject extends Component {
         ProjectDataService.createProject(addedProject)
             .then(response => console.log(response.data))
 
-        // Reset form after submission
+        // Reset THE form after submission
         this.setState({
             project_name:'',
-            project_id:'',
+            version_id:'',
             api_key:'',
-            transcripts:'',
+            transcripts: [],
         })
 
     }
@@ -82,6 +83,7 @@ class AddProject extends Component {
             <div className='container-fluid'>
                 <div className='form-div'>
                     <form onSubmit={this.onSubmit}>
+                        {/* TEXT FIELDS THAT TAKE IN USER INPUTS */}
                         <input type='text'
                                placeholder='Project Name'
                                id="project_name"
@@ -90,10 +92,10 @@ class AddProject extends Component {
                                className='form-control form-group'
                         />
                         <input type='text'
-                               placeholder='Project ID'
-                               id="project_id"
-                               onChange={this.addProjectID}
-                               value={this.state.project_id}
+                               placeholder='Version ID'
+                               id="version_id"
+                               onChange={this.addVersionID}
+                               value={this.state.version_id}
                                className='form-control form-group'
                         />
                         <input type='text'
@@ -103,6 +105,7 @@ class AddProject extends Component {
                                value={this.state.api_key}
                                className='form-control form-group'
                         />
+                        {/* SUBMIT BUTTON */}
                         <input type='submit'
                                className='btn btn-primary btn-block'
                                value='Submit'
@@ -113,5 +116,3 @@ class AddProject extends Component {
         );
     }
 }
-
-export default AddProject;

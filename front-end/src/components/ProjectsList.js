@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import ProjectDataService from "../services/ProjectDataService";
-import { NavBtn, NavBtnLinkSelect, NavBtnLinkRemove } from "./NavbarElements";
+import { NavBtn, BtnSelect, BtnRemove } from "./Elements";
 import {Table} from "react-bootstrap";
-
 
 
 // The header of the table that lists the project names
@@ -38,6 +37,7 @@ export default function ProjectsList() {
     }, [])
 
     const deleteProject = async (projectName) => {
+        console.log(projectName)
         await ProjectDataService.deleteProject(projectName)
         const res = await ProjectDataService.getAllProjects()
         setProjects(res.data)
@@ -54,12 +54,12 @@ export default function ProjectsList() {
                     <td>{row.project_name}</td>
                     <td>
                         <NavBtn>
-                            <NavBtnLinkSelect to={'/Dashboard/' + row._id} >
+                            <BtnSelect to={'/Dashboard/' + row._id} >
                                 Select
-                            </NavBtnLinkSelect>
-                            <NavBtnLinkRemove onClick={() => deleteProject(row.project_name)}>
+                            </BtnSelect>
+                            <BtnRemove onClick={() => deleteProject(row.project_name)}>
                                 Remove
-                            </NavBtnLinkRemove>
+                            </BtnRemove>
                         </NavBtn>
                     </td>
                 </tr>

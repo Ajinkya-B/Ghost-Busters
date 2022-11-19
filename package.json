@@ -5,6 +5,8 @@
     "dev": "concurrently \"npm run server\" \"npm run client\""
   },
   "dependencies": {
+    "@faker-js/faker": "^7.6.0",
+    "@mui/material": "^5.10.13",
     "concurrently": "^7.5.0",
     "save-dev": "^0.0.1-security",
     "yarn": "^1.22.19"

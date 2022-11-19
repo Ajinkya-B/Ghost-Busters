@@ -1,12 +1,13 @@
+// This component is the Select Project Use Case. It is visible on the Manage Project page.
+// When a user selects a project, the dashboard screen for the selected project is displayed.
+
 import React, { useState, useEffect } from "react";
 import ProjectDataService from "../services/ProjectDataService";
-import { Link } from "react-router-dom";
 import { useParams } from 'react-router-dom';
 import axios from "axios";
 
 
-
-const Project = props => {
+const SelectProject = props => {
     const { id } = useParams()
 
     const initialProjectState = {
@@ -16,6 +17,7 @@ const Project = props => {
         api_key:null,
         transcripts: []
     };
+
     const [project, setProject] = useState(initialProjectState);
 
     const getProject = id => {
@@ -34,19 +36,15 @@ const Project = props => {
         getProject(id)
     }, [id]);
 
-
     return (
         <div>
             {project.project_id ?(
                 <div>
-                    <h5>{project.project_name}</h5>
+                    <h4>Analytics for {project.project_name}</h4>
                     <p>
                         <strong>API_KEY: </strong>{project.api_key}<br/>
-                        <strong>PROJECT_ID: </strong>{project.project_id}
+                        <strong>VERSION_ID: </strong>{project.project_id}
                     </p>
-                    {/*<Link to={"/restaurants/" + props.match.params.id + "/review"} className="btn btn-primary">*/}
-                    {/*    Add Review*/}
-                    {/*</Link>*/}
                     <h4> Analysed Transcripts </h4>
                     <div className="row">
                         {project.transcripts.length > 0 ? (
@@ -57,21 +55,12 @@ const Project = props => {
                                             <div className="card-body">
                                                 <p className="card-text">
                                                     {transcript._id}<br/>
-                                                    <strong>Duration: </strong>{"duration"}<br/>
-                                                    <strong>Bot's last Text: </strong>{"bot"}<br/>
+                                                    <strong>Duration: </strong>{"duration"}
+                                                    <br/>
+                                                    <strong>Bot's last Text: </strong>{"bot"}
+                                                    <br/>
                                                     <strong>Human's last Text: </strong>{"human"}
                                                 </p>
-                                                {/*{props.user && props.user.id === review.user_id &&*/}
-                                                {/*    <div className="row">*/}
-                                                {/*        <a onClick={() => deleteReview(review._id, index)} className="btn btn-primary col-lg-5 mx-1 mb-1">Delete</a>*/}
-                                                {/*        <Link to={{*/}
-                                                {/*            pathname: "/restaurants/" + props.match.params.id + "/review",*/}
-                                                {/*            state: {*/}
-                                                {/*                currentReview: review*/}
-                                                {/*            }*/}
-                                                {/*        }} className="btn btn-primary col-lg-5 mx-1 mb-1">Edit</Link>*/}
-                                                {/*    </div>*/}
-                                                {/*}*/}
                                             </div>
                                         </div>
                                     </div>
@@ -91,10 +80,10 @@ const Project = props => {
                     <br />
                     <p>No project selected.</p>
                 </div>
-            )
+                )
             }
         </div>
     );
 };
 
-export default Project;
+export default SelectProject;

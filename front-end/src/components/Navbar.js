@@ -1,12 +1,11 @@
+// This is the Navbar displayed on each page of the application.
+
 import React from 'react';
-import { Nav, NavLink, Bars, NavMenu, NavBtn, NavBtnLink } from './NavbarElements';
+import { Nav, NavLink, Bars, NavMenu, NavBtn, NavBtnLink } from './Elements';
 import UploadTranscriptsModal from "./UploadTranscriptsModal";
+import AnalyzeTranscripts from "./AnalyzeTranscripts";
 
 const Navbar = () => {
-
-
-
-
   return (
     <>
       <Nav>
@@ -16,27 +15,20 @@ const Navbar = () => {
         </NavLink>
 
         <Bars />
+
         <NavMenu>
-          <NavLink to='/ManageProject' activeStyle>
-            Manage Project
+          <NavLink to='/ManageProjects' activeStyle>
+            Manage Projects
           </NavLink>
         </NavMenu>
-        
-        {/*<NavBtn>*/}
-        {/*  <NavBtnLink to='/UploadTranscripts'>Upload Transcripts</NavBtnLink>*/}
-        {/*</NavBtn>*/}
 
         <UploadTranscriptsModal />
 
-        <NavBtn>
-          <NavBtnLink to='/AnalyzeTranscripts/:id'>Analyze Transcripts</NavBtnLink>
-        </NavBtn>
+        <AnalyzeTranscripts />
+
       </Nav>
-
-
     </>
   );
-
 };
 
 export default Navbar;

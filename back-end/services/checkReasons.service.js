@@ -14,7 +14,8 @@ export function isPrivacyConcern(dialouges){
     let keywords = PRIVACY_KEYWORDS;
     let l = dialouges.length;
 
-    for (let t in dialouges){
+    for (let i = l, ){
+
     if( keywords.some(keyword => text.includes(keyword) )) {
             console.log("Found")
              }

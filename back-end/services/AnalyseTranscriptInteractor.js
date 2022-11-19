@@ -47,7 +47,7 @@ export function getLastTextHuman(text_transcript){
         // let transcript =[];
         // transcript = await databaseFunctions.getTrim();
 
-        let l = text_transcript[2].length;
+        let l = text_transcript.dialouge.length;
         console.log(l);
         return l;
     }

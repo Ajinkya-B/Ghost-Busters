@@ -6,7 +6,8 @@ export function avgDurationTexts(text_transcripts){
         for (let text_transcript in text_transcripts){
             total_duration += getDurationTexts(text_transcript);
         }
-        return total_duration/text_transcripts.length;}
+        return total_duration/text_transcripts.length;
+        }
 
         return 0;
 

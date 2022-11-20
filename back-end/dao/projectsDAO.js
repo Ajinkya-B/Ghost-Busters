@@ -1,29 +1,13 @@
 import { ObjectId } from "mongodb";
+import { Projects } from "../schema/projects-schema.js"
 
 let projects
 
 export default class ProjectsDAO {
-  static async injectDB(conn) {
-    if (projects) {
-      return;
-    }
-    try {
-      projects = await conn.db(process.env.PROJECTS_NS).collection("Projects");
-    } catch (e) {
-      console.error(
-        `Unable to establish a collection handle in projectsDAO: ${e}`
-      );
-    }
-  }
 
-
-    /**
-   * Get an array of all the projects from MongoDB.
-   * @returns an array of all the projects from the database
-   */
   static async getProjects(query) {
     try {
-      return await projects.find(query).toArray();
+      return await Projects.find(query).exec();
     } catch (e) {
       console.error(`Unable to issue find command, ${e}`);
       return [];
@@ -33,17 +17,17 @@ export default class ProjectsDAO {
   /**
    * Create a project object in MongoDB (see AddProject.js in /front-end for more info).
    */
-  static async createProject(req, res, next) {
+  static async createProject(body) {
     try{
-        await projects.insertOne(req);
+      await Projects.create(body);
     }catch(e){
-        console.error(`Unable to issue insertOne command, ${e}`);
+        console.error(`Unable to issue create command, ${e}`);
     }
   }
 
   static async deleteProject(projectName) {
     try {
-      const deleteResponse = await projects.deleteOne({
+      const deleteResponse = await Projects.deleteOne({
         project_name: projectName,
       });
       return deleteResponse;

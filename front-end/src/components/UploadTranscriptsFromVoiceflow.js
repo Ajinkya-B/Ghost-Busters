@@ -10,8 +10,9 @@ const UploadTranscriptsFromVoiceflow = () => {
     let transcriptData;
 
     const retrieveTranscripts = async () => {
-        const response = TranscriptDataService.getCredentials()
-        TranscriptDataService.uploadTranscripts(response.data)
+        // const response = TranscriptDataService.getCredentials()
+        // response.data
+        TranscriptDataService.uploadTranscripts()
             .then(response => {
                 // console.log(response);
                 transcriptData = response;

@@ -56,9 +56,9 @@ export default class TranscriptsController {
     res.json([api_key, project_id])
   }
 
-  static async getValues(req, res, next){
-    res.json([api_key, project_id])
-
-  }
+  // static async getValues(req, res, next){
+  //   res.json([api_key, project_id])
+  //
+  // }
 
 }

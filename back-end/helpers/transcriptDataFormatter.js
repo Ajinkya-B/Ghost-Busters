@@ -33,7 +33,8 @@ export default class transcriptDataFormatter {
             if (step.payload.payload.message && step.payload.payload.type !== "intent"
             && step.payload.payload.type !== "start"
             && step.payload.payload.type !== "code"
-            && step.payload.payload.type !== "ifV2"){
+            && step.payload.payload.type !== "ifV2"
+                && step.payload.payload.type !== "debug"){
               question = String(step.payload.payload.message);
               // Checks if current block is said my a bot
               if (!question.includes("audio")) {

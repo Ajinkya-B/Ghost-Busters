@@ -4,6 +4,8 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import 'bootstrap/dist/css/bootstrap.css'
 
+console.log(process.env.REACT_APP_URL)
+
 ReactDOM.render(
   <React.StrictMode>
     <App />

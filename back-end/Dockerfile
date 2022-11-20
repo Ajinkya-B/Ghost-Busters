@@ -1,13 +1,8 @@
 FROM node:16
 WORKDIR /app
-COPY ./package.json ./package.json
-COPY ./server.js ./server.js
-COPY ./api ./api
-COPY ./dao ./dao
-COPY ./entities ./entities
-COPY ./helpers ./helpers
-COPY ./index.js ./index.js
-COPY ./services ./services
+COPY package*.json ./
+
+COPY . .
 
 RUN yarn install
 RUN npm install

@@ -1,4 +1,4 @@
-import {isPrivacyConcern, isNoSolution, isHumanInteraction} from "./checkReasons.service.js"
+import {isPrivacyConcern, isNoSolution, isHumanInteraction} from "./checkReasonsInteractor.js"
 
 /**
  * Returns whether the user force quit a chat or wasn't satisfied.
@@ -29,7 +29,7 @@ export function userForceQuit(text_transcript) {
 }
 
 /**
- * Returns the last message of the conversation alson with the speaker of that meesage.
+ * Returns the last message of the conversation along with the speaker of that message.
  * @param text_transcript
  * @returns {*[]}
  */
@@ -119,16 +119,16 @@ export function getDurationTime(transcript) {
  * @returns {*[]}
  */
 export function checkReason(text_transcript){
-    let dialouges = text_transcript.dialogue;
+    let dialogues = text_transcript.dialogue;
     let reasons = [];
-    if (userForceQuit(dialouges)){
-        if (isPrivacyConcern(dialouges)){
+    if (userForceQuit(dialogues)){
+        if (isPrivacyConcern(dialogues)){
             reasons.push("privacy");
         }
-        if (isNoSolution(dialouges)){
+        if (isNoSolution(dialogues)){
             reasons.push("nosolution");
         }
-        if (isHumanInteraction(dialouges)){
+        if (isHumanInteraction(dialogues)){
             reasons.push("humaninteraction");
             }
         if (reasons.length == 0){
@@ -137,3 +137,5 @@ export function checkReason(text_transcript){
     }
     return reasons;
 }
+
+

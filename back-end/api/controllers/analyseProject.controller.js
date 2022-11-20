@@ -1,4 +1,4 @@
-import AnalyseProjectService from '../../services/analyseproject.service.js'
+import AnalyseProjectService from '../../services/analyseProject.service.js'
 
 
 /**

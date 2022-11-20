@@ -2,6 +2,7 @@ import ProjectsDAO from "../dao/projectsDAO.js";
 
 
 export default class ProjectsService {
+
     /**
      * Creates a new project and returns the status.
      * @param body
@@ -110,3 +111,4 @@ export default class ProjectsService {
     }
 
 }
+

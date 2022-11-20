@@ -1,8 +1,10 @@
 {
+  "license": "UNLICENSED",
   "scripts": {
     "client": "cd back-end && nodemon server",
     "server": "cd front-end && npm start",
-    "dev": "concurrently \"npm run server\" \"npm run client\""
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "test": "jest"
   },
   "dependencies": {
     "@faker-js/faker": "^7.6.0",

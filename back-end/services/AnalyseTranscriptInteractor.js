@@ -1,3 +1,5 @@
+import {isPrivacyConcern, isNoSolution, isHumanInteraction} from "./checkReasons.service.js"
+
 /**
  * Returns whether the user force quit a chat or wasn't satisfied.
  * @param text_transcript
@@ -108,4 +110,30 @@ export function getDurationTime(transcript) {
     // console.log(start_time);
     // console.log(Math.abs(end_time - start_time));
     return Math.abs(end_time - start_time);
+}
+
+
+/**
+ * Return the possible reasons why user left the chat.
+ * @param text_transcript
+ * @returns {*[]}
+ */
+export function checkReason(text_transcript){
+    let dialouges = text_transcript.dialogue;
+    let reasons = [];
+    if (userForceQuit(dialouges)){
+        if (isPrivacyConcern(dialouges)){
+            reasons.push("privacy");
+        }
+        if (isNoSolution(dialouges)){
+            reasons.push("nosolution");
+        }
+        if (isHumanInteraction(dialouges)){
+            reasons.push("humaninteraction");
+            }
+        if (reasons.length == 0){
+            reasons.push("other");
+        }
+    }
+    return reasons;
 }

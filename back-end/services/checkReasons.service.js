@@ -5,7 +5,8 @@ export const NO_SOLUTION_KEYWORDS = ["sorry", "can't help you", "no solution", "
     "can't provide solution", "connect to live agent", "live agent", "customer service rep",
     "agent", "didn't catch that", "could you repeat"];
 
-export const HUMAN_INTERAC_KEYWORDS = ["talk to agent", "agent", "human"];
+export const HUMAN_INTERAC_KEYWORDS = ["talk to agent", "agent", "human",
+    "customer service rep", "live agent"];
 
 
 /**
@@ -13,15 +14,15 @@ export const HUMAN_INTERAC_KEYWORDS = ["talk to agent", "agent", "human"];
  * @param dialouges
  * @returns {boolean}
  */
-export function isPrivacyConcern(dialouges){
+export function isPrivacyConcern(dialouges) {
 
     let keywords = PRIVACY_KEYWORDS;
     let l = dialouges.length;
 
-    for (let i = l - 1; i < l/2 ; i --) {
+    for (let i = l - 1; i >= l / 2; i--) {
 
         if (dialouges[i].speaker == "bot") {
-            text = dialouges[i].text.toLowerCase();
+            let text = dialouges[i].text.toLowerCase();
             if (keywords.some(keyword => text.includes(keyword))) {
                 console.log("Found")
                 if (i == l - 1) {
@@ -40,3 +41,53 @@ export function isPrivacyConcern(dialouges){
         return false;
     }
 }
+
+/**
+ * Returns whether the customer left the chat because the bot couldn't
+ * provide a solution to their question/problem.
+ * @param dialouges
+ * @returns {boolean}
+ */
+export function isNoSolution(dialouges) {
+    let keywords = NO_SOLUTION_KEYWORDS;
+    let l = dialouges.length;
+
+    for (let i = l - 1; i >= l / 2; i--) {
+
+        if (dialouges[i].speaker == "bot") {
+            let text = dialouges[i].text.toLowerCase();
+            if (keywords.some(keyword => text.includes(keyword))) {
+                console.log("Found");
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+/**
+ * Returns whether the user wants human interaction rather than speaking to  bot.
+ * @param dialouges
+ * @returns {boolean}
+ */
+export function isHumanInteraction(dialouges){
+
+    let keywords = HUMAN_INTERAC_KEYWORDS;
+    let l = dialouges.length;
+
+    for (let i = l - 1; i >= 0; i--) {
+
+        if (dialouges[i].speaker == "human") {
+            let text = dialouges[i].text.toLowerCase();
+            if (keywords.some(keyword => text.includes(keyword))) {
+                console.log("Found");
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+
+
+

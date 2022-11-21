@@ -1,29 +1,14 @@
 import { ObjectId } from "mongodb";
+import { Projects } from "../schema/projects-schema.js"
+import mongoose from "mongoose";
 
 let projects
 
 export default class ProjectsDAO {
-  static async injectDB(conn) {
-    if (projects) {
-      return;
-    }
-    try {
-      projects = await conn.db(process.env.PROJECTS_NS).collection("Projects");
-    } catch (e) {
-      console.error(
-        `Unable to establish a collection handle in projectsDAO: ${e}`
-      );
-    }
-  }
 
-
-    /**
-   * Get an array of all the projects from MongoDB.
-   * @returns an array of all the projects from the database
-   */
   static async getProjects(query) {
     try {
-      return await projects.find(query).toArray();
+      return await Projects.find(query).exec();
     } catch (e) {
       console.error(`Unable to issue find command, ${e}`);
       return [];
@@ -33,17 +18,17 @@ export default class ProjectsDAO {
   /**
    * Create a project object in MongoDB (see AddProject.js in /front-end for more info).
    */
-  static async createProject(req, res, next) {
+  static async createProject(body) {
     try{
-        await projects.insertOne(req);
+      await Projects.create(body);
     }catch(e){
-        console.error(`Unable to issue insertOne command, ${e}`);
+        console.error(`Unable to issue create command, ${e}`);
     }
   }
 
   static async deleteProject(projectName) {
     try {
-      const deleteResponse = await projects.deleteOne({
+      const deleteResponse = await Projects.deleteOne({
         project_name: projectName,
       });
       return deleteResponse;
@@ -76,14 +61,32 @@ export default class ProjectsDAO {
       const pipeline = [
         {
           $match: {
-            _id: new ObjectId(id),
+            _id: new mongoose.Types.ObjectId(id) ,
           },
         },
         {
           $lookup: {
-            from: "text_transcripts",
+            from: "text transcripts",
             let: {
-              id: "$_id",
+              id: "$project_id",
+            },
+            pipeline: [
+              {
+                $match: {
+                  $expr: {
+                    $eq: ["$project_id", "$$id"],
+                  },
+                },
+              },
+            ],
+            as: "text_transcripts",
+          },
+        },
+        {
+          $lookup: {
+            from: "transcripts",
+            let: {
+              id: "$project_id",
             },
             pipeline: [
               {
@@ -100,10 +103,13 @@ export default class ProjectsDAO {
         {
           $addFields: {
             transcripts: "$transcripts",
+            text_transcripts: "$text_transcripts"
           },
         },
       ];
-      return await projects.aggregate(pipeline).next();
+      const temp = await Projects.aggregate(pipeline);
+      return temp[0];
+      // return await Projects.aggregate(pipeline)
     } catch (e) {
       console.error(`Something went wrong in getProjectByID: ${e}`);
       throw e;

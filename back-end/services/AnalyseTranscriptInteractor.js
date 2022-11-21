@@ -1,4 +1,4 @@
-import {isPrivacyConcern, isNoSolution, isHumanInteraction} from "./checkReasonsInteractor.js"
+import {isPrivacyConcern, isNoSolution, isHumanInteraction} from "./checkReasonsInterctor.js"
 
 /**
  * Returns whether the user force quit a chat or wasn't satisfied.

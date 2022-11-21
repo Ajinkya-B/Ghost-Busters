@@ -1,11 +1,14 @@
 import React from 'react';
 import Project from "../components/Project";
+import AnalyseProject from "../components/AnalyseProject"
 
 const Dashboard = () => {
 
+
   return (
     <div>
-      <Project/>
+        <Project/> <br/>
+        <AnalyseProject/>
     </div>
   );
 };

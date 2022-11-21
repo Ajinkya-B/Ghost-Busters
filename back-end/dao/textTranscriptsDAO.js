@@ -1,34 +1,13 @@
-let textTranscripts;
+import { TextTranscripts } from "../schema/textTranscripts-schema.js";
 
 export default class TextTranscriptsDAO {
-  /**
-   * Sets up an initial connection with MongoDB and store sit onto a variable named textTranscripts
-   * @param conn : mongo client for the database URI
-   * @returns : throws an error if the conenction is nto estabilshed
-   */
-  static async injectDB(conn) {
-    if (textTranscripts) {
-      return;
-    }
-    try {
-      // Connect to a specific database and a specific collection in that database
-      textTranscripts = await conn
-        .db("VoiceFlowAPIData")
-        .collection("Text");
-    } catch (e) {
-      console.error(
-        `Unable to establish a collection handle in textTranscriptsDAO: ${e}`
-      );
-    }
-  }
-
   /**
    * Get an array of all the text transcripts in MongoDB
    * @returns Array of all the text transcripts from the database
    */
   static async getTextTranscripts() {
     try {
-      return await textTranscripts.find().toArray();
+      return await TextTranscripts.find().exec();
     } catch (e) {
       return [];
     }
@@ -46,15 +25,14 @@ export default class TextTranscriptsDAO {
         project_id: projectId,
         dialogue: dialogue,
       };
-      return textTranscripts.insertOne(transcriptDoc);
+      return TextTranscripts.create(transcriptDoc);
     } catch (e) {
       console.error(`Unable to post textTranscripts: ${e}`);
       return { error: e };
     }
   }
 
-  static async flushDatabase(name){
-    await textTranscripts.deleteMany({})
+  static async flushDatabase() {
+    await TextTranscripts.deleteMany({});
   }
-
 }

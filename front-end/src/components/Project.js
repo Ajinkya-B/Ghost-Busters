@@ -3,7 +3,10 @@ import ProjectDataService from "../services/ProjectDataService";
 import {Link} from "react-router-dom";
 import {useParams} from 'react-router-dom';
 import axios from "axios";
-import AnalyseProjectDataService from "../services/AnalyseProjectDataService"
+
+import TranscriptDataService from "../services/TranscriptDataService";
+
+
 
 
 const Project = props => {
@@ -51,8 +54,9 @@ const Project = props => {
             .then(response => {
                 setProject(response.data);
                 let values = [response.data.api_key, response.data.project_id]
-                axios.post("https://ghost-busters-backend-f6c6b7uoga-uc.a.run.app/api/v1/transcripts/store", values).then(r => {
-                })
+
+                TranscriptDataService.storeCredentials(values).then(r => {})
+
             })
             .catch(e => {
                 console.log(e);

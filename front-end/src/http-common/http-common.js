@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export default axios.create({
-    baseURL: "https://ghost-busters-backend-f6c6b7uoga-uc.a.run.app/api/v1/projects",
+    baseURL: process.env.REACT_APP_BACKEND_URL,
     // headers: {
     //     "Content-type": "application/json"
     // }

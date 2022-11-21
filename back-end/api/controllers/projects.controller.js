@@ -76,8 +76,12 @@ export default class ProjectsController {
   }
 
     /**
-    * A GET API for getting an array of all project objects from MongoDB.
-    */
+     * A GET API for getting an array of all project objects from MongoDB.
+     * @param req
+     * @param res
+     * @param next
+     * @returns {Promise<void>}
+     */
     static async apiGetAllProjects(req, res, next) {
         let filters = {};
         if (req.query.project_name) {
@@ -102,22 +106,23 @@ export default class ProjectsController {
     }
 
 
-
     /**
      * A GET API for getting a project object with a particular id from MongoDB.
+     * @param req
+     * @param res
+     * @param next
+     * @returns {Promise<void>}
      */
     static async apiGetProjectByID(req, res, next) {
-        try {
-            let id = req.params.id || {};
-            let project = await ProjectsDAO.getProjectByID(id);
-            if (!project) {
-                res.status(404).json({ error: "Not found" });
+        let id = req.params.id || {};
+        const getprojectByIDResponse = await ProjectsService.getProjectbyID(id);
+        switch (getprojectByIDResponse.status) {
+            case "success":
+                console.log("Projects Fetched!");
+                res.json(getprojectByIDResponse.data);
                 return;
-            }
-            res.json(project);
-        } catch (e) {
-            console.log(`api, ${e}`);
-            res.status(500).json({ error: e });
+            case "failure":
+                res.status(500).json({ status: "failure" });
+                return;
         }
-    }
-}
+}}

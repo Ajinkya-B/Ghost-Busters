@@ -17,6 +17,7 @@ import {
 } from '../dashboard/app';
 
 import SelectProject from "../components/SelectProject";
+import AnalyseProject from "../components/AnalyseProject";
 import Navbar from "../components/Navbar";
 
 
@@ -34,6 +35,7 @@ export default function Dashboard() {
 
             <Container maxWidth="xl">
                 <SelectProject />
+                <AnalyseProject />
 
                 {/*<Typography variant="h5" sx={{ mb: 5 }}>*/}
                 {/*    Analytics for {projectName}*/}

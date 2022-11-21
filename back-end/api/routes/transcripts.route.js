@@ -24,8 +24,8 @@ router.route("/flush")
 router.route('/store')
     .post(controller.storeVales)
 
-router.route('/getCredentials')
-    .get(controller.getValues)
+// router.route('/getCredentials')
+//     .get(controller.getValues)
 
 
 export default router

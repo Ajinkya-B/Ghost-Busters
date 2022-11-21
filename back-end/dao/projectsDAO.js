@@ -1,5 +1,6 @@
 import { ObjectId } from "mongodb";
 import { Projects } from "../schema/projects-schema.js"
+import mongoose from "mongoose";
 
 let projects
 
@@ -60,14 +61,32 @@ export default class ProjectsDAO {
       const pipeline = [
         {
           $match: {
-            _id: new ObjectId(id),
+            _id: new mongoose.Types.ObjectId(id) ,
           },
         },
         {
           $lookup: {
-            from: "text_transcripts",
+            from: "text transcripts",
             let: {
-              id: "$_id",
+              id: "$project_id",
+            },
+            pipeline: [
+              {
+                $match: {
+                  $expr: {
+                    $eq: ["$project_id", "$$id"],
+                  },
+                },
+              },
+            ],
+            as: "text_transcripts",
+          },
+        },
+        {
+          $lookup: {
+            from: "transcripts",
+            let: {
+              id: "$project_id",
             },
             pipeline: [
               {
@@ -84,11 +103,13 @@ export default class ProjectsDAO {
         {
           $addFields: {
             transcripts: "$transcripts",
+            text_transcripts: "$text_transcripts"
           },
         },
       ];
-      const temp = await Projects.aggregate(pipeline);
-      return temp[0];
+      // const temp = await Projects.aggregate(pipeline);
+      // return temp[0];
+      return await Projects.aggregate(pipeline)
     } catch (e) {
       console.error(`Something went wrong in getProjectByID: ${e}`);
       throw e;

@@ -20,6 +20,7 @@ router.route("/flush")
 router.route("/store")
     .post(TranscriptsCtrl.storeVales);
 
+
 router.route("/getCredentials")
     .get(TranscriptsCtrl.getValues);
 

@@ -11,7 +11,7 @@ const AnalyseProject = props => {
 
 
     const initialDataState = {
-        id: id,
+
 
         avg_duration_text: null,
         avg_duration_time: null,
@@ -60,7 +60,7 @@ const AnalyseProject = props => {
 
 
     return (
-        <div> {analysedData.id ? (
+        <div> {analysedData.avg_duration_time ? (
             <div>
 
 

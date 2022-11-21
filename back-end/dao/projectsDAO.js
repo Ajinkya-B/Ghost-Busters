@@ -107,9 +107,9 @@ export default class ProjectsDAO {
           },
         },
       ];
-      // const temp = await Projects.aggregate(pipeline);
-      // return temp[0];
-      return await Projects.aggregate(pipeline)
+      const temp = await Projects.aggregate(pipeline);
+      return temp[0];
+      // return await Projects.aggregate(pipeline)
     } catch (e) {
       console.error(`Something went wrong in getProjectByID: ${e}`);
       throw e;

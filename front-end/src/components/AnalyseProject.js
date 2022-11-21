@@ -11,6 +11,7 @@ const AnalyseProject = props => {
 
 
     const initialDataState = {
+        id: id,
 
         avg_duration_text: null,
         avg_duration_time: null,
@@ -59,12 +60,13 @@ const AnalyseProject = props => {
 
 
     return (
-        <div>
+        <div> {analysedData.id ? (
+            <div>
 
 
             <h5>Analysed Data</h5>
             <p>
-                <strong>Average Duration: </strong>{analysedData.avg_duration_time}<br/>
+                <strong>Average Duration (in milliseconds): </strong>{analysedData.avg_duration_time}<br/>
                 <strong>Average Length (texts): </strong>{analysedData.avg_duration_text}<br/>
                 <strong>Total users force quit: </strong>{analysedData.total_users_quit}<br/>
                 <strong>Reasons: </strong><br/>
@@ -75,6 +77,13 @@ const AnalyseProject = props => {
 
 
             </p>
+            </div>
+            ) : (
+            <div>
+                <br/>
+                <p></p>
+            </div>
+        )}
 
         </div>
 

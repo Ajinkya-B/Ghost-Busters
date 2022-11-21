@@ -1,6 +1,6 @@
 import axios from "axios";
 
 export default axios.create({
-    baseURL: "http://localhost:8000/api/v1/analyseProject",
+    baseURL: process.env.REACT_APP_BACKEND_URL,
 
 });

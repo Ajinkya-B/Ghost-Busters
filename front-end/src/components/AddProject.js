@@ -85,6 +85,7 @@ export default class AddProject extends Component {
                     <form onSubmit={this.onSubmit}>
                         {/* TEXT FIELDS THAT TAKE IN USER INPUTS */}
                         <input type='text'
+                               aria-label='project name'
                                placeholder='Project Name'
                                id="project_name"
                                onChange={this.addProjectName}
@@ -92,6 +93,7 @@ export default class AddProject extends Component {
                                className='form-control form-group'
                         />
                         <input type='text'
+                               aria-label='version id'
                                placeholder='Version ID'
                                id="version_id"
                                onChange={this.addVersionID}
@@ -99,6 +101,7 @@ export default class AddProject extends Component {
                                className='form-control form-group'
                         />
                         <input type='text'
+                               aria-label='api key'
                                placeholder='API Key'
                                id="api_key"
                                onChange={this.addApiKey}

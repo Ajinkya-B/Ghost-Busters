@@ -56,7 +56,7 @@ const AnalyseProject = props => {
 
     useEffect(() => {
         getAnalysedData(id)
-    }, [id]);
+    }, []);
 
 
     return (

@@ -1,9 +1,5 @@
 import express from "express"
 import TranscriptsCtrl from "../controllers/transcripts.controller.js"
-import controller from "../../api/controllers/transcripts.controller.js"
-
-import server from "../../server.js"
-
 
 const router = express.Router()
 
@@ -12,20 +8,19 @@ router.route("/getParsedTranscripts")
     .get(TranscriptsCtrl.getParsedTranscripts)
 
 router.route("/getTrimmedTranscripts")
-    .get(controller.getTrimmedTranscripts)
+    .get(TranscriptsCtrl.getTrimmedTranscripts)
 
 router.route("/trimmed")
-    .post(controller.addClean)
+    .post(TranscriptsCtrl.addClean)
 
 router.route("/flush")
-    .get(controller.flushDB)
+    .get(TranscriptsCtrl.flushDB)
 
 
-router.route('/store')
-    .post(controller.storeVales)
+router.route("/store")
+    .post(TranscriptsCtrl.storeVales);
 
-router.route('/getCredentials')
-    .get(controller.getValues)
-
+router.route("/getCredentials")
+    .get(TranscriptsCtrl.getValues);
 
 export default router

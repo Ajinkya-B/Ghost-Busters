@@ -1,4 +1,3 @@
-import { ObjectID } from "bson";
 import mongoose from "mongoose";
 
 
@@ -9,7 +8,7 @@ const projectSchema = new mongoose.Schema({
         required: true,
     },
     project_id: {
-        type: ObjectID,
+        type: String,
         required: true,
     },
     api_key: {

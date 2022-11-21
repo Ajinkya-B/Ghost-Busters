@@ -8,7 +8,7 @@ const textTranscriptsSchema = new mongoose.Schema({
     },
     dialogue: {
         type: Array,
-        reduired: true
+        required: true
     }
 });
 

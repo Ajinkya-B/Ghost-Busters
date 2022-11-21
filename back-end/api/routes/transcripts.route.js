@@ -16,7 +16,6 @@ router.route("/trimmed")
 router.route("/flush")
     .get(TranscriptsCtrl.flushDB)
 
-
 router.route("/store")
     .post(TranscriptsCtrl.storeVales);
 

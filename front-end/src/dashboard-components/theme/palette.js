@@ -1,3 +1,4 @@
+import React from "react";
 import { alpha } from '@mui/material/styles';
 
 // ----------------------------------------------------------------------
@@ -44,7 +45,7 @@ const INFO = {
 };
 
 const SUCCESS = {
-  lighter: '#E9FCD4',
+  lighter: '#B9FCD4',
   light: '#AAF27F',
   main: '#54D62C',
   dark: '#229A16',

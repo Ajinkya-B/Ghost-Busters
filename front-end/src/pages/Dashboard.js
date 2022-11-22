@@ -5,7 +5,7 @@ import { faker } from '@faker-js/faker';
 import { useTheme } from '@mui/material/styles';
 import {Grid, Container, Typography, Card} from '@mui/material';
 // components
-import Iconify from "../dashboard/components/iconify";
+import Iconify from "../dashboard-components/components/iconify";
 // sections
 import {
     AppOrderTimeline,
@@ -14,7 +14,7 @@ import {
     AppTrafficBySite,
     AppCounter,
     AppConversionRates,
-} from '../dashboard/app';
+} from '../dashboard-components/app';
 
 import SelectProject from "../components/SelectProject";
 import AnalyseProject from "../components/AnalyseProject";
@@ -26,6 +26,14 @@ export default function Dashboard() {
 
     // The current counter (reason why the user left a chat) is selected when a Creator clicks on the card
     const [currentCounter, setCounter] = useState('Privacy Concerns')
+
+    const reasons = [
+        'Privacy Concerns',
+        'Unsatisfactory Solutions',
+        'Chatbot Repetitions',
+        'Lengthy Chat Durations',
+        'Live Agent Requests'
+    ]
 
     // The data for the graph is chosen based on the current counter
     switch(currentCounter) {
@@ -67,26 +75,26 @@ export default function Dashboard() {
                     </Grid>
 
                     <Grid item xs={10} sm={1} md={2.3}>
-                        <counterButton onClick={() => console.log('hi')}>
+                        <counterButton onClick={() => setCounter('Unsatisfactory Solutions')}>
                             <AppCounter title="Unsatisfactory Solutions" total={1352831} color="info" icon={'ant-design:frown-outline'} />
                         </counterButton>
                     </Grid>
 
                     <Grid item xs={10} sm={1} md={2.3}>
-                        <counterButton onClick={() => console.log('hi')}>
+                        <counterButton onClick={() => setCounter('Chatbot Repetitions')}>
                             <AppCounter title="Chatbot Repetitions" total={1723315} color="warning" icon={'ant-design:windows-filled'} />
                         </counterButton>
                     </Grid>
 
                     <Grid item xs={10} sm={1} md={2.3}>
-                        <counterButton onClick={() => console.log('hi')}>
+                        <counterButton onClick={() => setCounter('Lengthy Chat Durations')}>
                             <AppCounter title="Lengthy Chat Durations" total={45235} color="error" icon={'ant-design:bug-filled'} />
                         </counterButton>
                     </Grid>
 
                     <Grid item xs={10} sm={1} md={2.3}>
-                        <counterButton onClick={() => console.log('hi')}>
-                            <AppCounter title="Live Agent Requests" total={234} color="error" icon={'ant-design:bug-filled'} />
+                        <counterButton onClick={() => setCounter('Live Agent Requests')}>
+                            <AppCounter title="Live Agent Requests" total={234} color="success" icon={'ant-design:bug-filled'} />
                         </counterButton>
                     </Grid>
 
@@ -144,10 +152,11 @@ export default function Dashboard() {
                                 { label: 'Live Agent Requests', value: 4443 },
                             ]}
                             chartColors={[
-                                theme.palette.primary.main,
-                                theme.palette.info.main,
-                                theme.palette.warning.main,
-                                theme.palette.error.main,
+                                theme.palette.primary.light,
+                                theme.palette.info.light,
+                                theme.palette.warning.light,
+                                theme.palette.error.light,
+                                theme.palette.success.light,
                             ]}
                         />
                     </Grid>

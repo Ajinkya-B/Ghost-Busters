@@ -1,3 +1,4 @@
+import React from "react";
 import PropTypes from 'prop-types';
 import { useMemo } from 'react';
 // @mui
@@ -9,7 +10,7 @@ import shadows from './shadows';
 import typography from './typography';
 import GlobalStyles from './globalStyles';
 import customShadows from './customShadows';
-import componentsOverride from './overrides';
+import ComponentsOverride from './overrides';
 
 // ----------------------------------------------------------------------
 
@@ -22,21 +23,21 @@ export default function ThemeProvider({ children }) {
     () => ({
       palette,
       shape: { borderRadius: 6 },
-      typography,
-      shadows: shadows(),
+      //typography,
+      //shadows: shadows(),
       customShadows: customShadows(),
     }),
     []
   );
 
   const theme = createTheme(themeOptions);
-  theme.components = componentsOverride(theme);
+  theme.components = ComponentsOverride(theme);
 
   return (
     <StyledEngineProvider injectFirst>
       <MUIThemeProvider theme={theme}>
-        <CssBaseline />
-        <GlobalStyles />
+        {/*<CssBaseline />*/}
+        {/*<GlobalStyles />*/}
         {children}
       </MUIThemeProvider>
     </StyledEngineProvider>

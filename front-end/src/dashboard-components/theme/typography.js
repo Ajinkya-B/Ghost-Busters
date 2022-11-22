@@ -1,3 +1,5 @@
+import React from "react";
+
 // ----------------------------------------------------------------------
 
 export function remToPx(value) {
@@ -24,7 +26,7 @@ export function responsiveFontSizes({ sm, md, lg }) {
 
 // ----------------------------------------------------------------------
 
-const FONT_PRIMARY = 'Public Sans, sans-serif'; // Google Font
+const FONT_PRIMARY = 'Roboto, sans-serif'; // Google Font
 // const FONT_SECONDARY = 'CircularStd, sans-serif'; // Local Font
 
 const typography = {

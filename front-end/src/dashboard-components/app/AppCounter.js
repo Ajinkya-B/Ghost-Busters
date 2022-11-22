@@ -39,7 +39,7 @@ export default function AppCounter({ title, total, icon, color = 'primary', sx, 
         boxShadow: 0,
         textAlign: 'center',
         color: (theme) => theme.palette[color].darker,
-        bgcolor: (theme) => theme.palette[color].lighter,
+        backgroundColor: (theme) => theme.palette[color].lighter,
         ...sx,
       }}
       {...other}

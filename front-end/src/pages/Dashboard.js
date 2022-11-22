@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import { Helmet } from 'react-helmet-async';
 import { faker } from '@faker-js/faker';
 // @mui
@@ -24,6 +24,23 @@ import Navbar from "../components/Navbar";
 export default function Dashboard() {
     const theme = useTheme();
 
+    // The current counter (reason why the user left a chat) is selected when a Creator clicks on the card
+    const [currentCounter, setCounter] = useState('Privacy Concerns')
+
+    // The data for the graph is chosen based on the current counter
+    switch(currentCounter) {
+        case 'Unsatisfactory Solutions':
+
+        case 'Chatbot Repetitions':
+
+        case 'Lengthy Chat Durations':
+
+        case 'Live Agent Requests':
+
+        default:
+
+    }
+
     return (
         <div>
             <Helmet>
@@ -44,26 +61,37 @@ export default function Dashboard() {
                 {/*COUNTERS*/}
                 <Grid container spacing={4}>
                     <Grid item xs={10} sm={1} md={2.3}>
-                        <AppCounter title="Privacy Concerns" total={714000} icon={'ant-design:android-filled'} />
+                        <counterButton onClick={() => setCounter('Privacy Concerns')}>
+                            <AppCounter title="Privacy Concerns" total={714000} icon={'ant-design:android-filled'} />
+                        </counterButton>
                     </Grid>
 
                     <Grid item xs={10} sm={1} md={2.3}>
-                        <AppCounter title="Unsatisfactory Solutions" total={1352831} color="info" icon={'ant-design:frown-outline'} />
+                        <counterButton onClick={() => console.log('hi')}>
+                            <AppCounter title="Unsatisfactory Solutions" total={1352831} color="info" icon={'ant-design:frown-outline'} />
+                        </counterButton>
                     </Grid>
 
                     <Grid item xs={10} sm={1} md={2.3}>
-                        <AppCounter title="Chatbot Repetitions" total={1723315} color="warning" icon={'ant-design:windows-filled'} />
+                        <counterButton onClick={() => console.log('hi')}>
+                            <AppCounter title="Chatbot Repetitions" total={1723315} color="warning" icon={'ant-design:windows-filled'} />
+                        </counterButton>
                     </Grid>
 
                     <Grid item xs={10} sm={1} md={2.3}>
-                        <AppCounter title="Lengthy Chat Durations" total={45235} color="error" icon={'ant-design:bug-filled'} />
+                        <counterButton onClick={() => console.log('hi')}>
+                            <AppCounter title="Lengthy Chat Durations" total={45235} color="error" icon={'ant-design:bug-filled'} />
+                        </counterButton>
                     </Grid>
 
                     <Grid item xs={10} sm={1} md={2.3}>
-                        <AppCounter title="Live Agent Requests" total={234} color="error" icon={'ant-design:bug-filled'} />
+                        <counterButton onClick={() => console.log('hi')}>
+                            <AppCounter title="Live Agent Requests" total={234} color="error" icon={'ant-design:bug-filled'} />
+                        </counterButton>
                     </Grid>
 
                     {/*TODO: Change the graph / make it so that a specific graph appears when you click on a counter*/}
+
                     <Grid item xs={12} md={6} lg={8}>
                         <AppGhostGraph
                             title="Privacy Concerns"

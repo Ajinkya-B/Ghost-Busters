@@ -5,10 +5,9 @@ import mongoose from "mongoose";
 
 export default class ProjectsDAO {
 
-
-    static async getProjects(query) {
+    async getProjects(query) {
         try {
-            return await Projects.find(query).exec();
+            return await Projects.find(query);
         } catch (e) {
             console.error(`Unable to issue find command, ${e}`);
             return [];
@@ -19,7 +18,7 @@ export default class ProjectsDAO {
     /**
      * Create a project object in MongoDB (see AddProject.js in /front-end for more info).
      */
-    static async createProject(body) {
+    async createProject(body) {
         try {
             await Projects.create(body);
         } catch (e) {
@@ -34,7 +33,7 @@ export default class ProjectsDAO {
      * @param projectName
      * @returns {Promise<{error}|*>}
      */
-    static async deleteProject(projectName) {
+    async deleteProject(projectName) {
         try {
             const deleteResponse = await Projects.deleteOne({
                 project_name: projectName,
@@ -53,7 +52,6 @@ export default class ProjectsDAO {
      * @param transcript
      * @returns {Promise<{error}|*>}
      */
-    static
     async updateProject(projectName, transcript) {
         try {
             const updateResponse = await projects.updateOne(
@@ -75,7 +73,6 @@ export default class ProjectsDAO {
      * @param id
      * @returns {Promise<*>}
      */
-    static
     async getProjectByID(id) {
         try {
             const pipeline = [

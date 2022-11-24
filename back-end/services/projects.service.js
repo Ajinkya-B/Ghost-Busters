@@ -2,6 +2,8 @@ import ProjectsDAO from "../dao/projectsDAO.js";
 
 
 export default class ProjectsService {
+    // Initializing a projects dao so that there is no need to use static in ProjectsDAO.
+    static #ProjectsDAO = new ProjectsDAO;
 
     /**
      * Creates a new project and returns the status.
@@ -11,7 +13,7 @@ export default class ProjectsService {
     static async createProject(body) {
         try {
             console.log(body);
-            await ProjectsDAO.createProject(body);
+            await this.#ProjectsDAO.createProject(body);
             return {status: "success"};
         } catch (e) {
             return {status: "failure"};
@@ -25,7 +27,7 @@ export default class ProjectsService {
      */
     static async deleteProject(projectName) {
         try {
-            await ProjectsDAO.deleteProject(projectName);
+            await this.#ProjectsDAO.deleteProject(projectName);
             return {status: "success"};
         } catch (e) {
             return {status: "failure"};
@@ -48,7 +50,7 @@ export default class ProjectsService {
                     query = {project_id: {$eq: filters["project_id"]}};
                 }
             }
-            const response = await ProjectsDAO.getProjects(query);
+            const response = await this.#ProjectsDAO.getProjects(query);
 
             return {
                 status: "success",
@@ -70,7 +72,7 @@ export default class ProjectsService {
      */
     static async updateProject(projectName, transcript) {
         try {
-            await ProjectsDAO.updateProject(projectName, transcript);
+            await this.#ProjectsDAO.updateProject(projectName, transcript);
             return {status: "success"};
         } catch (e) {
             return {status: "failure"};
@@ -86,7 +88,7 @@ export default class ProjectsService {
     static async getProjectbyID(id) {
         try {
 
-            const response = await ProjectsDAO.getProjectByID(id);
+            const response = await this.#ProjectsDAO.getProjectByID(id);
             return {
                 status: "success",
                 data: response,
@@ -96,17 +98,6 @@ export default class ProjectsService {
                 status: "failure",
                 data: [],
             };
-            //     if (!project) {
-            //         res.status(404).json({ error: "Not found" });
-            //         return;
-            //     }
-            //     res.json(project);
-            // } catch (e) {
-            //     console.log(`api, ${e}`);
-            //     res.status(500).json({ error: e });
-            // }
-
-
         }
     }
 

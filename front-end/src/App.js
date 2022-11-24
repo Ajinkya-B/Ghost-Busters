@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import './styles/App.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { HelmetProvider} from "react-helmet-async";
-import ThemeProvider from "./dashboard-components/theme";
+import {Helmet, HelmetProvider} from "react-helmet-async";
+import ThemeProvider from "./components/dashboard-components/theme";
 
 import DashboardWelcomePage from "./pages/DashboardWelcome";
 import Dashboard from './pages/Dashboard';
@@ -14,6 +14,10 @@ class App extends Component {
         return (
             <ThemeProvider>
               <HelmetProvider>
+                  <Helmet>
+                      <title> Ghostboard </title>
+                  </Helmet>
+
                 <Router>
                   <Routes>
                     <Route path='*' element={<Page404 />} />

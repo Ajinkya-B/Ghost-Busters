@@ -1,7 +1,9 @@
+// THIS FILE IS NOT BEING USED--ITS CONTENTS HAVE BEEN MOVED TO Dashboard.js
+
 import React, {useState, useEffect} from "react";
 import {useParams} from 'react-router-dom';
 import AnalyseProjectDataService from "../services/AnalyseProjectDataService"
-import Dashboard from "../pages/Dashboard";
+
 
 const AnalyseProject = props => {
     const {id} = useParams()

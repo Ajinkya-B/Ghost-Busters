@@ -1,7 +1,6 @@
 // The Dashboard page that is displayed when a Voiceflow Creator selects a project
 
 import React, { useState, useEffect } from "react";
-import { Helmet } from 'react-helmet-async';
 import { useParams } from 'react-router-dom';
 // @mui
 import { useTheme } from '@mui/material/styles';
@@ -10,15 +9,15 @@ import {Grid, Container} from '@mui/material';
 import {
     AppGhostMeter,
     AppGhostGraph,
-    AppTrafficBySite,
+    AppIndexCard,
     AppCounter,
-    AppConversionRates,
-} from '../dashboard-components/app';
+    AppBarGraph,
+} from '../components/dashboard-components/app';
 // components
 import SelectProject from "../components/SelectProject";
 import AnalyseProject from "../components/AnalyseProject";
 import Navbar from "../components/Navbar";
-import Iconify from "../dashboard-components/components/iconify";
+import Iconify from "../components/dashboard-components/app-components/iconify";
 // etc.
 import AnalyseProjectDataService from "../services/AnalyseProjectDataService"
 
@@ -84,16 +83,12 @@ export default function Dashboard() {
 
     return (
         <div>
-            <Helmet>
-                <title> Ghostboard </title>
-            </Helmet>
-
             <Navbar />
             <br />
 
             <Container maxWidth="xl">
                 <SelectProject />
-                <AnalyseProject />
+                {/*<AnalyseProject />*/}
 
                 {/*<Typography variant="h5" sx={{ mb: 5 }}>*/}
                 {/*    Analytics for {projectName}*/}
@@ -195,7 +190,7 @@ export default function Dashboard() {
                     </Grid>
 
                     {/*<Grid item xs={12} md={6} lg={8}>*/}
-                    {/*    <AppConversionRates*/}
+                    {/*    <AppBarGraph*/}
                     {/*        title="Conversion Rates"*/}
                     {/*        subheader="(+43%) than last year"*/}
                     {/*        chartData={[*/}
@@ -214,23 +209,23 @@ export default function Dashboard() {
                     {/*</Grid>*/}
 
                     <Grid item xs={12} md={6} lg={4}>
-                        <AppTrafficBySite
+                        <AppIndexCard
                             title="Miscellaneous"
                             list={[
                                 {
                                     name: 'Average Chat Duration (in milliseconds)',
                                     value: analysedData.avg_duration_time,
-                                    //icon: <Iconify icon={'eva:facebook-fill'} color="#1877F2" width={32} />,
+                                    icon: <Iconify icon={'eva:clock-outline'} color="#1877F2" width={32} />,
                                 },
                                 {
                                     name: 'Average Chat Length (by number of texts)',
                                     value: analysedData.avg_duration_text,
-                                    //icon: <Iconify icon={'eva:google-fill'} color="#DF3E30" width={32} />,
+                                    icon: <Iconify icon={'eva:activity-outline'} color="#1877F2" width={32} />,
                                 },
                                 {
-                                    name: 'Total number of chats force-quit',
+                                    name: 'Total Number of Chats Force-quit',
                                     value: analysedData.total_users_quit,
-                                    //icon: <Iconify icon={'eva:linkedin-fill'} color="#006097" width={32} />,
+                                    icon: <Iconify icon={'eva:message-square-outline'} color="#1877F2" width={32} />,
                                 },
 
                             ]}

@@ -7,13 +7,13 @@ import {fShortenNumber} from "../utils/formatNumber";
 
 // ----------------------------------------------------------------------
 
-AppTrafficBySite.propTypes = {
+AppIndexCard.propTypes = {
   title: PropTypes.string,
   subheader: PropTypes.string,
   list: PropTypes.array.isRequired,
 };
 
-export default function AppTrafficBySite({ title, subheader, list, ...other }) {
+export default function AppIndexCard({ title, subheader, list, ...other }) {
   return (
     <Card {...other}>
       <CardHeader title={title} subheader={subheader} />

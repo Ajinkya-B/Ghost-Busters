@@ -6,17 +6,17 @@ import { Box, Card, CardHeader } from '@mui/material';
 // utils
 import {fNumber} from "../utils/formatNumber";
 // components
-import {useChart} from "../components/chart";
+import {useChart} from "../app-components/chart";
 
 // ----------------------------------------------------------------------
 
-AppConversionRates.propTypes = {
+AppBarGraph.propTypes = {
   title: PropTypes.string,
   subheader: PropTypes.string,
   chartData: PropTypes.array.isRequired,
 };
 
-export default function AppConversionRates({ title, subheader, chartData, ...other }) {
+export default function AppBarGraph({ title, subheader, chartData, ...other }) {
   const chartLabels = chartData.map((i) => i.label);
 
   const chartSeries = chartData.map((i) => i.value);

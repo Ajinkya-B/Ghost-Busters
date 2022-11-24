@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { styled, alpha } from '@mui/material/styles';
 import { Card, Typography } from '@mui/material';
 // utils
-import {fShortenNumber} from "../utils/formatNumber";
+import {fShortenNumber, fNumber} from "../utils/formatNumber";
 // components
 import Iconify from "../components/iconify";
 
@@ -54,10 +54,13 @@ export default function AppCounter({ title, total, icon, color = 'primary', sx, 
             )} 100%)`,
         }}
       >
-        <Iconify icon={icon} width={24} height={24} />
+       <Iconify icon={icon} width={24} height={24} />
       </StyledIcon>
 
-      <Typography variant="h3">{fShortenNumber(total)}</Typography>
+      { total ?
+          <Typography variant="h3">{fShortenNumber(total)}</Typography> :
+          <Typography variant="h3">{fNumber(total)}</Typography>
+      }
 
       <Typography variant="subtitle2" sx={{ opacity: 0.72 }}>
         {title}

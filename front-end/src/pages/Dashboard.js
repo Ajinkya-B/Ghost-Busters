@@ -1,11 +1,11 @@
-import React, {useState, useEffect} from "react";
+//
+
+import React, { useState, useEffect } from "react";
 import { Helmet } from 'react-helmet-async';
-import { faker } from '@faker-js/faker';
+import { useParams } from 'react-router-dom';
 // @mui
 import { useTheme } from '@mui/material/styles';
-import {Grid, Container, Typography, Card} from '@mui/material';
-// components
-import Iconify from "../dashboard-components/components/iconify";
+import {Grid, Container} from '@mui/material';
 // sections
 import {
     AppOrderTimeline,
@@ -15,13 +15,45 @@ import {
     AppCounter,
     AppConversionRates,
 } from '../dashboard-components/app';
-
+// components
 import SelectProject from "../components/SelectProject";
 import AnalyseProject from "../components/AnalyseProject";
 import Navbar from "../components/Navbar";
+// etc.
+import AnalyseProjectDataService from "../services/AnalyseProjectDataService"
 
 
 export default function Dashboard() {
+    const {id} = useParams()
+
+    const initialDataState = {
+        avg_duration_text: 0,
+        avg_duration_time: 0,
+        total_users_quit: 0,
+        reasons: {
+            privacy: 0,
+            no_solution: 0,
+            human_interaction: 0,
+            other: 0
+        }
+    };
+
+    const [analysedData, setAnalysedData] = useState(initialDataState);
+
+    const getAnalysedData = id => {
+        AnalyseProjectDataService.analyseProject(id)
+            .then(response => {
+                setAnalysedData(response.data);  // or setAnalysedData({analysedData: response.data})
+            })
+            .catch(e => {
+                console.log(e);
+            });
+    };
+
+    useEffect(() => {
+        getAnalysedData(id)
+    }, []);
+
     const theme = useTheme();
 
     // The current counter (reason why the user left a chat) is selected when a Creator clicks on the card
@@ -49,6 +81,7 @@ export default function Dashboard() {
 
     }
 
+
     return (
         <div>
             <Helmet>
@@ -70,19 +103,19 @@ export default function Dashboard() {
                 <Grid container spacing={4}>
                     <Grid item xs={10} sm={1} md={2.3}>
                         <counterButton onClick={() => setCounter('Privacy Concerns')}>
-                            <AppCounter title="Privacy Concerns" total={714000} color="error" icon={'ant-design:android-filled'} />
+                            <AppCounter title="Privacy Concerns" total={analysedData.reasons.privacy} color="error" icon={'ant-design:android-filled'} />
                         </counterButton>
                     </Grid>
 
                     <Grid item xs={10} sm={1} md={2.3}>
                         <counterButton onClick={() => setCounter('Unsatisfactory Solutions')}>
-                            <AppCounter title="Unsatisfactory Solutions" total={1352831} color="warning" icon={'ant-design:frown-outline'} />
+                            <AppCounter title="Unsatisfactory Solutions" total={analysedData.reasons.no_solution} color="warning" icon={'ant-design:frown-outline'} />
                         </counterButton>
                     </Grid>
 
                     <Grid item xs={10} sm={1} md={2.3}>
                         <counterButton onClick={() => setCounter('Chatbot Repetitions')}>
-                            <AppCounter title="Chatbot Repetitions" total={1723315} color="success" icon={'ant-design:windows-filled'} />
+                            <AppCounter title="Chatbot Repetitions" total={0} color="success" icon={'ant-design:windows-filled'} />
                         </counterButton>
                     </Grid>
 
@@ -94,7 +127,7 @@ export default function Dashboard() {
 
                     <Grid item xs={10} sm={1} md={2.3}>
                         <counterButton onClick={() => setCounter('Live Agent Requests')}>
-                            <AppCounter title="Live Agent Requests" total={234} color="secondary" icon={'ant-design:bug-filled'} />
+                            <AppCounter title="Live Agent Requests" total={analysedData.reasons.human_interaction} color="secondary" icon={'ant-design:bug-filled'} />
                         </counterButton>
                     </Grid>
 

@@ -6,8 +6,9 @@
   },
   "dependencies": {
     "@faker-js/faker": "^7.6.0",
-    "@mui/material": "^5.10.13",
+    "@mui/material": "^5.10.15",
     "concurrently": "^7.5.0",
+    "react-router-dom": "^6.4.3",
     "save-dev": "^0.0.1-security",
     "yarn": "^1.22.19"
   }

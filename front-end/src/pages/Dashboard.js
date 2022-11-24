@@ -115,13 +115,13 @@ export default function Dashboard() {
 
                     <Grid item xs={10} sm={1} md={2.3}>
                         <counterButton onClick={() => setCounter('Chatbot Repetitions')}>
-                            <AppCounter title="Chatbot Repetitions" total={0} color="success" icon={'ant-design:windows-filled'} />
+                            <AppCounter title="Chatbot Repetitions" total={111} color="success" icon={'ant-design:windows-filled'} />
                         </counterButton>
                     </Grid>
 
                     <Grid item xs={10} sm={1} md={2.3}>
                         <counterButton onClick={() => setCounter('Lengthy Chat Durations')}>
-                            <AppCounter title="Lengthy Chat Durations" total={45235} color="info" icon={'ant-design:bug-filled'} />
+                            <AppCounter title="Lengthy Chat Durations" total={111} color="info" icon={'ant-design:bug-filled'} />
                         </counterButton>
                     </Grid>
 

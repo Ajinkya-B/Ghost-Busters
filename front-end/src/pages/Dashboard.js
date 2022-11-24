@@ -103,7 +103,7 @@ export default function Dashboard() {
                 <Grid container spacing={4}>
                     <Grid item xs={10} sm={1} md={2.3}>
                         <counterButton onClick={() => setCounter('Privacy Concerns')}>
-                            <AppCounter title="Privacy Concerns" total={analysedData.reasons.privacy} color="error" icon={'ant-design:android-filled'} />
+                            <AppCounter title="Privacy Concerns" total={analysedData.reasons.privacy} color="error" icon={'ant-design:key-outlined'} />
                         </counterButton>
                     </Grid>
 
@@ -115,19 +115,19 @@ export default function Dashboard() {
 
                     <Grid item xs={10} sm={1} md={2.3}>
                         <counterButton onClick={() => setCounter('Chatbot Repetitions')}>
-                            <AppCounter title="Chatbot Repetitions" total={111} color="success" icon={'ant-design:windows-filled'} />
+                            <AppCounter title="Chatbot Repetitions" total={111} color="success" icon={'ant-design:comment-outlined'} />
                         </counterButton>
                     </Grid>
 
                     <Grid item xs={10} sm={1} md={2.3}>
                         <counterButton onClick={() => setCounter('Lengthy Chat Durations')}>
-                            <AppCounter title="Lengthy Chat Durations" total={111} color="info" icon={'ant-design:bug-filled'} />
+                            <AppCounter title="Lengthy Chat Durations" total={111} color="info" icon={'ant-design:field-time-outlined'} />
                         </counterButton>
                     </Grid>
 
                     <Grid item xs={10} sm={1} md={2.3}>
                         <counterButton onClick={() => setCounter('Live Agent Requests')}>
-                            <AppCounter title="Live Agent Requests" total={analysedData.reasons.human_interaction} color="secondary" icon={'ant-design:bug-filled'} />
+                            <AppCounter title="Live Agent Requests" total={analysedData.reasons.human_interaction} color="secondary" icon={'ant-design:user-outlined'} />
                         </counterButton>
                     </Grid>
 

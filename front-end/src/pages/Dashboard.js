@@ -8,7 +8,6 @@ import { useTheme } from '@mui/material/styles';
 import {Grid, Container} from '@mui/material';
 // sections
 import {
-    AppOrderTimeline,
     AppGhostMeter,
     AppGhostGraph,
     AppTrafficBySite,
@@ -19,6 +18,7 @@ import {
 import SelectProject from "../components/SelectProject";
 import AnalyseProject from "../components/AnalyseProject";
 import Navbar from "../components/Navbar";
+import Iconify from "../dashboard-components/components/iconify";
 // etc.
 import AnalyseProjectDataService from "../services/AnalyseProjectDataService"
 
@@ -213,52 +213,29 @@ export default function Dashboard() {
                     {/*    />*/}
                     {/*</Grid>*/}
 
+                    <Grid item xs={12} md={6} lg={4}>
+                        <AppTrafficBySite
+                            title="Miscellaneous"
+                            list={[
+                                {
+                                    name: 'Average Chat Duration (in milliseconds)',
+                                    value: analysedData.avg_duration_time,
+                                    //icon: <Iconify icon={'eva:facebook-fill'} color="#1877F2" width={32} />,
+                                },
+                                {
+                                    name: 'Average Chat Length (by number of texts)',
+                                    value: analysedData.avg_duration_text,
+                                    //icon: <Iconify icon={'eva:google-fill'} color="#DF3E30" width={32} />,
+                                },
+                                {
+                                    name: 'Total number of chats force-quit',
+                                    value: analysedData.total_users_quit,
+                                    //icon: <Iconify icon={'eva:linkedin-fill'} color="#006097" width={32} />,
+                                },
 
-                    {/*<Grid item xs={12} md={6} lg={4}>*/}
-                    {/*    <AppOrderTimeline*/}
-                    {/*        title="Order Timeline"*/}
-                    {/*        list={[...Array(5)].map((_, index) => ({*/}
-                    {/*            id: faker.datatype.uuid(),*/}
-                    {/*            title: [*/}
-                    {/*                '1983, orders, $4220',*/}
-                    {/*                '12 Invoices have been paid',*/}
-                    {/*                'Order #37745 from September',*/}
-                    {/*                'New order placed #XF-2356',*/}
-                    {/*                'New order placed #XF-2346',*/}
-                    {/*            ][index],*/}
-                    {/*            type: `order${index + 1}`,*/}
-                    {/*            time: faker.date.past(),*/}
-                    {/*        }))}*/}
-                    {/*    />*/}
-                    {/*</Grid>*/}
-
-                    {/*<Grid item xs={12} md={6} lg={4}>*/}
-                    {/*    <AppTrafficBySite*/}
-                    {/*        title="Traffic by Site"*/}
-                    {/*        list={[*/}
-                    {/*            {*/}
-                    {/*                name: 'FaceBook',*/}
-                    {/*                value: 323234,*/}
-                    {/*                icon: <Iconify icon={'eva:facebook-fill'} color="#1877F2" width={32} />,*/}
-                    {/*            },*/}
-                    {/*            {*/}
-                    {/*                name: 'Google',*/}
-                    {/*                value: 341212,*/}
-                    {/*                icon: <Iconify icon={'eva:google-fill'} color="#DF3E30" width={32} />,*/}
-                    {/*            },*/}
-                    {/*            {*/}
-                    {/*                name: 'Linkedin',*/}
-                    {/*                value: 411213,*/}
-                    {/*                icon: <Iconify icon={'eva:linkedin-fill'} color="#006097" width={32} />,*/}
-                    {/*            },*/}
-                    {/*            {*/}
-                    {/*                name: 'Twitter',*/}
-                    {/*                value: 443232,*/}
-                    {/*                icon: <Iconify icon={'eva:twitter-fill'} color="#1C9CEA" width={32} />,*/}
-                    {/*            },*/}
-                    {/*        ]}*/}
-                    {/*    />*/}
-                    {/*</Grid>*/}
+                            ]}
+                        />
+                    </Grid>
 
                 </Grid>
             </Container>

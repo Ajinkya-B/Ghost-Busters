@@ -10,7 +10,7 @@ const Navbar = () => {
     <>
       <Nav>
 
-        <NavLink to='/Dashboard/:id'>
+        <NavLink to='/'>
           <h2>Dashboard</h2>
         </NavLink>
 

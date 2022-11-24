@@ -5,7 +5,7 @@ import { useParams } from 'react-router-dom';
 // @mui
 import { useTheme } from '@mui/material/styles';
 import {Grid, Container} from '@mui/material';
-// sections
+// dashboard UI components
 import {
     AppGhostMeter,
     AppGhostGraph,
@@ -13,7 +13,7 @@ import {
     AppCounter,
     AppBarGraph,
 } from '../components/dashboard-components/app';
-// components
+// other components
 import SelectProject from "../components/SelectProject";
 import AnalyseProject from "../components/AnalyseProject";
 import Navbar from "../components/Navbar";
@@ -23,6 +23,8 @@ import AnalyseProjectDataService from "../services/AnalyseProjectDataService"
 
 
 export default function Dashboard() {
+    // Analysing the project
+    // ----------------------------------------------------------------------
     const {id} = useParams()
 
     const initialDataState = {
@@ -53,33 +55,54 @@ export default function Dashboard() {
         getAnalysedData(id)
     }, []);
 
-    const theme = useTheme();
+    // Setting data for the graph according the current selected project
+    // ----------------------------------------------------------------------
+    let chartLabels =
+        [
+            '01/01/2003',
+            '02/01/2003',
+            '03/01/2003',
+            '04/01/2003',
+            '05/01/2003',
+            '06/01/2003',
+            '07/01/2003',
+            '08/01/2003',
+            '09/01/2003',
+            '10/01/2003'
+        ]
+    let chartData;
+    let currentReason;
 
     // The current counter (reason why the user left a chat) is selected when a Creator clicks on the card
     const [currentCounter, setCounter] = useState('Privacy Concerns')
 
-    const reasons = [
-        'Privacy Concerns',
-        'Unsatisfactory Solutions',
-        'Chatbot Repetitions',
-        'Lengthy Chat Durations',
-        'Live Agent Requests'
-    ]
-
     // The data for the graph is chosen based on the current counter
     switch(currentCounter) {
         case 'Unsatisfactory Solutions':
-
+            chartData = [5, 5, 5, 5, 5, 5, 5, 5, 5, 5]
+            currentReason = 'Unsatisfactory Solutions'
+            break
         case 'Chatbot Repetitions':
-
+            chartData = [4, 4, 4, 4, 4, 4, 4, 4, 4, 4]
+            currentReason ='Chatbot Repetitions'
+            break
         case 'Lengthy Chat Durations':
-
+            chartData = [3, 3, 3, 3, 3, 3, 3, 3, 3, 3]
+            currentReason = 'Lengthy Chat Durations'
+            break
         case 'Live Agent Requests':
-
+            chartData = [2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
+            currentReason = 'Live Agent Requests'
+            break
         default:
-
+            chartData = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+            currentReason = 'Privacy Concerns'
+            break
     }
 
+    // Returning the Dashboard UI
+    // ----------------------------------------------------------------------
+    const theme = useTheme();
 
     return (
         <div>
@@ -130,27 +153,15 @@ export default function Dashboard() {
 
                     <Grid item xs={12} md={6} lg={8}>
                         <AppGhostGraph
-                            title="Privacy Concerns"
+                            title={currentReason}
                             subheader="(+43%) than last year"
-                            chartLabels={[
-                                '01/01/2003',
-                                '02/01/2003',
-                                '03/01/2003',
-                                '04/01/2003',
-                                '05/01/2003',
-                                '06/01/2003',
-                                '07/01/2003',
-                                '08/01/2003',
-                                '09/01/2003',
-                                '10/01/2003',
-                                '11/01/2003',
-                            ]}
+                            chartLabels={chartLabels}
                             chartData={[
                                 {
-                                    name: 'Team A',
+                                    name: 'Users Leaving',
                                     type: 'column',
                                     fill: 'solid',
-                                    data: [23, 11, 22, 27, 13, 22, 37, 21, 44, 22, 30],
+                                    data: chartData, // [23, 11, 22, 27, 13, 22, 37, 21, 44, 22, 30],
                                 },
                                 {
                                     name: 'Team B',
@@ -171,20 +182,22 @@ export default function Dashboard() {
                     {/*GhostMeter*/}
                     <Grid item xs={12} md={6} lg={4}>
                         <AppGhostMeter
-                            title="GhostMeter"
+                            title="Satisfaction Meter"
                             chartData={[
-                                { label: 'Privacy Concerns', value: 4344 },
-                                { label: 'Unsatisfactory Solutions', value: 5435 },
-                                { label: 'Chatbot Repetitions', value: 1443 },
-                                { label: 'Lengthy Chat Durations', value: 4443 },
-                                { label: 'Live Agent Requests', value: 4443 },
+                                // { label: 'Privacy Concerns', value: 4344 },
+                                // { label: 'Unsatisfactory Solutions', value: 5435 },
+                                // { label: 'Chatbot Repetitions', value: 1443 },
+                                // { label: 'Lengthy Chat Durations', value: 4443 },
+                                // { label: 'Live Agent Requests', value: 4443 },
+                                { label: 'Satisfied with chatbot', value: 443 },
+                                { label: 'Unsatisfied', value: 12 },
                             ]}
                             chartColors={[
-                                theme.palette.error.light,
-                                theme.palette.warning.light,
+                                // theme.palette.warning.light,
                                 theme.palette.success.light,
-                                theme.palette.info.light,
-                                theme.palette.secondary.light,
+                                theme.palette.error.light,
+                                // theme.palette.info.light,
+                                // theme.palette.secondary.light,
                             ]}
                         />
                     </Grid>
@@ -208,7 +221,7 @@ export default function Dashboard() {
                     {/*    />*/}
                     {/*</Grid>*/}
 
-                    <Grid item xs={12} md={6} lg={4}>
+                    <Grid item xs={12} md={6} lg={6}>
                         <AppIndexCard
                             title="Miscellaneous"
                             list={[

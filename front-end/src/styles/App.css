@@ -94,9 +94,6 @@ label {
 /* Buttons
    ========================================================================== */
 counterButton {
-  border: none;
-  padding: 15px 32px;
-  background-color: #ffffff;
   cursor: pointer;
 }
 

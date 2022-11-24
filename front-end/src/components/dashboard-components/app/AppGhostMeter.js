@@ -71,7 +71,7 @@ export default function AppGhostMeter({ title, subheader, chartColors, chartData
       <CardHeader title={title} subheader={subheader} />
 
       <StyledChartWrapper dir="ltr">
-        <ReactApexChart type="pie" series={chartSeries} options={chartOptions} height={280} />
+        <ReactApexChart type="donut" series={chartSeries} options={chartOptions} height={280} />
       </StyledChartWrapper>
     </Card>
   );

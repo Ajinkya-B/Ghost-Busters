@@ -1,4 +1,4 @@
-//
+// The Dashboard page that is displayed when a Voiceflow Creator selects a project
 
 import React, { useState, useEffect } from "react";
 import { Helmet } from 'react-helmet-async';

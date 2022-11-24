@@ -87,7 +87,3 @@ export function isHumanInteraction(dialogues){
     }
     return false;
 }
-
-
-
-

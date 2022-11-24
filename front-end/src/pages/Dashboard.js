@@ -20,6 +20,7 @@ import Navbar from "../components/Navbar";
 import Iconify from "../components/dashboard-components/app-components/iconify";
 // etc.
 import AnalyseProjectDataService from "../services/AnalyseProjectDataService"
+import {concat} from "lodash";
 
 
 export default function Dashboard() {
@@ -72,6 +73,9 @@ export default function Dashboard() {
         ]
     let chartData;
     let currentReason;
+    //
+    let totalUsers;
+    let totalUsersLeaving;
 
     // The current counter (reason why the user left a chat) is selected when a Creator clicks on the card
     const [currentCounter, setCounter] = useState('Privacy Concerns')
@@ -158,19 +162,19 @@ export default function Dashboard() {
                             chartLabels={chartLabels}
                             chartData={[
                                 {
-                                    name: 'Users Leaving',
+                                    name: 'Users Leaving due to '.concat(currentReason),
                                     type: 'column',
                                     fill: 'solid',
                                     data: chartData, // [23, 11, 22, 27, 13, 22, 37, 21, 44, 22, 30],
                                 },
                                 {
-                                    name: 'Team B',
+                                    name: 'Total Users',
                                     type: 'area',
                                     fill: 'gradient',
                                     data: [44, 55, 41, 67, 22, 43, 21, 41, 56, 27, 43],
                                 },
                                 {
-                                    name: 'Team C',
+                                    name: 'Total Users Leaving',
                                     type: 'line',
                                     fill: 'solid',
                                     data: [30, 25, 36, 30, 45, 35, 64, 52, 59, 36, 39],

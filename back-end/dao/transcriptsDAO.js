@@ -10,7 +10,7 @@ export default class TranscriptsDAO {
    * @param filters : A object full of querry filters that you can apply when you get the data
    * @returns : A list of talk steps for a transcript
    */
-  static async getTranscripts({
+  async getTranscripts({
     filters = null
   } = {}) 
   {

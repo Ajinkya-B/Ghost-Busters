@@ -3,7 +3,7 @@ import ProjectsDAO from "../dao/projectsDAO.js";
 
 export default class ProjectsService {
     // Initializing a projects dao so that there is no need to use static in ProjectsDAO.
-    static #ProjectsDAO = new ProjectsDAO;
+    static #ProjectsDAO = new ProjectsDAO();
 
     /**
      * Creates a new project and returns the status.

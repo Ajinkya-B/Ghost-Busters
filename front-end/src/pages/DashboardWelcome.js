@@ -34,7 +34,6 @@ function DashboardWelcomeMessage() {
             </Button>
         </div>
     )
-
 }
 
 export default function DashboardWelcomePage() {

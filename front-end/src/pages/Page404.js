@@ -1,3 +1,5 @@
+// This is an error page that is displayed when an incorrect URL is accessed.
+
 import React from "react";
 import { Helmet } from 'react-helmet-async';
 import { Link as RouterLink } from 'react-router-dom';

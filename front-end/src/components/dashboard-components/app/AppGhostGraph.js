@@ -1,3 +1,5 @@
+// This component displays the dashboard's graph.
+
 import React from "react";
 import PropTypes from 'prop-types';
 import ReactApexChart from 'react-apexcharts';
@@ -6,8 +8,8 @@ import { Card, CardHeader, Box } from '@mui/material';
 // components
 import {useChart} from "../app-components/chart";
 
-// ----------------------------------------------------------------------
 
+// Parameters for the graph
 AppGhostGraph.propTypes = {
   title: PropTypes.string,
   subheader: PropTypes.string,
@@ -16,6 +18,7 @@ AppGhostGraph.propTypes = {
 };
 
 export default function AppGhostGraph({ title, subheader, chartLabels, chartData, ...other }) {
+  // Configuring the graph
   const chartOptions = useChart({
     plotOptions: { bar: { columnWidth: '16%' } },
     fill: { type: chartData.map((i) => i.fill) },

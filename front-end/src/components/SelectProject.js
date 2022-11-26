@@ -1,12 +1,9 @@
+// This component displays the selected project name on the dashboard.
+
 import React, {useState, useEffect} from "react";
-import ProjectDataService from "../services/ProjectDataService";
-import {Link} from "react-router-dom";
 import {useParams} from 'react-router-dom';
-import axios from "axios";
-
+import ProjectDataService from "../services/ProjectDataService";
 import TranscriptDataService from "../services/TranscriptDataService";
-
-
 
 
 const Project = props => {
@@ -23,19 +20,15 @@ const Project = props => {
     const [project, setProject] = useState(initialProjectState);
 
     const getProject = id => {
-
         ProjectDataService.get(id)
             .then(response => {
                 setProject(response.data);
                 let values = [response.data.api_key, response.data.project_id]
-
                 TranscriptDataService.storeCredentials(values).then(r => {})
             })
             .catch(e => {
                 console.log(e);
             });
-
-
     };
 
     useEffect(() => {
@@ -50,7 +43,6 @@ const Project = props => {
                     <p>
                         {/*<strong>API_KEY: </strong>{project.api_key}<br/>*/}
                         {/*<strong>PROJECT_ID: </strong>{project.project_id}<br/>*/}
-
                     </p>
                 </div>
             ) : (

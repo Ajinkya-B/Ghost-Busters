@@ -1,3 +1,6 @@
+// This component displays the counters (i.e., the reasons why users are leaving chatbots and
+// the number of users who left).
+
 import React from "react";
 // @mui
 import PropTypes from 'prop-types';
@@ -8,8 +11,8 @@ import {fShortenNumber, fNumber} from "../utils/formatNumber";
 // components
 import Iconify from "../app-components/iconify";
 
-// ----------------------------------------------------------------------
 
+// The icons in a counter
 const StyledIcon = styled('div')(({ theme }) => ({
   margin: 'auto',
   display: 'flex',
@@ -21,8 +24,7 @@ const StyledIcon = styled('div')(({ theme }) => ({
   marginBottom: theme.spacing(3),
 }));
 
-// ----------------------------------------------------------------------
-
+// Parameters for a counter
 AppCounter.propTypes = {
   color: PropTypes.string,
   icon: PropTypes.string,

@@ -1,3 +1,6 @@
+// This component is the table of projects shown on the Manage Projects page.
+// It also allows the Voiceflow Creator to delete and select projects.
+
 import React, { useState, useEffect } from "react";
 import ProjectDataService from "../services/ProjectDataService";
 import { NavBtn, BtnSelect, BtnRemove } from "./Elements";
@@ -15,7 +18,6 @@ const TableHeader = () => {
         </thead>
     );
 }
-
 
 export default function ProjectsList() {
     const [projects, setProjects] = useState([]);
@@ -36,15 +38,13 @@ export default function ProjectsList() {
         getProjects()
     }, [])
 
+    // Method to delete a project from the database
     const deleteProject = async (projectName) => {
         console.log(projectName)
         await ProjectDataService.deleteProject(projectName)
         const res = await ProjectDataService.getAllProjects()
         setProjects(res.data)
     }
-
-
-
 
     // The body of the table
     const TableBody = () => {
@@ -68,7 +68,6 @@ export default function ProjectsList() {
         return <tbody>{rows}</tbody>;
     }
 
-
     return (
         <div className='container-fluid'>
             <Table striped bordered hover>
@@ -77,5 +76,4 @@ export default function ProjectsList() {
             </Table>
         </div>
     )
-
 }

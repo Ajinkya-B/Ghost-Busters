@@ -5,7 +5,9 @@ import { NavLink as Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 
-// NAVBAR ELEMENTS
+/* Navbar styling
+   ========================================================================== */
+// The background of the navbar
 export const Nav = styled.nav`
   background: #eee;
   height: 80px;
@@ -18,6 +20,7 @@ export const Nav = styled.nav`
   /* justify-content: flex-start; */
 `;
 
+//
 export const NavLink = styled(Link)`
   color: #000;
   display: flex;
@@ -32,21 +35,7 @@ export const NavLink = styled(Link)`
   }
 `;
 
-export const Bars = styled(FaBars)`
-  display: none;
-  color: #fff;
-
-  @media screen and (max-width: 768px) {
-    display: block;
-    position: absolute;
-    top: 0;
-    right: 0;
-    transform: translate(-100%, 75%);
-    font-size: 1.8rem;
-    cursor: pointer;
-  }
-`;
-
+//
 export const NavMenu = styled.div`
   display: flex;
   align-items: center;
@@ -64,6 +53,7 @@ export const NavMenu = styled.div`
   }
 `;
 
+// Buttons in the navbar
 export const NavBtn = styled.nav`
   display: flex;
   align-items: center;
@@ -78,6 +68,7 @@ export const NavBtn = styled.nav`
   }
 `;
 
+// Buttons in the navbar that link to a different page
 export const NavBtnLink = styled(Link)`
   border-radius: 4px;
   background: #3e81e2;
@@ -99,7 +90,27 @@ export const NavBtnLink = styled(Link)`
   }
 `;
 
-// BUTTONS
+// Inactive button
+export const BtnInactive = styled(Link)`
+  border-radius: 4px;
+  background: #bbb;
+  padding: 10px 18px;
+  color: #fff;
+  outline: none;
+  border: none;
+  cursor: not-allowed;
+  text-decoration: none;
+
+  /* Second Nav */
+  margin-left: 24px;
+
+  }
+`;
+
+
+/* Miscellaneous
+   ========================================================================== */
+// Button for selecting a project
 export const BtnSelect = styled(Link)`
   border-radius: 100000px;
   background: #bbb;
@@ -121,6 +132,7 @@ export const BtnSelect = styled(Link)`
   }
 `;
 
+// Button for removing a project
 export const BtnRemove = styled(Link)`
   border-radius: 100000px;
   background: #bbb;
@@ -139,21 +151,5 @@ export const BtnRemove = styled(Link)`
     // transition: all 0.2s ease-in-out;
     background: #DE4747;
     color: #7F0909;
-  }
-`;
-
-export const BtnInactive = styled(Link)`
-  border-radius: 4px;
-  background: #bbb;
-  padding: 10px 18px;
-  color: #fff;
-  outline: none;
-  border: none;
-  cursor: not-allowed;
-  text-decoration: none;
-
-  /* Second Nav */
-  margin-left: 24px;
-
   }
 `;

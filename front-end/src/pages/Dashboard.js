@@ -13,14 +13,12 @@ import {
     AppCounter,
     AppBarGraph,
 } from '../components/dashboard-components/app';
+import Iconify from "../components/dashboard-components/app-components/iconify";
 // other components
 import SelectProject from "../components/SelectProject";
-import AnalyseProject from "../components/AnalyseProject";
 import Navbar from "../components/Navbar";
-import Iconify from "../components/dashboard-components/app-components/iconify";
 // etc.
-import AnalyseProjectDataService from "../services/AnalyseProjectDataService"
-import {concat} from "lodash";
+import AnalyseProjectDataService from "../services/AnalyseProjectDataService";
 
 
 export default function Dashboard() {
@@ -58,6 +56,9 @@ export default function Dashboard() {
 
     // Setting data for the graph according the current selected project
     // ----------------------------------------------------------------------
+    let currentReason; // current title of graph
+    let currentColor; // current colour of the graph's bars
+    // current labels of graph
     let chartLabels =
         [
             '01/01/2003',
@@ -71,11 +72,9 @@ export default function Dashboard() {
             '09/01/2003',
             '10/01/2003'
         ]
-    let chartData;
-    let currentReason;
-    //
-    let totalUsers;
-    let totalUsersLeaving;
+    let chartData; // current data displayed by graph
+    let totalUsers; // total number of users who used the current chatbot
+    let totalUsersLeaving; // total number of users who left the current chatbot
 
     // The current counter (reason why the user left a chat) is selected when a Creator clicks on the card
     const [currentCounter, setCounter] = useState('Privacy Concerns')
@@ -85,26 +84,31 @@ export default function Dashboard() {
         case 'Unsatisfactory Solutions':
             chartData = [5, 5, 5, 5, 5, 5, 5, 5, 5, 5]
             currentReason = 'Unsatisfactory Solutions'
+            currentColor = '#FFE16A'
             break
         case 'Chatbot Repetitions':
             chartData = [4, 4, 4, 4, 4, 4, 4, 4, 4, 4]
             currentReason ='Chatbot Repetitions'
+            currentColor = '#BAF27F'
             break
         case 'Lengthy Chat Durations':
             chartData = [3, 3, 3, 3, 3, 3, 3, 3, 3, 3]
             currentReason = 'Lengthy Chat Durations'
+            currentColor = '#74CAFF'
             break
         case 'Live Agent Requests':
             chartData = [2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
             currentReason = 'Live Agent Requests'
+            currentColor = '#c9aef3'
             break
         default:
             chartData = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
             currentReason = 'Privacy Concerns'
+            currentColor = '#FFA48D'
             break
     }
 
-    // Returning the Dashboard UI
+    // Displaying the Dashboard UI
     // ----------------------------------------------------------------------
     const theme = useTheme();
 
@@ -165,25 +169,28 @@ export default function Dashboard() {
                                     name: 'Users Leaving due to '.concat(currentReason),
                                     type: 'column',
                                     fill: 'solid',
+                                    color: currentColor,
                                     data: chartData, // [23, 11, 22, 27, 13, 22, 37, 21, 44, 22, 30],
                                 },
                                 {
                                     name: 'Total Users',
                                     type: 'area',
                                     fill: 'gradient',
+                                    color: '#A9A9A9',
                                     data: [44, 55, 41, 67, 22, 43, 21, 41, 56, 27, 43],
                                 },
                                 {
                                     name: 'Total Users Leaving',
                                     type: 'line',
                                     fill: 'solid',
+                                    color: '#2F4F4F',
                                     data: [30, 25, 36, 30, 45, 35, 64, 52, 59, 36, 39],
                                 },
                             ]}
                         />
                     </Grid>
 
-                    {/*GhostMeter*/}
+                    {/*Satisfaction Meter*/}
                     <Grid item xs={12} md={6} lg={4}>
                         <AppGhostMeter
                             title="Satisfaction Meter"
@@ -225,13 +232,14 @@ export default function Dashboard() {
                     {/*    />*/}
                     {/*</Grid>*/}
 
+                    {/*Miscellaneous data*/}
                     <Grid item xs={12} md={6} lg={6}>
                         <AppIndexCard
                             title="Miscellaneous"
                             list={[
                                 {
-                                    name: 'Average Chat Duration (in milliseconds)',
-                                    value: analysedData.avg_duration_time,
+                                    name: 'Average Chat Duration (in seconds)',
+                                    value: Math.floor(analysedData.avg_duration_time / 1000),
                                     icon: <Iconify icon={'eva:clock-outline'} color="#1877F2" width={32} />,
                                 },
                                 {

@@ -1,3 +1,5 @@
+// This component displays a bar graph.
+
 import React from "react";
 import PropTypes from 'prop-types';
 import ReactApexChart from 'react-apexcharts';
@@ -8,7 +10,6 @@ import {fNumber} from "../utils/formatNumber";
 // components
 import {useChart} from "../app-components/chart";
 
-// ----------------------------------------------------------------------
 
 AppBarGraph.propTypes = {
   title: PropTypes.string,
@@ -17,10 +18,12 @@ AppBarGraph.propTypes = {
 };
 
 export default function AppBarGraph({ title, subheader, chartData, ...other }) {
+  // This creates the x-axis labels
   const chartLabels = chartData.map((i) => i.label);
 
   const chartSeries = chartData.map((i) => i.value);
 
+  // Configuring the bar graph
   const chartOptions = useChart({
     tooltip: {
       marker: { show: false },

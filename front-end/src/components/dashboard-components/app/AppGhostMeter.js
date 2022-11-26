@@ -1,3 +1,5 @@
+// This component displays the satisfaction meter on the dashboard.
+
 import React from "react";
 import PropTypes from 'prop-types';
 import ReactApexChart from 'react-apexcharts';
@@ -9,7 +11,6 @@ import {fNumber} from "../utils/formatNumber";
 // components
 import {useChart} from "../app-components/chart";
 
-// ----------------------------------------------------------------------
 
 const CHART_HEIGHT = 372;
 const LEGEND_HEIGHT = 72;
@@ -30,8 +31,7 @@ const StyledChartWrapper = styled('div')(({ theme }) => ({
   },
 }));
 
-// ----------------------------------------------------------------------
-
+// Parameters for the satisfaction meter
 AppGhostMeter.propTypes = {
   title: PropTypes.string,
   subheader: PropTypes.string,
@@ -42,10 +42,13 @@ AppGhostMeter.propTypes = {
 export default function AppGhostMeter({ title, subheader, chartColors, chartData, ...other }) {
   const theme = useTheme();
 
+  // This creates the x-axis labels
   const chartLabels = chartData.map((i) => i.label);
 
+  // Inputting the data into the meter
   const chartSeries = chartData.map((i) => i.value);
 
+  // Configuring the meter
   const chartOptions = useChart({
     colors: chartColors,
     labels: chartLabels,
@@ -70,6 +73,7 @@ export default function AppGhostMeter({ title, subheader, chartColors, chartData
     <Card {...other}>
       <CardHeader title={title} subheader={subheader} />
 
+      {/* The meter is actually a donut chart! :) */}
       <StyledChartWrapper dir="ltr">
         <ReactApexChart type="donut" series={chartSeries} options={chartOptions} height={280} />
       </StyledChartWrapper>

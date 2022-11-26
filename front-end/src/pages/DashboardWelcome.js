@@ -42,6 +42,7 @@ export default function DashboardWelcomePage() {
         "background-repeat": "no-repeat",
         "background-position": "left",
         "background-color": "#f7f7f7",
+        overflowY: "scroll",
         position: "absolute",
         height: "100%",
         width: "100%"

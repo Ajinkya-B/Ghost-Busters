@@ -50,6 +50,10 @@ export default class AddProject extends Component {
         })
     }
 
+    submitSuccess() {
+        return true
+    }
+
     /**
      * Submit inputs to MongoDB.
      * @param event
@@ -67,6 +71,7 @@ export default class AddProject extends Component {
 
         ProjectDataService.createProject(addedProject)
             .then(response => console.log(response.data))
+            this.submitSuccess()
 
         // Reset the form after submission
         this.setState({

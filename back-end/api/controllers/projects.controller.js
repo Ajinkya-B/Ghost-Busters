@@ -86,8 +86,8 @@ export default class ProjectsController {
         let filters = {};
         if (req.query.project_name) {
             filters.project_name = req.query.project_name;
-        } else if (req.query.project_id) {
-            filters.project_id = req.query.project_id;
+        } else if (req.query.version_id) {
+            filters.version_id = req.query.version_id;
         }
 
         const getAllProjectsResponse = await ProjectsService.getFilteredProjects({

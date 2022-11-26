@@ -46,8 +46,8 @@ export default class ProjectsService {
             if (filters) {
                 if ("project_name" in filters) {
                     query = {project_name: {$eq: filters["project_name"]}};
-                } else if ("project_id" in filters) {
-                    query = {project_id: {$eq: filters["project_id"]}};
+                } else if ("version_id" in filters) {
+                    query = {version_id: {$eq: filters["version_id"]}};
                 }
             }
             const response = await this.#ProjectsDAO.getProjects(query);
@@ -80,7 +80,7 @@ export default class ProjectsService {
     }
 
     /**
-     * If succuess, returns status and project details of the project with project_id id.
+     * If success, returns status and project details of the project with the version_id.
      * Otherwise, returns status failure and empty array.
      * @param id
      * @returns {Promise<{data: *, status: string}|{data: *[], status: string}>}

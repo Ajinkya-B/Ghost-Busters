@@ -1,15 +1,6 @@
-// module.exports = {
-//     preset: 'ts-jest',
-//     transform: {
-//         '^.+\\.(ts|tsx)?$': 'ts-jest',
-//         "^.+\\.(js|jsx)$": "babel-jest",
-//     },
-//     collectCoverage: true,
-//     collectCoverageFrom: ['src/components/**/*.{js,jsx}', 'src/services/*.{js,jsx}'],
-//     coverageDirectory: 'coverage',
-//     testEnvironment: 'jsdom',
-//     setupFilesAfterEnv: ['./src/setupTests.js'],
-//     moduleNameMapper: {
-//         '^.+\\.svg$': 'jest-svg-transformer'
-//     }
-// }
+module.exports = {
+    moduleNameMapper: {
+        "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/assetsTransformer.cjs",
+        "\\.(css|less)$": "<rootDir>/assetsTransformer.cjs"
+    }
+};

@@ -85,13 +85,13 @@ export default class ProjectsDAO {
                     $lookup: {
                         from: "text transcripts",
                         let: {
-                            id: "$project_id",
+                            id: "$version_id",
                         },
                         pipeline: [
                             {
                                 $match: {
                                     $expr: {
-                                        $eq: ["$project_id", "$$id"],
+                                        $eq: ["$version_id", "$$id"],
                                     },
                                 },
                             },
@@ -103,13 +103,13 @@ export default class ProjectsDAO {
                     $lookup: {
                         from: "transcripts",
                         let: {
-                            id: "$project_id",
+                            id: "$version_id",
                         },
                         pipeline: [
                             {
                                 $match: {
                                     $expr: {
-                                        $eq: ["$project_id", "$$id"],
+                                        $eq: ["$version_id", "$$id"],
                                     },
                                 },
                             },

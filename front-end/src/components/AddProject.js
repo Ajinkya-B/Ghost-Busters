@@ -1,7 +1,7 @@
-// This component allows the user to create a new project.
-// It is visible on the Manage Project page.
+// This component allows the user to create a new project,
+// and is visible on the Manage Project page.
 
-import React, {Component, useEffect} from 'react';
+import React, { Component } from 'react';
 import ProjectDataService from "../services/ProjectDataService";
 
 
@@ -68,7 +68,7 @@ export default class AddProject extends Component {
         ProjectDataService.createProject(addedProject)
             .then(response => console.log(response.data))
 
-        // Reset THE form after submission
+        // Reset the form after submission
         this.setState({
             project_name:'',
             version_id:'',
@@ -108,6 +108,7 @@ export default class AddProject extends Component {
                                value={this.state.api_key}
                                className='form-control form-group'
                         />
+
                         {/* SUBMIT BUTTON */}
                         <input type='submit'
                                className='btn btn-primary btn-block'

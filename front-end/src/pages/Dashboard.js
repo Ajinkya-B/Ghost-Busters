@@ -1,39 +1,125 @@
-import React from "react";
-import { Helmet } from 'react-helmet-async';
-import { faker } from '@faker-js/faker';
+// The Dashboard page that is displayed when a Voiceflow Creator selects a project
+
+import React, { useState, useEffect } from "react";
+import { useParams } from 'react-router-dom';
 // @mui
 import { useTheme } from '@mui/material/styles';
-import { Grid, Container, Typography } from '@mui/material';
-// components
-import Iconify from "../dashboard/components/iconify";
-// sections
+import {Grid, Container} from '@mui/material';
+// dashboard UI components
 import {
-    AppOrderTimeline,
     AppGhostMeter,
     AppGhostGraph,
-    AppTrafficBySite,
+    AppIndexCard,
     AppCounter,
-    AppConversionRates,
-} from '../dashboard/app';
-
+    AppBarGraph,
+} from '../components/dashboard-components/app';
+import Iconify from "../components/dashboard-components/app-components/iconify";
+// other components
 import SelectProject from "../components/SelectProject";
 import Navbar from "../components/Navbar";
+// etc.
+import AnalyseProjectDataService from "../services/AnalyseProjectDataService";
 
 
 export default function Dashboard() {
+    // Analysing the project
+    // ----------------------------------------------------------------------
+    const {id} = useParams()
+
+    const initialDataState = {
+        avg_duration_text: 0,
+        avg_duration_time: 0,
+        total_users_quit: 0,
+        reasons: {
+            privacy: 0,
+            no_solution: 0,
+            human_interaction: 0,
+            other: 0
+        }
+    };
+
+    const [analysedData, setAnalysedData] = useState(initialDataState);
+
+    const getAnalysedData = id => {
+        AnalyseProjectDataService.analyseProject(id)
+            .then(response => {
+                setAnalysedData(response.data);  // or setAnalysedData({analysedData: response.data})
+            })
+            .catch(e => {
+                console.log(e);
+            });
+    };
+
+    useEffect(() => {
+        getAnalysedData(id)
+    }, []);
+
+    // Setting data for the graph according the current selected project
+    // ----------------------------------------------------------------------
+    let currentReason; // current title of graph
+    let currentColor; // current colour of the graph's bars
+    // current labels of graph
+    let chartLabels =
+        [
+            '01/01/2003',
+            '02/01/2003',
+            '03/01/2003',
+            '04/01/2003',
+            '05/01/2003',
+            '06/01/2003',
+            '07/01/2003',
+            '08/01/2003',
+            '09/01/2003',
+            '10/01/2003'
+        ]
+    let chartData; // current data displayed by graph
+    let totalUsers; // total number of users who used the current chatbot
+    let totalUsersLeaving; // total number of users who left the current chatbot
+
+    // The current counter (reason why the user left a chat) is selected when a Creator clicks on the card
+    const [currentCounter, setCounter] = useState('Privacy Concerns')
+
+    // The data for the graph is chosen based on the current counter
+    switch(currentCounter) {
+        case 'Unsatisfactory Solutions':
+            chartData = [5, 5, 5, 5, 5, 5, 5, 5, 5, 5]
+            currentReason = 'Unsatisfactory Solutions'
+            currentColor = '#FFE16A'
+            break
+        case 'Chatbot Repetitions':
+            chartData = [4, 4, 4, 4, 4, 4, 4, 4, 4, 4]
+            currentReason ='Chatbot Repetitions'
+            currentColor = '#BAF27F'
+            break
+        case 'Lengthy Chat Durations':
+            chartData = [3, 3, 3, 3, 3, 3, 3, 3, 3, 3]
+            currentReason = 'Lengthy Chat Durations'
+            currentColor = '#74CAFF'
+            break
+        case 'Live Agent Requests':
+            chartData = [2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
+            currentReason = 'Live Agent Requests'
+            currentColor = '#c9aef3'
+            break
+        default:
+            chartData = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+            currentReason = 'Privacy Concerns'
+            currentColor = '#FFA48D'
+            break
+    }
+
+    // Displaying the Dashboard UI
+    // ----------------------------------------------------------------------
     const theme = useTheme();
 
     return (
         <div>
-            <Helmet>
-                <title> Ghostboard </title>
-            </Helmet>
-
             <Navbar />
             <br />
 
             <Container maxWidth="xl">
                 <SelectProject />
+                {/*<AnalyseProject />*/}
 
                 {/*<Typography variant="h5" sx={{ mb: 5 }}>*/}
                 {/*    Analytics for {projectName}*/}
@@ -42,148 +128,131 @@ export default function Dashboard() {
                 {/*COUNTERS*/}
                 <Grid container spacing={4}>
                     <Grid item xs={10} sm={1} md={2.3}>
-                        <AppCounter title="Privacy Concerns" total={714000} icon={'ant-design:android-filled'} />
+                        <counterButton onClick={() => setCounter('Privacy Concerns')}>
+                            <AppCounter title="Privacy Concerns" total={analysedData.reasons.privacy} color="error" icon={'ant-design:key-outlined'} />
+                        </counterButton>
                     </Grid>
 
                     <Grid item xs={10} sm={1} md={2.3}>
-                        <AppCounter title="Unsatisfactory Solutions" total={1352831} color="info" icon={'ant-design:frown-outline'} />
+                        <counterButton onClick={() => setCounter('Unsatisfactory Solutions')}>
+                            <AppCounter title="Unsatisfactory Solutions" total={analysedData.reasons.no_solution} color="warning" icon={'ant-design:frown-outline'} />
+                        </counterButton>
                     </Grid>
 
                     <Grid item xs={10} sm={1} md={2.3}>
-                        <AppCounter title="Chatbot Repetitions" total={1723315} color="warning" icon={'ant-design:windows-filled'} />
+                        <counterButton onClick={() => setCounter('Chatbot Repetitions')}>
+                            <AppCounter title="Chatbot Repetitions" total={111} color="success" icon={'ant-design:comment-outlined'} />
+                        </counterButton>
                     </Grid>
 
                     <Grid item xs={10} sm={1} md={2.3}>
-                        <AppCounter title="Lengthy Chat Durations" total={45235} color="error" icon={'ant-design:bug-filled'} />
+                        <counterButton onClick={() => setCounter('Lengthy Chat Durations')}>
+                            <AppCounter title="Lengthy Chat Durations" total={111} color="info" icon={'ant-design:field-time-outlined'} />
+                        </counterButton>
                     </Grid>
 
                     <Grid item xs={10} sm={1} md={2.3}>
-                        <AppCounter title="Live Agent Requests" total={234} color="error" icon={'ant-design:bug-filled'} />
+                        <counterButton onClick={() => setCounter('Live Agent Requests')}>
+                            <AppCounter title="Live Agent Requests" total={analysedData.reasons.human_interaction} color="secondary" icon={'ant-design:user-outlined'} />
+                        </counterButton>
                     </Grid>
 
                     {/*TODO: Change the graph / make it so that a specific graph appears when you click on a counter*/}
+
                     <Grid item xs={12} md={6} lg={8}>
                         <AppGhostGraph
-                            title="Privacy Concerns"
+                            title={currentReason}
                             subheader="(+43%) than last year"
-                            chartLabels={[
-                                '01/01/2003',
-                                '02/01/2003',
-                                '03/01/2003',
-                                '04/01/2003',
-                                '05/01/2003',
-                                '06/01/2003',
-                                '07/01/2003',
-                                '08/01/2003',
-                                '09/01/2003',
-                                '10/01/2003',
-                                '11/01/2003',
-                            ]}
+                            chartLabels={chartLabels}
                             chartData={[
                                 {
-                                    name: 'Team A',
+                                    name: 'Users Leaving due to '.concat(currentReason),
                                     type: 'column',
                                     fill: 'solid',
-                                    data: [23, 11, 22, 27, 13, 22, 37, 21, 44, 22, 30],
+                                    color: currentColor,
+                                    data: chartData, // [23, 11, 22, 27, 13, 22, 37, 21, 44, 22, 30],
                                 },
                                 {
-                                    name: 'Team B',
+                                    name: 'Total Users',
                                     type: 'area',
                                     fill: 'gradient',
+                                    color: '#A9A9A9',
                                     data: [44, 55, 41, 67, 22, 43, 21, 41, 56, 27, 43],
                                 },
                                 {
-                                    name: 'Team C',
+                                    name: 'Total Users Leaving',
                                     type: 'line',
                                     fill: 'solid',
+                                    color: '#2F4F4F',
                                     data: [30, 25, 36, 30, 45, 35, 64, 52, 59, 36, 39],
                                 },
                             ]}
                         />
                     </Grid>
 
-                    {/*GhostMeter*/}
+                    {/*Satisfaction Meter*/}
                     <Grid item xs={12} md={6} lg={4}>
                         <AppGhostMeter
-                            title="GhostMeter"
+                            title="Satisfaction Meter"
                             chartData={[
-                                { label: 'Privacy Concerns', value: 4344 },
-                                { label: 'Unsatisfactory Solutions', value: 5435 },
-                                { label: 'Chatbot Repetitions', value: 1443 },
-                                { label: 'Lengthy Chat Durations', value: 4443 },
-                                { label: 'Live Agent Requests', value: 4443 },
+                                // { label: 'Privacy Concerns', value: 4344 },
+                                // { label: 'Unsatisfactory Solutions', value: 5435 },
+                                // { label: 'Chatbot Repetitions', value: 1443 },
+                                // { label: 'Lengthy Chat Durations', value: 4443 },
+                                // { label: 'Live Agent Requests', value: 4443 },
+                                { label: 'Satisfied with chatbot', value: 443 },
+                                { label: 'Unsatisfied', value: 12 },
                             ]}
                             chartColors={[
-                                theme.palette.primary.main,
-                                theme.palette.info.main,
-                                theme.palette.warning.main,
-                                theme.palette.error.main,
+                                // theme.palette.warning.light,
+                                theme.palette.success.light,
+                                theme.palette.error.light,
+                                // theme.palette.info.light,
+                                // theme.palette.secondary.light,
                             ]}
                         />
                     </Grid>
 
-                    <Grid item xs={12} md={6} lg={8}>
-                        <AppConversionRates
-                            title="Conversion Rates"
-                            subheader="(+43%) than last year"
-                            chartData={[
-                                { label: 'Italy', value: 400 },
-                                { label: 'Japan', value: 430 },
-                                { label: 'China', value: 448 },
-                                { label: 'Canada', value: 470 },
-                                { label: 'France', value: 540 },
-                                { label: 'Germany', value: 580 },
-                                { label: 'South Korea', value: 690 },
-                                { label: 'Netherlands', value: 1100 },
-                                { label: 'United States', value: 1200 },
-                                { label: 'United Kingdom', value: 1380 },
-                            ]}
-                        />
-                    </Grid>
+                    {/*<Grid item xs={12} md={6} lg={8}>*/}
+                    {/*    <AppBarGraph*/}
+                    {/*        title="Conversion Rates"*/}
+                    {/*        subheader="(+43%) than last year"*/}
+                    {/*        chartData={[*/}
+                    {/*            { label: 'Italy', value: 400 },*/}
+                    {/*            { label: 'Japan', value: 430 },*/}
+                    {/*            { label: 'China', value: 448 },*/}
+                    {/*            { label: 'Canada', value: 470 },*/}
+                    {/*            { label: 'France', value: 540 },*/}
+                    {/*            { label: 'Germany', value: 580 },*/}
+                    {/*            { label: 'South Korea', value: 690 },*/}
+                    {/*            { label: 'Netherlands', value: 1100 },*/}
+                    {/*            { label: 'United States', value: 1200 },*/}
+                    {/*            { label: 'United Kingdom', value: 1380 },*/}
+                    {/*        ]}*/}
+                    {/*    />*/}
+                    {/*</Grid>*/}
 
-
-                    <Grid item xs={12} md={6} lg={4}>
-                        <AppOrderTimeline
-                            title="Order Timeline"
-                            list={[...Array(5)].map((_, index) => ({
-                                id: faker.datatype.uuid(),
-                                title: [
-                                    '1983, orders, $4220',
-                                    '12 Invoices have been paid',
-                                    'Order #37745 from September',
-                                    'New order placed #XF-2356',
-                                    'New order placed #XF-2346',
-                                ][index],
-                                type: `order${index + 1}`,
-                                time: faker.date.past(),
-                            }))}
-                        />
-                    </Grid>
-
-                    <Grid item xs={12} md={6} lg={4}>
-                        <AppTrafficBySite
-                            title="Traffic by Site"
+                    {/*Miscellaneous data*/}
+                    <Grid item xs={12} md={6} lg={6}>
+                        <AppIndexCard
+                            title="Miscellaneous"
                             list={[
                                 {
-                                    name: 'FaceBook',
-                                    value: 323234,
-                                    icon: <Iconify icon={'eva:facebook-fill'} color="#1877F2" width={32} />,
+                                    name: 'Average Chat Duration (in seconds)',
+                                    value: Math.floor(analysedData.avg_duration_time / 1000),
+                                    icon: <Iconify icon={'eva:clock-outline'} color="#1877F2" width={32} />,
                                 },
                                 {
-                                    name: 'Google',
-                                    value: 341212,
-                                    icon: <Iconify icon={'eva:google-fill'} color="#DF3E30" width={32} />,
+                                    name: 'Average Chat Length (by number of texts)',
+                                    value: analysedData.avg_duration_text,
+                                    icon: <Iconify icon={'eva:activity-outline'} color="#1877F2" width={32} />,
                                 },
                                 {
-                                    name: 'Linkedin',
-                                    value: 411213,
-                                    icon: <Iconify icon={'eva:linkedin-fill'} color="#006097" width={32} />,
+                                    name: 'Total Number of Chats Force-quit',
+                                    value: analysedData.total_users_quit,
+                                    icon: <Iconify icon={'eva:message-square-outline'} color="#1877F2" width={32} />,
                                 },
-                                {
-                                    name: 'Twitter',
-                                    value: 443232,
-                                    icon: <Iconify icon={'eva:twitter-fill'} color="#1C9CEA" width={32} />,
-                                },
+
                             ]}
                         />
                     </Grid>

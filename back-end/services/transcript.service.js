@@ -22,9 +22,6 @@ export default class TranscriptService {
         } catch (e) {
             res.json({ status: "failure" });
         }
-
-
-
     }
 
     /**
@@ -103,18 +100,18 @@ export default class TranscriptService {
     static async flushCollection(collection_name, res){
         try {
             if (collection_name === "Parsed"){
-                await TranscriptsDAO.flushDatabase("Parsed")
+                await TranscriptsDAO.flushDatabase()
             }
             if (collection_name === "Text"){
-                await TextTranscriptsDAO.flushDatabase("Text")
+                await TextTranscriptsDAO.flushDatabase()
             }
             res.json({ status: "success" })
         }catch (e) {
             res.json({ status: "failure" })
         }
 
-
     }
 
 
 }
+

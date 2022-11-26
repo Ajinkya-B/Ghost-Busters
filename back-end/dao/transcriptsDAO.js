@@ -1,28 +1,9 @@
 import {MongoClient} from "mongodb";
+import { Transcripts } from "../schema/transcripts-schema.js";
 
 let transcripts
 
 export default class TranscriptsDAO {
-
-  /**
-   * Sets up an initial connection with MongoDB and store sit onto a variable named transcripts
-   * @param conn : mongo client for the database URI
-   * @returns : throws an error if the conenction is nto estabilshed
-   */
-  static async injectDB(conn) {
-    if (transcripts) {
-      return
-    }
-    try {
-        // Connect to a specific database and a specific collection in that database
-      transcripts = await conn.db("VoiceFlowAPIData").collection("Parsed")
-    } catch (e) {
-      console.error(
-        `Unable to establish a collection handle in transcriptsDAO: ${e}`,
-      )
-    }
-  }
-
 
   /**
    * Get a list of all transcripts and the number of transcripts from database
@@ -44,9 +25,7 @@ export default class TranscriptsDAO {
     let cursor
     
     try {
-      cursor = await transcripts
-        .find(query)
-      return cursor.toArray()
+      return await Transcripts.find(query).exec();
     } catch (e) {
       console.error(`Unable to issue find command, ${e}`)
       return []
@@ -67,7 +46,7 @@ export default class TranscriptsDAO {
         transcript_data: transcriptData
       }
 
-      return await transcripts.insertOne(transcriptDoc)
+      return await Transcripts.create(transcriptDoc)
     } catch (e) {
       console.error(`Unable to post transcripts: ${e}`)
       return { error: e }
@@ -75,10 +54,8 @@ export default class TranscriptsDAO {
   }
 
   //A function to clear the database with the given name
-  static async flushDatabase(name){
-    await transcripts.deleteMany({})
+  static async flushDatabase(){
+    await Transcripts.deleteMany({})
   }
-
-
 
 }

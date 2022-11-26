@@ -1,5 +1,5 @@
 import ProjectDAO from "../dao/projectsDAO.js";
-import {avgDurationTime, avgDurationTexts, totalUsersForceQuit, checkReasons} from './AnalyseProjectInteractor.js'
+import AnalyseProjectInteractor from './AnalyseProjectInteractor.js'
 
 export default class AnalyseProjectService {
   static #ProjectDAO = new ProjectDAO;
@@ -14,10 +14,11 @@ export default class AnalyseProjectService {
       let text_transcripts = project.data.text_transcripts;
       let transcripts = project.data.transcripts;
       const reponse = {
-        avg_duration_text: avgDurationTexts(text_transcripts),
-        avg_duration_time: avgDurationTime(transcripts),
-        total_users_quit: totalUsersForceQuit(text_transcripts),
-        reasons: checkReasons(text_transcripts, transcripts),
+        avg_duration_text: AnalyseProjectInteractor.avgDurationTexts(text_transcripts),
+        avg_duration_time: AnalyseProjectInteractor.avgDurationTime(transcripts),
+        total_conversations: AnalyseProjectInteractor.totalConvosPerDay(transcripts),
+        total_users_quit: AnalyseProjectInteractor.totalUsersForceQuit(text_transcripts, transcripts),
+        reasons: AnalyseProjectInteractor.checkReasons(text_transcripts, transcripts)
       };
 
       return {

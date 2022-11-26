@@ -2,6 +2,7 @@ import TranscriptsDAO from "../dao/transcriptsDAO.js";
 import TextTranscriptsDAO from "../dao/textTranscriptsDAO.js";
 import voiceflowAPI from "../helpers/voiceflowAPI.js";
 import transcriptDataFormatter from "../helpers/transcriptDataFormatter.js";
+
 export default class TranscriptService {
   static #TranscriptsDAO = new TranscriptsDAO();
   static #TextTranscriptsDAO = new TextTranscriptsDAO();

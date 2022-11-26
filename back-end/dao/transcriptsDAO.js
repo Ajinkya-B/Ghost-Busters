@@ -1,4 +1,3 @@
-import {MongoClient} from "mongodb";
 import { Transcripts } from "../schema/transcripts-schema.js";
 
 let transcripts

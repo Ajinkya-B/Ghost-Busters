@@ -8,17 +8,7 @@ import "@testing-library/jest-dom";
 import AddProject from "../components/AddProject.js"
 
 describe("AddProject Form", () => {
-    // let props;
-
-    // beforeEach(() => {
-    //     props = {
-    //         project_name: "Project Name Test",
-    //         version_id: "VersionIDTest",
-    //         api_key: "APIKeyTest"
-    //     }
-    // });
-
-    it("should render the basic fields", () => {
+    it("should render the text fields", () => {
         render(<AddProject />);
         expect(screen.getByRole("textbox", { name: /project name/i })).toBeInTheDocument();
         expect(screen.getByRole("textbox", { name: /version id/i })).toBeInTheDocument();

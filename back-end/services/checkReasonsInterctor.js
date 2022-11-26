@@ -89,5 +89,11 @@ export function isHumanInteraction(dialogues){
 }
 
 
+export function isLengthyConvo(l_texts, Q3_texts, l_time, Q3_time){
+    console.log(l_texts, Q3_texts, l_time, Q3_time)
+    if (l_texts > Q3_texts && l_time > Q3_time){
+        return true;
+    }
+    return false;
 
-
+}

@@ -17,7 +17,7 @@ export default class AnalyseProjectService {
         avg_duration_text: avgDurationTexts(text_transcripts),
         avg_duration_time: avgDurationTime(transcripts),
         total_users_quit: totalUsersForceQuit(text_transcripts),
-        reasons: checkReasons(text_transcripts),
+        reasons: checkReasons(text_transcripts, transcripts),
       };
 
       return {

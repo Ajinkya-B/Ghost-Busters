@@ -1,4 +1,4 @@
-import {isPrivacyConcern, isNoSolution, isHumanInteraction} from "./checkReasonsInterctor.js"
+import {isPrivacyConcern, isNoSolution, isHumanInteraction, isLengthyConvo} from "./checkReasonsInterctor.js"
 
 /**
  * Returns whether the user force quit a chat or wasn't satisfied.
@@ -118,8 +118,10 @@ export function getDurationTime(transcript) {
  * @param text_transcript
  * @returns {*[]}
  */
-export function checkReason(text_transcript){
+export function checkReason(text_transcript, Q3_text, transcript, Q3_time){
     let dialogues = text_transcript.dialogue;
+    let l_texts = getDurationTexts(dialogues);
+    let l_time = getDurationTime(transcript.transcript_data);
     let reasons = [];
     if (userForceQuit(dialogues)){
         if (isPrivacyConcern(dialogues)){
@@ -131,9 +133,13 @@ export function checkReason(text_transcript){
         if (isHumanInteraction(dialogues)){
             reasons.push("humaninteraction");
             }
+        if (isLengthyConvo(l_texts, Q3_text, l_time, Q3_time)){
+            reasons.push("lengthyConvo")
+        }
         if (reasons.length == 0){
             reasons.push("other");
         }
+
     }
     return reasons;
 }

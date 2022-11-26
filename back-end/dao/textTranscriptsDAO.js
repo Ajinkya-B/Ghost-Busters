@@ -7,7 +7,7 @@ export default class TextTranscriptsDAO {
    */
   async getTextTranscripts() {
     try {
-      return await TextTranscripts.find().exec();
+      return await TextTranscripts.find();
     } catch (e) {
       return [];
     }

@@ -65,21 +65,6 @@ export default class ProjectsService {
     }
 
     /**
-     *
-     * @param projectName
-     * @param transcript
-     * @returns {Promise<{status: string}>}
-     */
-    static async updateProject(projectName, transcript) {
-        try {
-            await this.#ProjectsDAO.updateProject(projectName, transcript);
-            return {status: "success"};
-        } catch (e) {
-            return {status: "failure"};
-        }
-    }
-
-    /**
      * If succuess, returns status and project details of the project with project_id id.
      * Otherwise, returns status failure and empty array.
      * @param id

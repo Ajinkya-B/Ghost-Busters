@@ -25,7 +25,7 @@ export default class TranscriptsDAO {
     let cursor
     
     try {
-      return await Transcripts.find(query).exec();
+      return await Transcripts.find(query);
     } catch (e) {
       console.error(`Unable to issue find command, ${e}`)
       return []

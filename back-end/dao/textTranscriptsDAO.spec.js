@@ -11,14 +11,9 @@ describe("TextTranscriptsDao", () => {
         dao = newDao;
         jest.clearAllMocks();
     });
-    it("Should correctly get text transcripts", async () => {
+
+    it("Should correctly call find text transcripts", async () => {
         await dao.getTextTranscripts();
         expect(TextTranscripts.find).toHaveBeenCalled();
-    });
-
-    it("Should correctly get the right text trnascripts", async () => {
-        const res = await dao.getTextTranscripts();
-        console.log(res);
-        expect(res !== []).toBe(true);
     });
 });

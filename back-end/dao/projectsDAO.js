@@ -40,28 +40,7 @@ export default class ProjectsDAO {
             });
             return deleteResponse;
         } catch (e) {
-            console.error(`Unable to delete project: ${e}`);
-            return {error: e};
-        }
-    }
-
-
-    /**
-     *
-     * @param projectName
-     * @param transcript
-     * @returns {Promise<{error}|*>}
-     */
-    async updateProject(projectName, transcript) {
-        try {
-            const updateResponse = await projects.updateOne(
-                {project_name: projectName},
-                {$addToSet: {transcripts: transcript}}
-            );
-
-            return updateResponse;
-        } catch (e) {
-            console.error(`Unable to update project: ${e}`);
+            console.error(`Unable to issue delete command, ${e}`);
             return {error: e};
         }
     }
@@ -128,8 +107,7 @@ export default class ProjectsDAO {
             return temp[0];
             // return await Projects.aggregate(pipeline)
         } catch (e) {
-            console.error(`Something went wrong in getProjectByID: ${e}`);
-            throw e;
+            console.error(`Unable to issue aggregate command, ${e}`);
         }
     }
 }

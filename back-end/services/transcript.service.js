@@ -32,14 +32,14 @@ export default class TranscriptService {
     try {
       for (const transcript of response.data) {
         const parsedData = transcriptDataFormatter.cleanData(transcript);
-        const ReviewResponse = await TranscriptsDAO.addTranscript(
+        const ReviewResponse = await this.#TranscriptsDAO.addTranscript(
           project_id,
           parsedData
         );
 
         const formattedTranscript =
           transcriptDataFormatter.cleanTextTranscript(transcript);
-        const res = await TextTranscriptsDAO.addTextTranscript(
+        const res = await this.#TextTranscriptsDAO.addTextTranscript(
           project_id,
           formattedTranscript
         );

@@ -21,9 +21,6 @@ export default class TranscriptsDAO {
         query = { "project_id": { $eq: filters["project_id"] } }
       } 
     }
-
-    let cursor
-    
     try {
       return await Transcripts.find(query);
     } catch (e) {

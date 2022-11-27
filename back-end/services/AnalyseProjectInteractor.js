@@ -77,6 +77,12 @@ class AnalyseProjectInteractor {
 
     }
 
+
+    /**
+     * Returns total conversations the chatbot had with users each day.
+     * @param transcripts
+     * @returns {Object}
+     */
     totalConvosPerDay(transcripts) {
         let l = transcripts.length;
         let map = new Object();
@@ -98,9 +104,10 @@ class AnalyseProjectInteractor {
 
 
     /**
-     * Returns the total numbers of users that force quit chats or weren't provided with satisfatory solutions.
+     * Returns the total numbers of users that force quit chats or weren't provided with satisfatory solutions per day.
      * @param text_transcripts
-     * @returns {number}
+     * @param transcripts
+     * @returns {Object}
      */
     totalUsersForceQuit(text_transcripts, transcripts) {
         let l = text_transcripts.length;
@@ -124,6 +131,12 @@ class AnalyseProjectInteractor {
         return map;
     }
 
+    /**
+     * Return the satisfaction of this chatbot.
+     * @param text_transcripts
+     * @param transcripts
+     * @returns {number}
+     */
     satisfaction(text_transcripts, transcripts){
         let usersQuit = this.totalUsersForceQuit(text_transcripts, transcripts);
         let usersQuitvalues = Object.values(usersQuit);
@@ -139,7 +152,8 @@ class AnalyseProjectInteractor {
     /**
      * Return the no.of users that quit corresponding to each reason.
      * @param text_transcripts
-     * @returns {{other: number, human_interaction: number, no_solution: number, privacy: number}}
+     * @param transcripts
+     * @returns {{other: number, chatbotRepetition: number, human_interaction: number, no_solution: number, privacy: number, lengthy_convo: number}}
      */
     checkReasons(text_transcripts, transcripts) {
         let l_text = text_transcripts.length;

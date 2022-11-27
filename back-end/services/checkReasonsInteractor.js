@@ -1,3 +1,5 @@
+import {hasDuplicates} from "../helpers/analyseProjectHelpers.js"
+
 export const PRIVACY_KEYWORDS = ["provide", "email", "phone", "mobile number",
     "location", "credit card", "driver's licence no.", "driver's licence number", "phone number",
     "sin", "social security number", "address"];
@@ -86,7 +88,14 @@ export function isHumanInteraction(dialogues) {
     return false;
 }
 
-
+/**
+ * Returns whether the conversation is too long.
+ * @param l_texts
+ * @param Q3_texts
+ * @param l_time
+ * @param Q3_time
+ * @returns {boolean}
+ */
 export function isLengthyConvo(l_texts, Q3_texts, l_time, Q3_time) {
     if (l_texts > Q3_texts && l_time > Q3_time) {
         return true;
@@ -95,6 +104,12 @@ export function isLengthyConvo(l_texts, Q3_texts, l_time, Q3_time) {
 
 }
 
+/**
+ * Returns whether the chatbot repeats itself.
+ * @param dialogue
+ * @param transcript_data
+ * @returns {boolean}
+ */
 export function isChatbotRepetition(dialogue, transcript_data) {
     let l = transcript_data.length;
     let temp = false;
@@ -115,15 +130,3 @@ export function isChatbotRepetition(dialogue, transcript_data) {
 }
 
 
-function hasDuplicates(arr) {
-    var counts = [];
-
-    for (var i = 0; i <= arr.length; i++) {
-        if (counts[arr[i]] === undefined) {
-            counts[arr[i]] = 1;
-        } else {
-            return true;
-        }
-    }
-    return false;
-}

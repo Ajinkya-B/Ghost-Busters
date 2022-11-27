@@ -18,16 +18,6 @@ class AnalyseTranscriptInteractor {
         }
         return true;
 
-        // let l = transcript.length;
-        // try {
-        //     if (transcript[l - 1].payload.type === "exit") {
-        //         return false;
-        //     }
-        //     return true;
-        // } catch (e) {
-        //     return true;
-        //
-        // }
     }
 
     /**

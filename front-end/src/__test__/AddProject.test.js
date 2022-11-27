@@ -23,27 +23,27 @@ describe("AddProject form", () => {
 
         // Testing that the input to the Project Name text field gets saved to the state
         const projectNameInput = screen.getByRole("textbox", { name: /project name/i });
-        expect(projectNameInput).toBeEmpty();
+        expect(projectNameInput).toBeEmptyDOMElement();
         userEvent.type(projectNameInput,"Project Name Test");
         expect(screen.getByDisplayValue("Project Name Test")).toBeInTheDocument();
 
         // Testing Project/Version ID text field
         const projectIDInput = screen.getByRole("textbox", { name: /project id/i });
-        expect(projectIDInput).toBeEmpty();
+        expect(projectIDInput).toBeEmptyDOMElement();
         userEvent.type(projectIDInput,"ProjectIDTest");
         expect(screen.getByDisplayValue("ProjectIDTest")).toBeInTheDocument();
 
         // Testing API Key text field
         const apiKeyInput = screen.getByRole("textbox", { name: /api key/i });
-        expect(apiKeyInput).toBeEmpty();
+        expect(apiKeyInput).toBeEmptyDOMElement();
         userEvent.type(apiKeyInput,"ApiKeyTest");
         expect(screen.getByDisplayValue("ApiKeyTest")).toBeInTheDocument();
 
         // Testing Submit button; the form text fields should be empty after submission
         const submitButton = screen.getByRole("button", { name: /submit/i });
         userEvent.click(submitButton);
-        expect(projectNameInput).toBeEmpty();
-        expect(projectIDInput).toBeEmpty();
-        expect(apiKeyInput).toBeEmpty();
+        expect(projectNameInput).toBeEmptyDOMElement();
+        expect(projectIDInput).toBeEmptyDOMElement();
+        expect(apiKeyInput).toBeEmptyDOMElement();
     });
 });

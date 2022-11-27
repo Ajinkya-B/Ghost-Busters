@@ -5,8 +5,9 @@
 import React from "react";
 import "@testing-library/jest-dom";
 import {screen, render} from "@testing-library/react";
-import AddProject from "../components/AddProject.js"
 import userEvent from "@testing-library/user-event";
+import AddProject from "../components/AddProject.js"
+import ProjectsList from "../components/ProjectsList.js";
 
 
 describe("AddProject form", () => {
@@ -46,4 +47,10 @@ describe("AddProject form", () => {
         expect(projectIDInput).toBeEmptyDOMElement();
         expect(apiKeyInput).toBeEmptyDOMElement();
     });
+
+    it('should display the new project on the projects list', () => {
+        window.
+        render(<ProjectsList />)
+        expect(screen.getByText("Project Name Test")).toBeInTheDocument();
+    })
 });

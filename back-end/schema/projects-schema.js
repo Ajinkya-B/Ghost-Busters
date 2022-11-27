@@ -7,7 +7,7 @@ const projectSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    version_id: {
+    project_id: {
         type: String,
         required: true,
     },

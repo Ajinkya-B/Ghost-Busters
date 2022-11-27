@@ -3,20 +3,33 @@
  */
 
 import React from 'react';
-import {render, cleanup} from '@testing-library/react';
+import {fireEvent, render} from '@testing-library/react';
+import {BrowserRouter as Router} from "react-router-dom";
+import {createMemoryHistory} from "history";
 import DashboardWelcome from '../pages/DashboardWelcome.js';
-import {Router} from "react-router-dom";
 
 
-afterEach(cleanup);
-
-// Coming back to this
-// TypeError: Cannot read properties of undefined (reading 'pathname')
-it.skip('should take a snapshot of the welcome page', async () => {
-    const { value } = render(
-        <Router>
-            <DashboardWelcome />
-        </Router>
-    )
-    expect(value(<DashboardWelcome />)).toMatchSnapshot()
+describe('Dashboard Welcome Page', () => {
+    it.skip('should navigate to Manage Projects', () => {
+        const history = createMemoryHistory({initialEntries: ['/']});
+        const {getByText} = render(
+            <Router location={history.location} navigator={history}>
+                <DashboardWelcome />
+            </Router>
+        );
+        expect(history.location.pathname).toBe('/');
+        fireEvent.click(getByText('Click me or "Manage Projects"!'));
+        expect(history.location.pathname).toBe('/ManageProjects');
+    })
+    it.skip('should navigate to Home from the Manage Projects page', () => {
+        const history = createMemoryHistory({initialEntries: ['/ManageProjects']});
+        const {getByText} = render(
+            <Router location={history.location} navigator={history}>
+                <DashboardWelcome />
+            </Router>
+        );
+        expect(history.location.pathname).toBe('/ManageProjects');
+        fireEvent.click(getByText('Home'));
+        expect(history.location.pathname).toBe('/');
+    })
 })

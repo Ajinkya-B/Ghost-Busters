@@ -15,7 +15,7 @@ export default class AddProject extends Component {
             transcripts: [],
         }
         this.addProjectName = this.addProjectName.bind(this)
-        this.addVersionID = this.addVersionID.bind(this)
+        this.addProjectID = this.addProjectID.bind(this)
         this.addApiKey = this.addApiKey.bind(this)
         this.onSubmit = this.onSubmit.bind(this)
     }
@@ -34,7 +34,7 @@ export default class AddProject extends Component {
      * A method that stores the project_id value inputted into the state.
      * @param event
      */
-    addVersionID(event) {
+    addProjectID(event) {
         this.setState({
             project_id: event.target.value
         })
@@ -75,6 +75,8 @@ export default class AddProject extends Component {
             api_key:'',
             transcripts: [],
         })
+
+        window.location.reload()
     }
 
     render() {
@@ -95,7 +97,7 @@ export default class AddProject extends Component {
                                aria-label='project id'
                                placeholder='Version ID'
                                id="project_id"
-                               onChange={this.addVersionID}
+                               onChange={this.addProjectID}
                                value={this.state.project_id}
                                className='form-control form-group'
                         />

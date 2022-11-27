@@ -1,4 +1,4 @@
-import {isPrivacyConcern, isNoSolution, isHumanInteraction, isLengthyConvo, isChatbotRepetition} from "./checkReasonsInterctor.js"
+import {isPrivacyConcern, isNoSolution, isHumanInteraction, isLengthyConvo, isChatbotRepetition} from "./checkReasonsInteractor.js"
 
 
 class AnalyseTranscriptInteractor {

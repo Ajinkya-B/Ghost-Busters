@@ -4,10 +4,11 @@ export const PRIVACY_KEYWORDS = ["provide", "email", "phone", "mobile number",
 
 export const NO_SOLUTION_KEYWORDS = ["sorry", "can't help you", "no solution", "don't understand",
     "can't provide solution", "connect to live agent", "live agent", "customer service rep",
-    "agent", "didn't catch that", "could you repeat", "customer service", "representative", "repeat"];
+    "agent", "didn't catch that", "could you repeat", "customer service", "representative", "repeat",
+"support", "assistant", "contact"];
 
-export const HUMAN_INTERAC_KEYWORDS = ["talk to agent", "agent", "human",
-    "customer service rep", "live agent", "customer service", "representative"];
+export const HUMAN_INTERAC_KEYWORDS = ["talk to agent", "agent", "human", "support",
+    "customer service rep", "live agent", "customer service", "representative", "contact", "assistant"];
 
 
 /**

@@ -1,4 +1,4 @@
-import {isPrivacyConcern, isNoSolution, isHumanInteraction, isLengthyConvo} from "./checkReasonsInterctor.js"
+import {isPrivacyConcern, isNoSolution, isHumanInteraction, isLengthyConvo, isChatbotRepetition} from "./checkReasonsInterctor.js"
 
 
 class AnalyseTranscriptInteractor {
@@ -138,6 +138,9 @@ class AnalyseTranscriptInteractor {
             }
             if (isLengthyConvo(l_texts, Q3_text, l_time, Q3_time)) {
                 reasons.push("lengthyConvo")
+            }
+            if (isChatbotRepetition(dialogues, transcript.transcript_data)){
+                reasons.push("chatbotRepetition")
             }
             if (reasons.length == 0) {
                 reasons.push("other");

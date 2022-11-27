@@ -138,6 +138,7 @@ class AnalyseProjectInteractor {
             "no_solution": 0,
             "human_interaction": 0,
             "lengthy_convo": 0,
+            "chatbotRepetition": 0,
             "other": 0
         };
         for (let j = 0; j < l_text; j++) {
@@ -158,6 +159,9 @@ class AnalyseProjectInteractor {
             }
             if (temp.includes("lengthyConvo")) {
                 reasons.lengthy_convo += 1;
+            }
+            if (temp.includes("chatbotRepetition")) {
+                reasons.chatbotRepetition += 1;
             }
             if (temp.includes("other")) {
                 reasons.other += 1;

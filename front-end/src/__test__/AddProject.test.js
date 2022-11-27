@@ -45,6 +45,5 @@ describe("AddProject form", () => {
         expect(projectNameInput).toBeEmpty();
         expect(projectIDInput).toBeEmpty();
         expect(apiKeyInput).toBeEmpty();
-
     });
 });

@@ -8,7 +8,7 @@ import DashboardWelcomePage from "./pages/DashboardWelcome";
 import Dashboard from './pages/Dashboard';
 import ManageProjects from './pages/ManageProjects';
 import Page404 from "./pages/Page404";
-import Navbar from "./components/Navbar.js";
+
 
 class App extends Component {
     render() {

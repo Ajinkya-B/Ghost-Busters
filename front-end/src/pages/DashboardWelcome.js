@@ -38,10 +38,10 @@ function DashboardWelcomeMessage() {
 
 export default function DashboardWelcomePage() {
     const style = {
-        "background-image": `url(${ghost_animation})`,
-        "background-repeat": "no-repeat",
-        "background-position": "left",
-        "background-color": "#f7f7f7",
+        backgroundImage: `url(${ghost_animation})`,
+        backgroundRepeat: "no-repeat",
+        backgroundPosition: "left",
+        backgroundColor: "#f7f7f7",
         overflowY: "scroll",
         position: "absolute",
         height: "100%",

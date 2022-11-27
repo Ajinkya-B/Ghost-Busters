@@ -23,7 +23,7 @@ const Project = props => {
         ProjectDataService.get(id)
             .then(response => {
                 setProject(response.data);
-                let values = [response.data.api_key, response.data.project_id]
+                let values = [response.data.api_key, response.data.version_id]
                 TranscriptDataService.storeCredentials(values).then(r => {})
             })
             .catch(e => {

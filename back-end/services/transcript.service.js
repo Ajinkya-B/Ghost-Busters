@@ -55,9 +55,11 @@ export default class TranscriptService {
    * @param {String} project_id : Contains the current project id
    * @param res json format of the response of the function
    */
-  static async queryForParsedTranscripts(project_id, res) {
+  static async queryForParsedTranscripts(req, res) {
     let filters = {};
-    filters.project_id = project_id;
+    if(req.query.project_id){
+      filters.project_id = project_id;
+    }
 
     const transcriptsList = await this.#TranscriptsDAO.getTranscripts({
       filters,

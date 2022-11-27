@@ -82,15 +82,6 @@ describe("ProjectsDao", () => {
           expect(Projects.find).toHaveBeenCalledWith(query);
         });
 
-        // it("Should console log the things", async () => {
-        //     const fakePayload = { grrr: "meow" };
-        //     Projects.find.mockImplementationOnce(() => {
-        //         return fakePayload;
-        //     });
-        //     const res = await dao.getProjects();
-        //     expect(res).toBe(fakePayload);
-        // });
-
         it("Should correctly throw a console error", async () => {
             console.error = jest.fn();
             Projects.find.mockImplementationOnce(() => {

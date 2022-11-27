@@ -33,7 +33,7 @@ export default class TextTranscriptsDAO {
     }
   }
 
-  static async flushDatabase() {
+  async flushDatabase() {
     await TextTranscripts.deleteMany({});
   }
 }

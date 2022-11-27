@@ -1,7 +1,5 @@
 import { Transcripts } from "../schema/transcripts-schema.js";
 
-let transcripts
-
 export default class TranscriptsDAO {
 
   /**
@@ -35,14 +33,14 @@ export default class TranscriptsDAO {
    * @param {Array} transcriptData : Transcript conversation data
    * @returns 
    */
-  static async addTranscript(projectId, transcriptData) { 
+  async addTranscript(projectId, transcriptData) { 
     try {
       const transcriptDoc = { 
         project_id: projectId,
         transcript_data: transcriptData
       }
 
-      return await Transcripts.create(transcriptDoc)
+      return await Transcripts.create(transcriptDoc);
     } catch (e) {
       console.error(`Unable to post transcripts: ${e}`)
       return { error: e }
@@ -50,7 +48,7 @@ export default class TranscriptsDAO {
   }
 
   //A function to clear the database with the given name
-  static async flushDatabase(){
+  async flushDatabase(){
     await Transcripts.deleteMany({})
   }
 

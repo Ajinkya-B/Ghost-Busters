@@ -10,7 +10,7 @@ export default class AddProject extends Component {
         super()
         this.state = {
             project_name:'',
-            version_id:'',
+            project_id:'',
             api_key:'',
             transcripts: [],
         }
@@ -36,7 +36,7 @@ export default class AddProject extends Component {
      */
     addVersionID(event) {
         this.setState({
-            version_id: event.target.value
+            project_id: event.target.value
         })
     }
 
@@ -64,7 +64,7 @@ export default class AddProject extends Component {
         const addedProject = {
             // The user input received from the fields
             project_name: document.getElementById("project_name").value,
-            version_id: document.getElementById("version_id").value,
+            project_id: document.getElementById("project_id").value,
             api_key: document.getElementById("api_key").value,
             transcripts: this.state.transcripts // This is another way to write the above code
         }
@@ -76,7 +76,7 @@ export default class AddProject extends Component {
         // Reset the form after submission
         this.setState({
             project_name:'',
-            version_id:'',
+            project_id:'',
             api_key:'',
             transcripts: [],
         })
@@ -100,9 +100,9 @@ export default class AddProject extends Component {
                         <input type='text'
                                aria-label='version id'
                                placeholder='Version ID'
-                               id="version_id"
+                               id="project_id"
                                onChange={this.addVersionID}
-                               value={this.state.version_id}
+                               value={this.state.project_id}
                                className='form-control form-group'
                         />
                         <input type='text'

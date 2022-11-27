@@ -4,13 +4,10 @@
 
 import React from "react";
 import "@testing-library/jest-dom";
-import {screen, render, fireEvent, waitFor} from "@testing-library/react";
-import Adapter from 'enzyme-adapter-react-16';
-import {configure, shallow} from 'enzyme';
+import {screen, render, fireEvent} from "@testing-library/react";
 import AddProject from "../components/AddProject.js"
+import userEvent from "@testing-library/user-event";
 
-
-configure({adapter: new Adapter()});
 
 let props;
 
@@ -42,7 +39,7 @@ describe("AddProject form", () => {
                 transcripts: [],
         }
 
-        const renderComponent = shallow(<AddProject {...props} />);
+        const renderComponent = <AddProject {...props} />;
 
         fireEvent.input(screen.getByRole("textbox", { name: /project name/i }), {
             target: { value: "Project Name Test" }
@@ -55,7 +52,8 @@ describe("AddProject form", () => {
         });
         fireEvent.click(screen.getByRole("button", { name: /submit/i }));
 
-        expect(renderComponent.instance().submitSuccess().equals(true))
+        expect(renderComponent.submitSuccess().equals(true))
+
         // The mock function is called twice
         // expect(mockSubmit.mock.calls.length).toBe(1);
 

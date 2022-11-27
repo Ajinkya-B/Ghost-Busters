@@ -18,7 +18,8 @@ export default class AnalyseProjectService {
         avg_duration_time: AnalyseProjectInteractor.avgDurationTime(transcripts),
         total_conversations: AnalyseProjectInteractor.totalConvosPerDay(transcripts),
         total_users_quit: AnalyseProjectInteractor.totalUsersForceQuit(text_transcripts, transcripts),
-        reasons: AnalyseProjectInteractor.checkReasons(text_transcripts, transcripts)
+        reasons: AnalyseProjectInteractor.checkReasons(text_transcripts, transcripts),
+        satisfaction: AnalyseProjectInteractor.satisfaction(text_transcripts, transcripts)
       };
 
       return {

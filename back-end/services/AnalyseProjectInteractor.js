@@ -124,6 +124,18 @@ class AnalyseProjectInteractor {
         return map;
     }
 
+    satisfaction(text_transcripts, transcripts){
+        let usersQuit = this.totalUsersForceQuit(text_transcripts, transcripts);
+        let usersQuitvalues = Object.values(usersQuit);
+        let totalUsers = this.totalConvosPerDay(transcripts);
+        let totalUsersvalues = Object.values(totalUsers);
+        let sumUsersQuit = usersQuitvalues.reduce((b, a) => b + a, 0);
+        let sumTotalUsers = totalUsersvalues.reduce((b, a) => b + a, 0);
+        console.log(sumTotalUsers, sumUsersQuit);
+
+        return (sumTotalUsers - sumUsersQuit)/sumTotalUsers;
+    }
+
     /**
      * Return the no.of users that quit corresponding to each reason.
      * @param text_transcripts

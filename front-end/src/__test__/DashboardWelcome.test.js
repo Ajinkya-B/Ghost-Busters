@@ -9,6 +9,7 @@ import {createMemoryHistory} from "history";
 import DashboardWelcome from '../pages/DashboardWelcome.js';
 
 
+// These aren't working--it's not navigating to the specified page
 describe('Dashboard Welcome Page', () => {
     it.skip('should navigate to Manage Projects', () => {
         const history = createMemoryHistory({initialEntries: ['/']});

@@ -5,7 +5,7 @@ export default class TextTranscriptsDAO {
    * Get an array of all the text transcripts in MongoDB
    * @returns Array of all the text transcripts from the database
    */
-  static async getTextTranscripts() {
+  async getTextTranscripts() {
     try {
       return await TextTranscripts.find().exec();
     } catch (e) {

@@ -11,16 +11,16 @@ export default class ProjectsController {
 ]   */
     static async apiCreateProject(req, res, next) {
         const createUserResult = await ProjectsService.createProject(req.body);
-    switch (createUserResult.status) {
-      case "success":
-        console.log("Project Created!");
-        res.json({ status: "success" });
-        return;
-      case "failure":
-        res.json({ status: "failure" });
-        return;
+        switch (createUserResult.status) {
+        case "success":
+            console.log("Project Created!");
+            res.json({ status: "success" });
+            return;
+        case "failure":
+            res.json({ status: "failure" });
+            return;
+        }
     }
-  }
 
   /**
    * A Delete API for deleting a project object in MongoDB.

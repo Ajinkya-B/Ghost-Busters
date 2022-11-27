@@ -50,10 +50,6 @@ export default class AddProject extends Component {
         })
     }
 
-    submitSuccess() {
-        return true
-    }
-
     /**
      * Submit inputs to MongoDB.
      * @param event
@@ -71,7 +67,6 @@ export default class AddProject extends Component {
 
         ProjectDataService.createProject(addedProject)
             .then(response => console.log(response.data))
-            this.submitSuccess()
 
         // Reset the form after submission
         this.setState({
@@ -80,7 +75,6 @@ export default class AddProject extends Component {
             api_key:'',
             transcripts: [],
         })
-
     }
 
     render() {
@@ -98,7 +92,7 @@ export default class AddProject extends Component {
                                className='form-control form-group'
                         />
                         <input type='text'
-                               aria-label='version id'
+                               aria-label='project id'
                                placeholder='Version ID'
                                id="project_id"
                                onChange={this.addVersionID}

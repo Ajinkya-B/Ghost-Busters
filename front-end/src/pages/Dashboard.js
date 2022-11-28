@@ -57,7 +57,7 @@ export default function Dashboard() {
     const getAnalysedData = id => {
         AnalyseProjectDataService.analyseProject(id)
             .then(response => {
-                setAnalysedData(response.data);  // or setAnalysedData({analysedData: response.data})
+                setAnalysedData(response.data);
             })
             .catch(e => {
                 console.log(e);
@@ -73,7 +73,7 @@ export default function Dashboard() {
     let currentReason; // current title of graph
     let currentColor; // current colour of the graph's bars
     // current labels of graph
-    let chartLabels = Object.keys(analysedData.total_convos_per_day);
+    let chartLabels = ['1','1','1'] //Object.keys(analysedData.total_convos_per_day);
     let chartData; // current data displayed by graph
 
     // The current counter (reason why the user left a chat) is selected when a Creator clicks on the card
@@ -124,31 +124,31 @@ export default function Dashboard() {
                 <Grid container spacing={4}>
                     <Grid item xs={10} sm={1} md={2.3}>
                         <counterButton onClick={() => setCounter('Privacy Concerns')}>
-                            <AppCounter title="Privacy Concerns" total={analysedData.reasons.privacy} color="error" icon={'ant-design:key-outlined'} />
+                            <AppCounter title="Privacy Concerns" total={111} color="error" icon={'ant-design:key-outlined'} />
                         </counterButton>
                     </Grid>
 
                     <Grid item xs={10} sm={1} md={2.3}>
                         <counterButton onClick={() => setCounter('Unsatisfactory Solutions')}>
-                            <AppCounter title="Unsatisfactory Solutions" total={analysedData.reasons.no_solution} color="warning" icon={'ant-design:frown-outline'} />
+                            <AppCounter title="Unsatisfactory Solutions" total={111} color="warning" icon={'ant-design:frown-outline'} />
                         </counterButton>
                     </Grid>
 
                     <Grid item xs={10} sm={1} md={2.3}>
                         <counterButton onClick={() => setCounter('Chatbot Repetitions')}>
-                            <AppCounter title="Chatbot Repetitions" total={analysedData.reasons.chatbotRepetition} color="success" icon={'ant-design:comment-outlined'} />
+                            <AppCounter title="Chatbot Repetitions" total={111} color="success" icon={'ant-design:comment-outlined'} />
                         </counterButton>
                     </Grid>
 
                     <Grid item xs={10} sm={1} md={2.3}>
                         <counterButton onClick={() => setCounter('Lengthy Chat Durations')}>
-                            <AppCounter title="Lengthy Chat Durations" total={analysedData.reasons.lengthy_convo} color="info" icon={'ant-design:field-time-outlined'} />
+                            <AppCounter title="Lengthy Chat Durations" total={111} color="info" icon={'ant-design:field-time-outlined'} />
                         </counterButton>
                     </Grid>
 
                     <Grid item xs={10} sm={1} md={2.3}>
                         <counterButton onClick={() => setCounter('Live Agent Requests')}>
-                            <AppCounter title="Live Agent Requests" total={analysedData.reasons.human_interaction} color="secondary" icon={'ant-design:user-outlined'} />
+                            <AppCounter title="Live Agent Requests" total={111} color="secondary" icon={'ant-design:user-outlined'} />
                         </counterButton>
                     </Grid>
 
@@ -170,14 +170,14 @@ export default function Dashboard() {
                                     type: 'area',
                                     fill: 'gradient',
                                     color: '#A9A9A9',
-                                    data: Object.values(analysedData.total_convos_per_day),
+                                    data: chartData//Object.values(analysedData.total_convos_per_day),
                                 },
                                 {
                                     name: 'Total Users Leaving',
                                     type: 'line',
                                     fill: 'solid',
                                     color: '#2F4F4F',
-                                    data: Object.values(analysedData.total_users_quit_per_day),
+                                    data: chartData//Object.values(analysedData.total_users_quit_per_day),
                                 },
                             ]}
                         />
@@ -188,7 +188,7 @@ export default function Dashboard() {
                         <AppGhostMeter
                             title="Satisfaction Meter"
                             chartData={[
-                                { label: 'Satisfied with chatbot', value: analysedData.num_satisfied_users },
+                                { label: 'Satisfied with chatbot', value: 1},//analysedData.num_satisfied_users },
                                 { label: 'Unsatisfied', value: analysedData.num_unsatisfied_users },
                             ]}
                             chartColors={[
@@ -232,11 +232,11 @@ export default function Dashboard() {
                                     value: analysedData.avg_duration_text,
                                     icon: <Iconify icon={'eva:activity-outline'} color="#1877F2" width={32} />,
                                 },
-                                // {
-                                //     name: 'Total Number of Chats Force-quit',
-                                //     value: analysedData.total_users_quit,
-                                //     icon: <Iconify icon={'eva:message-square-outline'} color="#1877F2" width={32} />,
-                                // },
+                                {
+                                    name: 'Users Quitting due to Other Reasons',
+                                    value: 1,//analysedData.reasons.other,
+                                    icon: <Iconify icon={'eva:message-square-outline'} color="#1877F2" width={32} />,
+                                },
 
                             ]}
                         />

@@ -16,7 +16,6 @@ export default class AnalyseProjectService {
       const response = {
         avg_duration_text: AnalyseProjectInteractor.avgDurationTexts(text_transcripts),
         avg_duration_time: AnalyseProjectInteractor.avgDurationTime(transcripts),
-        total_conversations: AnalyseProjectInteractor.totalConvosPerDay(transcripts),
         total_users_quit_per_day: AnalyseProjectInteractor.totalUsersForceQuitPerDay(text_transcripts, transcripts),
         reasons: AnalyseProjectInteractor.checkReasons(text_transcripts, transcripts)[0],
         num_satisfied_users: AnalyseProjectInteractor.numSatisfiedUsers(text_transcripts, transcripts),

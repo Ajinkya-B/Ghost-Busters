@@ -89,7 +89,7 @@ class AnalyseProjectInteractor {
 
         for (let j = 0; j < l; j++) {
             let transcript = transcripts[j];
-            let date = new Date(transcript.transcript_data[l - 1].startTime.toString().slice(0, 10));
+            let date = new Date(transcript.transcript_data[0].startTime.toString().slice(0, 10));
             let key = date.getMonth().toString() + '/' + date.getDate().toString();
             if (map[key]) {
                 map[key] += 1;
@@ -114,7 +114,7 @@ class AnalyseProjectInteractor {
         for (let j = 0; j < l; j++) {
             let textTranscript = text_transcripts[j];
             let transcript = transcripts[j];
-            let date = new Date(transcript.transcript_data[l - 1].startTime.toString().slice(0, 10));
+            let date = new Date(transcript.transcript_data[0].startTime.toString().slice(0, 10));
             let key = date.getMonth().toString() + '/' + date.getDate().toString();
             if (AnalyseTranscriptInteractor.userForceQuit(textTranscript.dialogue)) {
                 if (map[key]) {
@@ -167,7 +167,7 @@ class AnalyseProjectInteractor {
      * the second contains the number of users that quit corresponding to each reason and a date.
      * @param text_transcripts
      * @param transcripts
-     * @returns {({other: number, chatbotRepetition: number, human_interaction: number, no_solution: number, privacy: number, lengthy_convo: number}|{other: {}, chatbotRepetition: {}, human_interaction: {}, no_solution: {}, privacy: {}, lengthy_convo: {}})[]}
+     * @returns {({other: number, chatbot_repetition: number, human_interaction: number, no_solution: number, privacy: number, lengthy_convo: number}|{other: {}, chatbot_repetition: {}, human_interaction: {}, no_solution: {}, privacy: {}, lengthy_convo: {}})[]}
      */
     checkReasons(text_transcripts, transcripts) {
         let l_text = text_transcripts.length;
@@ -178,7 +178,7 @@ class AnalyseProjectInteractor {
             "no_solution": 0,
             "human_interaction": 0,
             "lengthy_convo": 0,
-            "chatbotRepetition": 0,
+            "chatbot_repetition": 0,
             "other": 0
         };
 
@@ -187,7 +187,7 @@ class AnalyseProjectInteractor {
             "no_solution": {},
             "human_interaction": {},
             "lengthy_convo": {},
-            "chatbotRepetition": {},
+            "chatbot_repetition": {},
             "other": {}
         }
 
@@ -198,7 +198,7 @@ class AnalyseProjectInteractor {
 
             // Get the date of the user quitting the chat
             let l = text_transcripts.length;
-            let date = new Date(transcript.transcript_data[l - 1].startTime.toString().slice(0, 10));
+            let date = new Date(transcript.transcript_data[0].startTime.toString().slice(0, 10));
             let key = date.getMonth().toString() + '/' + date.getDate().toString();
 
             // Find the reason for the user quitting the chat
@@ -230,9 +230,9 @@ class AnalyseProjectInteractor {
             }
             if (temp.includes("chatbotRepetition")) {
                 reasons.chatbotRepetition += 1;
-                let map = reasonsPerDay.chatbotRepetition[key];
+                let map = reasonsPerDay.chatbot_repetition[key];
                 if (map) { map += 1; }
-                else { map = 1;  }
+                else { map = 1; }
             }
             if (temp.includes("other")) {
                 reasons.other += 1;
@@ -246,5 +246,3 @@ class AnalyseProjectInteractor {
 }
 
 export default new AnalyseProjectInteractor();
-
-

@@ -29,13 +29,19 @@ export default function Dashboard() {
     const initialDataState = {
         avg_duration_text: 0,
         avg_duration_time: 0,
-        total_users_quit: 0,
+        total_conversations: 0,
+        total_users_quit_per_day: {},
         reasons: {
             privacy: 0,
             no_solution: 0,
             human_interaction: 0,
+            lengthy_convo: 0,
+            chatbotRepetition: 0,
             other: 0
-        }
+        },
+        num_satisfied_users: 0,
+        num_unsatisfied_users: 0,
+        total_convos_per_day: {}
     };
 
     const [analysedData, setAnalysedData] = useState(initialDataState);
@@ -59,19 +65,7 @@ export default function Dashboard() {
     let currentReason; // current title of graph
     let currentColor; // current colour of the graph's bars
     // current labels of graph
-    let chartLabels =
-        [
-            '01/01/2003',
-            '02/01/2003',
-            '03/01/2003',
-            '04/01/2003',
-            '05/01/2003',
-            '06/01/2003',
-            '07/01/2003',
-            '08/01/2003',
-            '09/01/2003',
-            '10/01/2003'
-        ]
+    let chartLabels = Object.keys(analysedData.total_convos_per_day);
     let chartData; // current data displayed by graph
     let totalUsers; // total number of users who used the current chatbot
     let totalUsersLeaving; // total number of users who left the current chatbot
@@ -82,27 +76,27 @@ export default function Dashboard() {
     // The data for the graph is chosen based on the current counter
     switch(currentCounter) {
         case 'Unsatisfactory Solutions':
-            chartData = [5, 5, 5, 5, 5, 5, 5, 5, 5, 5]
+            chartData = [5, 5, 5]
             currentReason = 'Unsatisfactory Solutions'
             currentColor = '#FFE16A'
             break
         case 'Chatbot Repetitions':
-            chartData = [4, 4, 4, 4, 4, 4, 4, 4, 4, 4]
+            chartData = [4, 4, 4]
             currentReason ='Chatbot Repetitions'
             currentColor = '#BAF27F'
             break
         case 'Lengthy Chat Durations':
-            chartData = [3, 3, 3, 3, 3, 3, 3, 3, 3, 3]
+            chartData = [3, 3, 3]
             currentReason = 'Lengthy Chat Durations'
             currentColor = '#74CAFF'
             break
         case 'Live Agent Requests':
-            chartData = [2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
+            chartData = [2, 2, 2]
             currentReason = 'Live Agent Requests'
             currentColor = '#c9aef3'
             break
         default:
-            chartData = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+            chartData = [1, 1, 1]
             currentReason = 'Privacy Concerns'
             currentColor = '#FFA48D'
             break
@@ -119,11 +113,6 @@ export default function Dashboard() {
 
             <Container maxWidth="xl">
                 <SelectProject />
-                {/*<AnalyseProject />*/}
-
-                {/*<Typography variant="h5" sx={{ mb: 5 }}>*/}
-                {/*    Analytics for {projectName}*/}
-                {/*</Typography>*/}
 
                 {/*COUNTERS*/}
                 <Grid container spacing={4}>
@@ -141,13 +130,13 @@ export default function Dashboard() {
 
                     <Grid item xs={10} sm={1} md={2.3}>
                         <counterButton onClick={() => setCounter('Chatbot Repetitions')}>
-                            <AppCounter title="Chatbot Repetitions" total={111} color="success" icon={'ant-design:comment-outlined'} />
+                            <AppCounter title="Chatbot Repetitions" total={analysedData.reasons.chatbotRepetition} color="success" icon={'ant-design:comment-outlined'} />
                         </counterButton>
                     </Grid>
 
                     <Grid item xs={10} sm={1} md={2.3}>
                         <counterButton onClick={() => setCounter('Lengthy Chat Durations')}>
-                            <AppCounter title="Lengthy Chat Durations" total={111} color="info" icon={'ant-design:field-time-outlined'} />
+                            <AppCounter title="Lengthy Chat Durations" total={analysedData.reasons.lengthy_convo} color="info" icon={'ant-design:field-time-outlined'} />
                         </counterButton>
                     </Grid>
 
@@ -177,14 +166,14 @@ export default function Dashboard() {
                                     type: 'area',
                                     fill: 'gradient',
                                     color: '#A9A9A9',
-                                    data: [44, 55, 41, 67, 22, 43, 21, 41, 56, 27, 43],
+                                    data: Object.values(analysedData.total_convos_per_day),
                                 },
                                 {
                                     name: 'Total Users Leaving',
                                     type: 'line',
                                     fill: 'solid',
                                     color: '#2F4F4F',
-                                    data: [30, 25, 36, 30, 45, 35, 64, 52, 59, 36, 39],
+                                    data: Object.values(analysedData.total_users_quit_per_day),
                                 },
                             ]}
                         />
@@ -195,20 +184,12 @@ export default function Dashboard() {
                         <AppGhostMeter
                             title="Satisfaction Meter"
                             chartData={[
-                                // { label: 'Privacy Concerns', value: 4344 },
-                                // { label: 'Unsatisfactory Solutions', value: 5435 },
-                                // { label: 'Chatbot Repetitions', value: 1443 },
-                                // { label: 'Lengthy Chat Durations', value: 4443 },
-                                // { label: 'Live Agent Requests', value: 4443 },
-                                { label: 'Satisfied with chatbot', value: 443 },
-                                { label: 'Unsatisfied', value: 12 },
+                                { label: 'Satisfied with chatbot', value: analysedData.num_satisfied_users },
+                                { label: 'Unsatisfied', value: analysedData.num_unsatisfied_users },
                             ]}
                             chartColors={[
-                                // theme.palette.warning.light,
                                 theme.palette.success.light,
                                 theme.palette.error.light,
-                                // theme.palette.info.light,
-                                // theme.palette.secondary.light,
                             ]}
                         />
                     </Grid>
@@ -247,11 +228,11 @@ export default function Dashboard() {
                                     value: analysedData.avg_duration_text,
                                     icon: <Iconify icon={'eva:activity-outline'} color="#1877F2" width={32} />,
                                 },
-                                {
-                                    name: 'Total Number of Chats Force-quit',
-                                    value: analysedData.total_users_quit,
-                                    icon: <Iconify icon={'eva:message-square-outline'} color="#1877F2" width={32} />,
-                                },
+                                // {
+                                //     name: 'Total Number of Chats Force-quit',
+                                //     value: analysedData.total_users_quit,
+                                //     icon: <Iconify icon={'eva:message-square-outline'} color="#1877F2" width={32} />,
+                                // },
 
                             ]}
                         />

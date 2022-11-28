@@ -85,19 +85,17 @@ class AnalyseProjectInteractor {
      */
     totalConvosPerDay(transcripts) {
         let l = transcripts.length;
-        let map = new Object();
+        let map = {};
 
         for (let j = 0; j < l; j++) {
             let transcript = transcripts[j];
             let date = new Date(transcript.transcript_data[l - 1].startTime.toString().slice(0, 10));
-            let key = date.getDate().toString() + date.getMonth().toString();
+            let key = date.getMonth().toString() + '/' + date.getDate().toString();
             if (map[key]) {
                 map[key] += 1;
             } else {
                 map[key] = 1
             }
-
-
         }
         return map;
     }
@@ -109,7 +107,7 @@ class AnalyseProjectInteractor {
      * @param transcripts
      * @returns {Object}
      */
-    totalUsersForceQuit(text_transcripts, transcripts) {
+    totalUsersForceQuitPerDay(text_transcripts, transcripts) {
         let l = text_transcripts.length;
         let map = new Object();
 
@@ -132,25 +130,40 @@ class AnalyseProjectInteractor {
     }
 
     /**
-     * Return the satisfaction of this chatbot.
+     * Return the number of satisfied users of this chatbot.
      * @param text_transcripts
      * @param transcripts
      * @returns {number}
      */
-    satisfaction(text_transcripts, transcripts){
-        let usersQuit = this.totalUsersForceQuit(text_transcripts, transcripts);
-        let usersQuitvalues = Object.values(usersQuit);
+    numSatisfiedUsers(text_transcripts, transcripts){
+        let usersQuit = this.totalUsersForceQuitPerDay(text_transcripts, transcripts);
+        let usersQuitValues = Object.values(usersQuit);
         let totalUsers = this.totalConvosPerDay(transcripts);
-        let totalUsersvalues = Object.values(totalUsers);
-        let sumUsersQuit = usersQuitvalues.reduce((b, a) => b + a, 0);
-        let sumTotalUsers = totalUsersvalues.reduce((b, a) => b + a, 0);
+        let totalUsersValues = Object.values(totalUsers);
+        let sumUsersQuit = usersQuitValues.reduce((b, a) => b + a, 0);
+        let sumTotalUsers = totalUsersValues.reduce((b, a) => b + a, 0);
         console.log(sumTotalUsers, sumUsersQuit);
 
-        return (sumTotalUsers - sumUsersQuit)/sumTotalUsers;
+        return (sumTotalUsers - sumUsersQuit);
     }
 
     /**
-     * Return the no.of users that quit corresponding to each reason.
+     * Return the number of unsatisfied users of this chatbot.
+     * @param text_transcripts
+     * @param transcripts
+     * @returns {number}
+     */
+    numUnsatisfiedUsers(text_transcripts, transcripts){
+        let usersQuit = this.totalUsersForceQuitPerDay(text_transcripts, transcripts);
+        let usersQuitValues = Object.values(usersQuit);
+        let sumUsersQuit = usersQuitValues.reduce((b, a) => b + a, 0);
+        console.log(sumUsersQuit);
+
+        return (sumUsersQuit);
+    }
+
+    /**
+     * Return the no. of users that quit corresponding to each reason.
      * @param text_transcripts
      * @param transcripts
      * @returns {{other: number, chatbotRepetition: number, human_interaction: number, no_solution: number, privacy: number, lengthy_convo: number}}

@@ -29,9 +29,9 @@ class AnalyseTranscriptInteractor {
         // let transcript = [];
         // transcript = await databaseFunctions.getTrim();
 
-        let l = text_transcript.dialouge.length;
-        console.log([text_transcript.dialouge[l - 1].text, text_transcript.dialouge[l - 1].speaker]);
-        return [text_transcript.dialouge[l - 1].text, transcript.dialouge[l - 1].speaker];
+        let l = text_transcript.dialogue.length;
+        console.log([text_transcript.dialogue[l - 1].text, text_transcript.dialogue[l - 1].speaker]);
+        return [text_transcript.dialogue[l - 1].text, text_transcript.dialogue[l - 1].speaker];
     }
 
     /**
@@ -43,11 +43,11 @@ class AnalyseTranscriptInteractor {
         // let transcript = [];
         // transcript = await databaseFunctions.getTrim();
 
-        let l = text_transcript.dialouge.length;
+        let l = text_transcript.dialogue.length;
         for (let x = l - 1; x >= 0; x--) {
-            if (text_transcript.dialouge[x].speaker == "bot") {
-                console.log([text_transcript.dialouge[x].text, text_transcript.dialouge[x].speaker]);
-                return text_transcript.dialouge[x];
+            if (text_transcript.dialogue[x].speaker === "bot") {
+                console.log([text_transcript.dialogue[x].text, text_transcript.dialogue[x].speaker]);
+                return text_transcript.dialogue[x];
             }
         }
         console.log("Bot doesn't speak during the conversation")
@@ -62,9 +62,9 @@ class AnalyseTranscriptInteractor {
     getLastTextHuman(text_transcript) {
         // let transcript = [];
         // transcript = await databaseFunctions.getTrim();
-        let l = text_transcript.dialouge.length;
+        let l = text_transcript.dialogue.length;
         for (let x = l - 1; x >= 0; x--) {
-            if (text_transcript.dialogue[x].speaker == "human") {
+            if (text_transcript.dialogue[x].speaker === "human") {
                 console.log([text_transcript.dialogue[x].text, text_transcript.dialogue[x].speaker]);
                 return text_transcript.dialogue[x];
             }
@@ -74,7 +74,7 @@ class AnalyseTranscriptInteractor {
     }
 
     /**
-     * Returns the length of the conversation between bot and human in no.of texts exchanged.
+     * Returns the length of the conversation between bot and human in no. of texts exchanged.
      * @param text_transcript
      * @returns {*}
      */
@@ -82,8 +82,7 @@ class AnalyseTranscriptInteractor {
         // let transcript =[];
         // transcript = await databaseFunctions.getTrim();
 
-        let l = text_transcript.length;
-        return l;
+        return text_transcript.length;
     }
 
     /**
@@ -108,6 +107,9 @@ class AnalyseTranscriptInteractor {
     /**
      * Return the possible reasons why user left the chat.
      * @param text_transcript
+     * @param Q3_text
+     * @param transcript
+     * @param Q3_time
      * @returns {*[]}
      */
     checkReason(text_transcript, Q3_text, transcript, Q3_time) {
@@ -132,7 +134,7 @@ class AnalyseTranscriptInteractor {
             if (isChatbotRepetition(dialogues, transcript.transcript_data)){
                 reasons.push("chatbotRepetition")
             }
-            if (reasons.length == 0) {
+            if (reasons.length === 0) {
                 reasons.push("other");
             }
 

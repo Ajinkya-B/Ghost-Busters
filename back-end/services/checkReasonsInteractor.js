@@ -25,10 +25,10 @@ export function isPrivacyConcern(dialogues) {
 
     for (let i = l - 1; i >= l / 2; i--) {
 
-        if (dialogues[i].speaker == "bot") {
+        if (dialogues[i].speaker === "bot") {
             let text = dialogues[i].text.toLowerCase();
             if (keywords.some(keyword => text.includes(keyword))) {
-                if (i == l - 1) {
+                if (i === l - 1) {
                     return true;
                 }
                 let other_keywords = ["no", "don't want to", "not comfortable", "personal information",
@@ -56,7 +56,7 @@ export function isNoSolution(dialogues) {
     let l = dialogues.length;
 
     for (let i = l - 1; i >= l / 2; i--) {
-        if (dialogues[i].speaker == "bot") {
+        if (dialogues[i].speaker === "bot") {
             let text = dialogues[i].text.toLowerCase();
             if (keywords.some(keyword => text.includes(keyword))) {
                 return true;
@@ -78,7 +78,7 @@ export function isHumanInteraction(dialogues) {
 
     for (let i = l - 1; i >= 0; i--) {
 
-        if (dialogues[i].speaker == "human") {
+        if (dialogues[i].speaker === "human") {
             let text = dialogues[i].text.toLowerCase();
             if (keywords.some(keyword => text.includes(keyword))) {
                 return true;
@@ -87,8 +87,6 @@ export function isHumanInteraction(dialogues) {
     }
     return false;
 }
-<<<<<<< HEAD:back-end/services/checkReasonsInterctor.js
-=======
 
 /**
  * Returns whether the conversation is too long.
@@ -118,7 +116,7 @@ export function isChatbotRepetition(dialogue, transcript_data) {
     for (let i = l - 1; i >= 0; i--) {
         try {
 
-            if (transcript_data[i].payload.path == "reprompt") {
+            if (transcript_data[i].payload.path === "reprompt") {
                 temp = true;
 
             }
@@ -126,10 +124,8 @@ export function isChatbotRepetition(dialogue, transcript_data) {
             console.log("no reprompt")
         }
     }
-    if (temp == true && hasDuplicates(dialogue)) {
+    if (temp === true && hasDuplicates(dialogue)) {
         return true;
     }
 }
 
-
->>>>>>> 52-add-additional-metrics-to-analyseprojectusecase:back-end/services/checkReasonsInteractor.js

@@ -15,7 +15,7 @@ const AnalyseProject = props => {
 
         avg_duration_text: null,
         avg_duration_time: null,
-        total_conversations: null,
+        total_conversations: {},
         total_users_quit: null,
         reasons: {
             privacy: null,
@@ -72,7 +72,21 @@ const AnalyseProject = props => {
             <p>
                 <strong>Average Duration (in milliseconds): </strong>{analysedData.avg_duration_time}<br/>
                 <strong>Average Length (texts): </strong>{analysedData.avg_duration_text}<br/>
-                {/*<strong>Total conversations: </strong>{analysedData.total_conversations}<br/>*/}
+
+                <strong>Total conversations: </strong>
+                <ul>
+                    {Object.entries(analysedData.total_conversations)
+                .map( ([key, value]) => <li> {key} : {value}
+                </li>) }
+                </ul>
+
+                <strong>Totalusers force quit: </strong>
+                <ul>
+                    {Object.entries(analysedData.total_users_quit)
+                        .map( ([key, value]) => <li> {key} : {value}
+                        </li>) }
+                </ul>
+
                 {/*<strong>Total users force quit: </strong>{analysedData.total_users_quit}<br/>*/}
                 <strong>Reasons: </strong><br/>
                 <li>Privacy Concern: {analysedData.reasons.privacy}</li><br/>

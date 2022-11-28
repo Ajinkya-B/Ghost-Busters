@@ -1,7 +1,6 @@
 import ProjectsService from "../../services/projects.service.js";
 
 export default class ProjectsController {
-    static #projectsService = new ProjectsService();
 
     /**
      * A GET API for getting an array of all project objects.

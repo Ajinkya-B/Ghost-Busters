@@ -189,7 +189,7 @@ export default function Dashboard() {
                             title="Satisfaction Meter"
                             chartData={[
                                 { label: 'Satisfied with chatbot', value: 1},//analysedData.num_satisfied_users },
-                                { label: 'Unsatisfied', value: analysedData.num_unsatisfied_users },
+                                { label: 'Unsatisfied', value: 1},//analysedData.num_unsatisfied_users },
                             ]}
                             chartColors={[
                                 theme.palette.success.light,

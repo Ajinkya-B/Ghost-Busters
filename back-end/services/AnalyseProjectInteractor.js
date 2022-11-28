@@ -182,6 +182,51 @@ class AnalyseProjectInteractor {
             "other": 0
         };
 
+
+        for (let j = 0; j < l_text; j++) {
+
+            let textTranscript = text_transcripts[j];
+            let transcript = transcripts[j];
+
+            // Get the date of the user quitting the chat
+
+
+            // Find the reason for the user quitting the chat
+            let temp = AnalyseTranscriptInteractor.checkReason(textTranscript, Q3_text, transcript, Q3_time);
+
+            if (temp.includes("privacy")) {
+                reasons.privacy += 1;
+
+            }
+            if (temp.includes("nosolution")) {
+                reasons.no_solution += 1;
+
+            }
+            if (temp.includes("humaninteraction")) {
+                reasons.human_interaction += 1;
+
+            }
+            if (temp.includes("lengthyConvo")) {
+                reasons.lengthy_convo += 1;
+
+            }
+            if (temp.includes("chatbotRepetition")) {
+                reasons.chatbotRepetition += 1;
+
+            }
+            if (temp.includes("other")) {
+                reasons.other += 1;
+
+            }
+        }
+        return reasons;
+    }
+
+    checkReasonsPerDay(text_transcripts, transcripts){
+        let l_text = text_transcripts.length;
+        let Q3_text = this.thirdQuantileTexts(text_transcripts);
+        let Q3_time = this.thirdQuantileTime(transcripts);
+
         let reasonsPerDay = {
             "privacy": {},
             "no_solution": {},
@@ -197,7 +242,6 @@ class AnalyseProjectInteractor {
             let transcript = transcripts[j];
 
             // Get the date of the user quitting the chat
-            let l = text_transcripts.length;
             let date = new Date(transcript.transcript_data[0].startTime.toString().slice(0, 10));
             let key = date.getMonth().toString() + '/' + date.getDate().toString();
 
@@ -205,43 +249,37 @@ class AnalyseProjectInteractor {
             let temp = AnalyseTranscriptInteractor.checkReason(textTranscript, Q3_text, transcript, Q3_time);
 
             if (temp.includes("privacy")) {
-                reasons.privacy += 1;
                 let map = reasonsPerDay.privacy[key];
-                if (map) { map += 1; }
-                else { map = 1; }
+                if (map) { reasonsPerDay.privacy[key] += 1; }
+                else { reasonsPerDay.privacy[key] = 1; }
             }
             if (temp.includes("nosolution")) {
-                reasons.no_solution += 1;
                 let map = reasonsPerDay.no_solution[key];
-                if (map) { map += 1; }
-                else { map = 1; }
+                if (map) { reasonsPerDay.no_solution[key] += 1; }
+                else { reasonsPerDay.no_solution[key] = 1; }
             }
             if (temp.includes("humaninteraction")) {
-                reasons.human_interaction += 1;
                 let map = reasonsPerDay.human_interaction[key];
-                if (map) { map += 1; }
-                else { map = 1; }
+                if (map) { reasonsPerDay.human_interaction[key] += 1; }
+                else { reasonsPerDay.human_interaction[key] = 1; }
             }
             if (temp.includes("lengthyConvo")) {
-                reasons.lengthy_convo += 1;
                 let map = reasonsPerDay.lengthy_convo[key];
-                if (map) { map += 1; }
-                else { map = 1; }
+                if (map) { reasonsPerDay.lengthy_convo[key] += 1; }
+                else { reasonsPerDay.lengthy_convo[key]= 1; }
             }
             if (temp.includes("chatbotRepetition")) {
-                reasons.chatbotRepetition += 1;
                 let map = reasonsPerDay.chatbot_repetition[key];
-                if (map) { map += 1; }
-                else { map = 1; }
+                if (map) { reasonsPerDay.chatbot_repetition[key] += 1; }
+                else { reasonsPerDay.chatbot_repetition[key] = 1; }
             }
             if (temp.includes("other")) {
-                reasons.other += 1;
                 let map = reasonsPerDay.other[key];
-                if (map) { map += 1; }
-                else { map = 1; }
+                if (map) { reasonsPerDay.other[key] += 1; }
+                else { reasonsPerDay.other[key] = 1; }
             }
         }
-        return [reasons, reasonsPerDay];
+        return reasonsPerDay;
     }
 }
 

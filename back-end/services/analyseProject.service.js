@@ -17,11 +17,11 @@ export default class AnalyseProjectService {
         avg_duration_text: AnalyseProjectInteractor.avgDurationTexts(text_transcripts),
         avg_duration_time: AnalyseProjectInteractor.avgDurationTime(transcripts),
         total_users_quit_per_day: AnalyseProjectInteractor.totalUsersForceQuitPerDay(text_transcripts, transcripts),
-        reasons: AnalyseProjectInteractor.checkReasons(text_transcripts, transcripts)[0],
+        reasons: AnalyseProjectInteractor.checkReasons(text_transcripts, transcripts),
         num_satisfied_users: AnalyseProjectInteractor.numSatisfiedUsers(text_transcripts, transcripts),
         num_unsatisfied_users: AnalyseProjectInteractor.numUnsatisfiedUsers(text_transcripts, transcripts),
         total_convos_per_day: AnalyseProjectInteractor.totalConvosPerDay(transcripts),
-        reasons_per_day: AnalyseProjectInteractor.checkReasons(text_transcripts, transcripts)[1]
+        reasons_per_day: AnalyseProjectInteractor.checkReasonsPerDay(text_transcripts, transcripts)
       };
 
       return {

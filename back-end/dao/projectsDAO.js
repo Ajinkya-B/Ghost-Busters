@@ -1,9 +1,10 @@
 import {ObjectId} from "mongodb";
 import {Projects} from "../schema/projects-schema.js"
 import mongoose from "mongoose";
+import {ProjectsInterface} from "../interfaces/projects-interface.js";
 
 
-export default class ProjectsDAO {
+export default class ProjectsDAO extends ProjectsInterface {
     /**
      * Get the projects that match the query from MongoDB
      * @param {Object} query Filters for projects

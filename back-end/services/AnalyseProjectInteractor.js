@@ -178,7 +178,7 @@ class AnalyseProjectInteractor {
             "no_solution": 0,
             "human_interaction": 0,
             "lengthy_convo": 0,
-            "chatbot_repetition": 0,
+            "chatbotRepetition": 0,
             "other": 0
         };
 

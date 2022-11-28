@@ -22,7 +22,7 @@ const AnalyseProject = props => {
             no_solution: null,
             human_interaction: null,
             lengthy_convo: null,
-            chatbot_repetition: null,
+            chatbotRepetition: null,
             other: null
         },
         satisfaction: null,
@@ -93,7 +93,7 @@ const AnalyseProject = props => {
                 <li>No solution: {analysedData.reasons.no_solution}</li><br/>
                 <li>Human Interaction: {analysedData.reasons.human_interaction}</li><br/>
                 <li>Lengthy Conversations: {analysedData.reasons.lengthy_convo}</li><br/>
-                <li>Chatbot Repetition: {analysedData.reasons.chatbot_repetition}</li><br/>
+                <li>Chatbot Repetition: {analysedData.reasons.chatbotRepetition}</li><br/>
                 <li>Others: {analysedData.reasons.other} </li><br/>
                 <li>Satisfaction: {analysedData.satisfaction}</li><br/>
 

@@ -54,7 +54,7 @@ export default class ProjectsDAO {
      */
     async updateProject(projectName, transcript) {
         try {
-            const updateResponse = await projects.updateOne(
+            const updateResponse = await Projects.updateOne(
                 {project_name: projectName},
                 {$addToSet: {transcripts: transcript}}
             );

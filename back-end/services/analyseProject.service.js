@@ -11,8 +11,8 @@ export default class AnalyseProjectService {
   static async analyseProject(id) {
     try {
       const project = await this.#ProjectDAO.getProjectByID(id);
-      let text_transcripts = project.text_transcripts;
-      let transcripts = project.transcripts;
+      let text_transcripts = project.data.text_transcripts;
+      let transcripts = project.data.transcripts;
       const reponse = {
         avg_duration_text: avgDurationTexts(text_transcripts),
         avg_duration_time: avgDurationTime(transcripts),

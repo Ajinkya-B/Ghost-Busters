@@ -42,7 +42,7 @@ export default class TranscriptsDAO {
 
       return await Transcripts.create(transcriptDoc);
     } catch (e) {
-      console.error(`Unable to post transcripts: ${e}`)
+      console.error(`Unable to issue create command, ${e}`);
       return { error: e }
     }
   }

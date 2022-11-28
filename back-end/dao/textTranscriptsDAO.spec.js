@@ -5,7 +5,7 @@ jest.mock("../schema/textTranscripts-schema.js");
 
 let dao;
 const PROJECT_ID = "Project Name";
-const DIALOGUE = ["Hello"]
+const DIALOGUE = ["Hello"];
 
 describe("TextTranscriptsDao", () => {
     beforeEach(async () => {
@@ -19,7 +19,7 @@ describe("TextTranscriptsDao", () => {
             await dao.getTextTranscripts();
             expect(TextTranscripts.find).toHaveBeenCalled();
         });
-         it("Should correctly throw a console error", async () => {
+        it("Should correctly throw a console error", async () => {
             console.error = jest.fn();
             TextTranscripts.find.mockImplementationOnce(() => {
                 throw "error";
@@ -28,7 +28,7 @@ describe("TextTranscriptsDao", () => {
             expect(console.error).toHaveBeenCalledWith(
                 "Unable to issue find command, error"
             );
-         });
+        });
     });
 
     describe("Add Text Transcripts", () => {

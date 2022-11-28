@@ -5,6 +5,9 @@ Often times, companies who use chatbots don't know when and why this happens and
 
 We're going to help businesses that use Voiceflow's chatbot identify why their customers are leaving their chatbots by creating an analytics dashboard that displays various reasons why users quit a chat from the data aggregated on the instances of customers leaving a conversation.
 
+## You can visit the live demo here :smiley:
+https://637309da5309e06258796f5f--spiffy-gingersnap-18a267.netlify.app
+
 ## To launch the app
 1. Fetch the project
 2. Run ```npm install``` for all front-end, back-end and the main folder to download all the dependencies

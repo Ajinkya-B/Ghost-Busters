@@ -41,7 +41,15 @@ export default function Dashboard() {
         },
         num_satisfied_users: 0,
         num_unsatisfied_users: 0,
-        total_convos_per_day: {}
+        total_convos_per_day: {},
+        reasons_per_day: {
+            privacy: {},
+            no_solution: {},
+            human_interaction: {},
+            lengthy_convo: {},
+            chatbotRepetition: {},
+            other: {}
+        }
     };
 
     const [analysedData, setAnalysedData] = useState(initialDataState);
@@ -67,8 +75,6 @@ export default function Dashboard() {
     // current labels of graph
     let chartLabels = Object.keys(analysedData.total_convos_per_day);
     let chartData; // current data displayed by graph
-    let totalUsers; // total number of users who used the current chatbot
-    let totalUsersLeaving; // total number of users who left the current chatbot
 
     // The current counter (reason why the user left a chat) is selected when a Creator clicks on the card
     const [currentCounter, setCounter] = useState('Privacy Concerns')
@@ -76,27 +82,27 @@ export default function Dashboard() {
     // The data for the graph is chosen based on the current counter
     switch(currentCounter) {
         case 'Unsatisfactory Solutions':
-            chartData = [5, 5, 5]
+            chartData = [1,1,1] //Object.values(analysedData.reasons_per_day.no_solution)
             currentReason = 'Unsatisfactory Solutions'
             currentColor = '#FFE16A'
             break
         case 'Chatbot Repetitions':
-            chartData = [4, 4, 4]
+            chartData = [1,1,1] //Object.values(analysedData.reasons_per_day.chatbotRepetition)
             currentReason ='Chatbot Repetitions'
             currentColor = '#BAF27F'
             break
         case 'Lengthy Chat Durations':
-            chartData = [3, 3, 3]
+            chartData = [1,1,1] //Object.values(analysedData.reasons_per_day.lengthy_convo)
             currentReason = 'Lengthy Chat Durations'
             currentColor = '#74CAFF'
             break
         case 'Live Agent Requests':
-            chartData = [2, 2, 2]
+            chartData = [1,1,1] //Object.values(analysedData.reasons_per_day.human_interaction)
             currentReason = 'Live Agent Requests'
             currentColor = '#c9aef3'
             break
         default:
-            chartData = [1, 1, 1]
+            chartData = [1,1,1] //Object.values(analysedData.reasons_per_day.privacy)
             currentReason = 'Privacy Concerns'
             currentColor = '#FFA48D'
             break
@@ -145,8 +151,6 @@ export default function Dashboard() {
                             <AppCounter title="Live Agent Requests" total={analysedData.reasons.human_interaction} color="secondary" icon={'ant-design:user-outlined'} />
                         </counterButton>
                     </Grid>
-
-                    {/*TODO: Change the graph / make it so that a specific graph appears when you click on a counter*/}
 
                     <Grid item xs={12} md={6} lg={8}>
                         <AppGhostGraph

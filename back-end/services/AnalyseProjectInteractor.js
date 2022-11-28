@@ -109,13 +109,13 @@ class AnalyseProjectInteractor {
      */
     totalUsersForceQuitPerDay(text_transcripts, transcripts) {
         let l = text_transcripts.length;
-        let map = new Object();
+        let map = {};
 
         for (let j = 0; j < l; j++) {
             let textTranscript = text_transcripts[j];
             let transcript = transcripts[j];
             let date = new Date(transcript.transcript_data[l - 1].startTime.toString().slice(0, 10));
-            let key = date.getDate().toString() + date.getMonth().toString();
+            let key = date.getMonth().toString() + '/' + date.getDate().toString();
             if (AnalyseTranscriptInteractor.userForceQuit(textTranscript.dialogue)) {
                 if (map[key]) {
                     map[key] += 1;
@@ -123,7 +123,6 @@ class AnalyseProjectInteractor {
                     map[key] = 1
                 }
                 console.log(map)
-
             }
         }
         return map;
@@ -163,10 +162,12 @@ class AnalyseProjectInteractor {
     }
 
     /**
-     * Return the no. of users that quit corresponding to each reason.
+     * Return a 2 element list;
+     * the first element contains the number of users that quit corresponding to each reason;
+     * the second contains the number of users that quit corresponding to each reason and a date.
      * @param text_transcripts
      * @param transcripts
-     * @returns {{other: number, chatbotRepetition: number, human_interaction: number, no_solution: number, privacy: number, lengthy_convo: number}}
+     * @returns {({other: number, chatbotRepetition: number, human_interaction: number, no_solution: number, privacy: number, lengthy_convo: number}|{other: {}, chatbotRepetition: {}, human_interaction: {}, no_solution: {}, privacy: {}, lengthy_convo: {}})[]}
      */
     checkReasons(text_transcripts, transcripts) {
         let l_text = text_transcripts.length;
@@ -180,33 +181,67 @@ class AnalyseProjectInteractor {
             "chatbotRepetition": 0,
             "other": 0
         };
+
+        let reasonsPerDay = {
+            "privacy": {},
+            "no_solution": {},
+            "human_interaction": {},
+            "lengthy_convo": {},
+            "chatbotRepetition": {},
+            "other": {}
+        }
+
         for (let j = 0; j < l_text; j++) {
 
             let textTranscript = text_transcripts[j];
             let transcript = transcripts[j];
 
-            let temp = AnalyseTranscriptInteractor.checkReason(
-                textTranscript, Q3_text, transcript, Q3_time);
+            // Get the date of the user quitting the chat
+            let l = text_transcripts.length;
+            let date = new Date(transcript.transcript_data[l - 1].startTime.toString().slice(0, 10));
+            let key = date.getMonth().toString() + '/' + date.getDate().toString();
+
+            // Find the reason for the user quitting the chat
+            let temp = AnalyseTranscriptInteractor.checkReason(textTranscript, Q3_text, transcript, Q3_time);
+
             if (temp.includes("privacy")) {
                 reasons.privacy += 1;
+                let map = reasonsPerDay.privacy[key];
+                if (map) { map += 1; }
+                else { map = 1; }
             }
             if (temp.includes("nosolution")) {
                 reasons.no_solution += 1;
+                let map = reasonsPerDay.no_solution[key];
+                if (map) { map += 1; }
+                else { map = 1; }
             }
             if (temp.includes("humaninteraction")) {
                 reasons.human_interaction += 1;
+                let map = reasonsPerDay.human_interaction[key];
+                if (map) { map += 1; }
+                else { map = 1; }
             }
             if (temp.includes("lengthyConvo")) {
                 reasons.lengthy_convo += 1;
+                let map = reasonsPerDay.lengthy_convo[key];
+                if (map) { map += 1; }
+                else { map = 1; }
             }
             if (temp.includes("chatbotRepetition")) {
                 reasons.chatbotRepetition += 1;
+                let map = reasonsPerDay.chatbotRepetition[key];
+                if (map) { map += 1; }
+                else { map = 1;  }
             }
             if (temp.includes("other")) {
                 reasons.other += 1;
+                let map = reasonsPerDay.other[key];
+                if (map) { map += 1; }
+                else { map = 1; }
             }
         }
-        return reasons;
+        return [reasons, reasonsPerDay];
     }
 }
 

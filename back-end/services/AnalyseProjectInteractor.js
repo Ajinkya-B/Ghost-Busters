@@ -162,12 +162,10 @@ class AnalyseProjectInteractor {
     }
 
     /**
-     * Return a 2 element list;
-     * the first element contains the number of users that quit corresponding to each reason;
-     * the second contains the number of users that quit corresponding to each reason and a date.
+     * Returns the number of users that quit corresponding to each reason
      * @param text_transcripts
      * @param transcripts
-     * @returns {({other: number, chatbot_repetition: number, human_interaction: number, no_solution: number, privacy: number, lengthy_convo: number}|{other: {}, chatbot_repetition: {}, human_interaction: {}, no_solution: {}, privacy: {}, lengthy_convo: {}})[]}
+     * @returns {{other: number, chatbotRepetition: number, human_interaction: number, no_solution: number, privacy: number, lengthy_convo: number}}
      */
     checkReasons(text_transcripts, transcripts) {
         let l_text = text_transcripts.length;
@@ -222,6 +220,12 @@ class AnalyseProjectInteractor {
         return reasons;
     }
 
+    /**
+     * Returns the no. of users that quit per day corresponding to each user.
+     * @param text_transcripts
+     * @param transcripts
+     * @returns {{other: {}, human_interaction: {}, no_solution: {}, privacy: {}, chatbot_repetition: {}, lengthy_convo: {}}}
+     */
     checkReasonsPerDay(text_transcripts, transcripts){
         let l_text = text_transcripts.length;
         let Q3_text = this.thirdQuantileTexts(text_transcripts);

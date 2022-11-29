@@ -11,7 +11,6 @@ import {
     AppGhostGraph,
     AppIndexCard,
     AppCounter,
-    AppBarGraph,
 } from '../components/dashboard-components/app';
 import Iconify from "../components/dashboard-components/app-components/iconify";
 // other components
@@ -115,9 +114,10 @@ export default function Dashboard() {
             <br />
 
             <Container maxWidth="xl">
+                {/* PROJECT TITLE */}
                 <SelectProject />
 
-                {/*COUNTERS*/}
+                {/* COUNTERS */}
                 <Grid container spacing={4}>
                     <Grid item xs={10} sm={1} md={2.3}>
                         <counterButton onClick={() => setCounter('Privacy Concerns')}>
@@ -149,10 +149,11 @@ export default function Dashboard() {
                         </counterButton>
                     </Grid>
 
+                    {/* GRAPH */}
                     <Grid item xs={12} md={6} lg={8}>
                         <AppGhostGraph
                             title={currentReason}
-                            subheader="2022"
+                            subheader="MM/DD 2022"
                             chartLabels={Object.keys(analysedData.total_convos_per_day)}
                             chartData={[
                                 {
@@ -180,7 +181,7 @@ export default function Dashboard() {
                         />
                     </Grid>
 
-                    {/*Satisfaction Meter*/}
+                    {/* SATISFACTION METER */}
                     <Grid item xs={12} md={6} lg={4}>
                         <AppGhostMeter
                             title="Satisfaction Meter"
@@ -195,26 +196,7 @@ export default function Dashboard() {
                         />
                     </Grid>
 
-                    {/*<Grid item xs={12} md={6} lg={8}>*/}
-                    {/*    <AppBarGraph*/}
-                    {/*        title="Conversion Rates"*/}
-                    {/*        subheader="(+43%) than last year"*/}
-                    {/*        chartData={[*/}
-                    {/*            { label: 'Italy', value: 400 },*/}
-                    {/*            { label: 'Japan', value: 430 },*/}
-                    {/*            { label: 'China', value: 448 },*/}
-                    {/*            { label: 'Canada', value: 470 },*/}
-                    {/*            { label: 'France', value: 540 },*/}
-                    {/*            { label: 'Germany', value: 580 },*/}
-                    {/*            { label: 'South Korea', value: 690 },*/}
-                    {/*            { label: 'Netherlands', value: 1100 },*/}
-                    {/*            { label: 'United States', value: 1200 },*/}
-                    {/*            { label: 'United Kingdom', value: 1380 },*/}
-                    {/*        ]}*/}
-                    {/*    />*/}
-                    {/*</Grid>*/}
-
-                    {/*Miscellaneous data*/}
+                    {/* MISCELLANEOUS DATA */}
                     <Grid item xs={12} md={6} lg={6}>
                         <AppIndexCard
                             title="Miscellaneous"
@@ -231,10 +213,9 @@ export default function Dashboard() {
                                 },
                                 {
                                     name: 'Users Quitting due to Other Reasons',
-                                    value: 1,//analysedData.reasons.other,
-                                    icon: <Iconify icon={'eva:message-square-outline'} color="#1877F2" width={32} />,
+                                    value: analysedData.reasons.other,
+                                    icon: <Iconify icon={'eva:person-delete-outline'} color="#1877F2" width={32} />,
                                 },
-
                             ]}
                         />
                     </Grid>

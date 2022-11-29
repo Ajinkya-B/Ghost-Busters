@@ -1,6 +1,5 @@
 // The UI elements of the application (e.g., buttons and the styling of the Navbar).
 
-import { FaBars } from 'react-icons/fa';
 import { NavLink as Link } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -20,7 +19,7 @@ export const Nav = styled.nav`
   /* justify-content: flex-start; */
 `;
 
-//
+// Text that links to a different page
 export const NavLink = styled(Link)`
   color: #000;
   display: flex;
@@ -35,25 +34,7 @@ export const NavLink = styled(Link)`
   }
 `;
 
-//
-export const NavMenu = styled.div`
-  display: flex;
-  align-items: center;
-  margin-right: -24px;
-
-  /* Second Nav */
-  /* margin-right: 24px; */
-
-  /* Third Nav */
-  /* width: 100vw;
-  white-space: nowrap; */
-
-  @media screen and (max-width: 768px) {
-    display: none;
-  }
-`;
-
-// Buttons in the navbar
+// Button with a blue background
 export const NavBtn = styled.nav`
   display: flex;
   align-items: center;
@@ -68,7 +49,13 @@ export const NavBtn = styled.nav`
   }
 `;
 
-// Buttons in the navbar that link to a different page
+// Use this in between NavBtn for buttons that link to a different page
+// E.g.,
+// <NavBtn>
+//     <NavBtnLink>
+//         Text inside your button
+//     </NavBtnLink>
+// </NavBtn>
 export const NavBtnLink = styled(Link)`
   border-radius: 4px;
   background: #3e81e2;

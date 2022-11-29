@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 import { styled, alpha } from '@mui/material/styles';
 import { Card, Typography } from '@mui/material';
 // utils
-import {fShortenNumber, fNumber} from "../utils/formatNumber";
+import {fShortenNumber, fNumber} from "../theme/formatNumber";
 // components
 import Iconify from "../app-components/iconify";
 

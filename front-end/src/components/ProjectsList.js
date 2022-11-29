@@ -25,8 +25,7 @@ export default function ProjectsList() {
     // Getting the Project objects
     const retrieveProjects = async () => {
         const response = await ProjectDataService.getAllProjects()
-        const res = await response.data
-        return res
+        return await response.data
     }
 
     const getProjects = async () => {

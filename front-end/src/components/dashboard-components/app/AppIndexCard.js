@@ -5,7 +5,7 @@ import React from "react";
 import PropTypes from 'prop-types';
 import { Box, Card, Paper, Typography, CardHeader, CardContent } from '@mui/material';
 // utils
-import {fNumber} from "../utils/formatNumber";
+import {fNumber} from "../theme/formatNumber";
 
 
 // Parameters required for creating an Index Card

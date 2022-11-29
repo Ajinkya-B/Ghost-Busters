@@ -1,7 +1,7 @@
 // This is the Navbar displayed on each page of the application.
 
 import React from 'react';
-import { Nav, NavLink, NavMenu } from './Elements';
+import { Nav, NavLink } from './Elements';
 import UploadTranscriptsModal from "./UploadTranscriptsModal";
 import AnalyzeTranscripts from "./AnalyzeTranscripts";
 
@@ -14,11 +14,9 @@ const Navbar = () => {
           <h2>Home</h2>
         </NavLink>
 
-        <NavMenu>
-          <NavLink to='/ManageProjects' activeStyle>
-            Manage Projects
-          </NavLink>
-        </NavMenu>
+        <NavLink to='/ManageProjects' activeStyle>
+          Manage Projects
+        </NavLink>
 
         <UploadTranscriptsModal />
 

@@ -6,7 +6,7 @@ import ProjectDataService from "../services/ProjectDataService";
 import TranscriptDataService from "../services/TranscriptDataService";
 
 
-const Project = props => {
+const Project = () => {
     const {id} = useParams()
 
     const initialProjectState = {
@@ -24,7 +24,7 @@ const Project = props => {
             .then(response => {
                 setProject(response.data);
                 let values = [response.data.api_key, response.data.project_id]
-                TranscriptDataService.storeCredentials(values).then(r => {})
+                TranscriptDataService.storeCredentials(values).then()
             })
             .catch(e => {
                 console.log(e);

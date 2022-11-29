@@ -150,7 +150,40 @@ class AnalyseProjectInteractor {
     }
 
     /**
-     * Return the no.of users that quit corresponding to each reason.
+     * Return the number of satisfied users of this chatbot.
+     * @param text_transcripts
+     * @param transcripts
+     * @returns {number}
+     */
+    numSatisfiedUsers(text_transcripts, transcripts){
+        let usersQuit = this.totalUsersForceQuitPerDay(text_transcripts, transcripts);
+        let usersQuitValues = Object.values(usersQuit);
+        let totalUsers = this.totalConvosPerDay(transcripts);
+        let totalUsersValues = Object.values(totalUsers);
+        let sumUsersQuit = usersQuitValues.reduce((b, a) => b + a, 0);
+        let sumTotalUsers = totalUsersValues.reduce((b, a) => b + a, 0);
+        console.log(sumTotalUsers, sumUsersQuit);
+
+        return (sumTotalUsers - sumUsersQuit);
+    }
+
+    /**
+     * Return the number of unsatisfied users of this chatbot.
+     * @param text_transcripts
+     * @param transcripts
+     * @returns {number}
+     */
+    numUnsatisfiedUsers(text_transcripts, transcripts){
+        let usersQuit = this.totalUsersForceQuitPerDay(text_transcripts, transcripts);
+        let usersQuitValues = Object.values(usersQuit);
+        let sumUsersQuit = usersQuitValues.reduce((b, a) => b + a, 0);
+        console.log(sumUsersQuit);
+
+        return (sumUsersQuit);
+    }
+
+    /**
+     * Returns the number of users that quit corresponding to each reason
      * @param text_transcripts
      * @param transcripts
      * @returns {{other: number, chatbotRepetition: number, human_interaction: number, no_solution: number, privacy: number, lengthy_convo: number}}
@@ -167,33 +200,111 @@ class AnalyseProjectInteractor {
             "chatbotRepetition": 0,
             "other": 0
         };
+
+
         for (let j = 0; j < l_text; j++) {
 
             let textTranscript = text_transcripts[j];
             let transcript = transcripts[j];
 
-            let temp = AnalyseTranscriptInteractor.checkReason(
-                textTranscript, Q3_text, transcript, Q3_time);
+            // Get the date of the user quitting the chat
+
+
+            // Find the reason for the user quitting the chat
+            let temp = AnalyseTranscriptInteractor.checkReason(textTranscript, Q3_text, transcript, Q3_time);
+
             if (temp.includes("privacy")) {
                 reasons.privacy += 1;
+
             }
             if (temp.includes("nosolution")) {
                 reasons.no_solution += 1;
+
             }
             if (temp.includes("humaninteraction")) {
                 reasons.human_interaction += 1;
+
             }
             if (temp.includes("lengthyConvo")) {
                 reasons.lengthy_convo += 1;
+
             }
             if (temp.includes("chatbotRepetition")) {
                 reasons.chatbotRepetition += 1;
+
             }
             if (temp.includes("other")) {
                 reasons.other += 1;
+
             }
         }
         return reasons;
+    }
+
+    /**
+     * Returns the no. of users that quit per day corresponding to each user.
+     * @param text_transcripts
+     * @param transcripts
+     * @returns {{other: {}, human_interaction: {}, no_solution: {}, privacy: {}, chatbot_repetition: {}, lengthy_convo: {}}}
+     */
+    checkReasonsPerDay(text_transcripts, transcripts){
+        let l_text = text_transcripts.length;
+        let Q3_text = this.thirdQuantileTexts(text_transcripts);
+        let Q3_time = this.thirdQuantileTime(transcripts);
+
+        let reasonsPerDay = {
+            "privacy": {},
+            "no_solution": {},
+            "human_interaction": {},
+            "lengthy_convo": {},
+            "chatbot_repetition": {},
+            "other": {}
+        }
+
+        for (let j = 0; j < l_text; j++) {
+
+            let textTranscript = text_transcripts[j];
+            let transcript = transcripts[j];
+
+            // Get the date of the user quitting the chat
+            let date = new Date(transcript.transcript_data[0].startTime.toString().slice(0, 10));
+            let key = date.getMonth().toString() + '/' + date.getDate().toString();
+
+            // Find the reason for the user quitting the chat
+            let temp = AnalyseTranscriptInteractor.checkReason(textTranscript, Q3_text, transcript, Q3_time);
+
+            if (temp.includes("privacy")) {
+                let map = reasonsPerDay.privacy[key];
+                if (map) { reasonsPerDay.privacy[key] += 1; }
+                else { reasonsPerDay.privacy[key] = 1; }
+            }
+            if (temp.includes("nosolution")) {
+                let map = reasonsPerDay.no_solution[key];
+                if (map) { reasonsPerDay.no_solution[key] += 1; }
+                else { reasonsPerDay.no_solution[key] = 1; }
+            }
+            if (temp.includes("humaninteraction")) {
+                let map = reasonsPerDay.human_interaction[key];
+                if (map) { reasonsPerDay.human_interaction[key] += 1; }
+                else { reasonsPerDay.human_interaction[key] = 1; }
+            }
+            if (temp.includes("lengthyConvo")) {
+                let map = reasonsPerDay.lengthy_convo[key];
+                if (map) { reasonsPerDay.lengthy_convo[key] += 1; }
+                else { reasonsPerDay.lengthy_convo[key]= 1; }
+            }
+            if (temp.includes("chatbotRepetition")) {
+                let map = reasonsPerDay.chatbot_repetition[key];
+                if (map) { reasonsPerDay.chatbot_repetition[key] += 1; }
+                else { reasonsPerDay.chatbot_repetition[key] = 1; }
+            }
+            if (temp.includes("other")) {
+                let map = reasonsPerDay.other[key];
+                if (map) { reasonsPerDay.other[key] += 1; }
+                else { reasonsPerDay.other[key] = 1; }
+            }
+        }
+        return reasonsPerDay;
     }
 }
 

@@ -34,7 +34,7 @@ export default function Dashboard() {
             no_solution: 0,
             human_interaction: 0,
             lengthy_convo: 0,
-            chatbotRepetition: 0,
+            chatbot_repetition: 0,
             other: 0
         },
         num_satisfied_users: 0,
@@ -133,7 +133,7 @@ export default function Dashboard() {
 
                     <Grid item xs={10} sm={1} md={2.3}>
                         <counterButton onClick={() => setCounter('Chatbot Repetitions')}>
-                            <AppCounter title="Chatbot Repetitions" total={analysedData.reasons.chatbotRepetition} color="success" icon={'ant-design:comment-outlined'} />
+                            <AppCounter title="Chatbot Repetitions" total={analysedData.reasons.chatbot_repetition} color="success" icon={'ant-design:comment-outlined'} />
                         </counterButton>
                     </Grid>
 

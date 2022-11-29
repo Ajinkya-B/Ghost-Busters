@@ -165,7 +165,7 @@ class AnalyseProjectInteractor {
      * Returns the number of users that quit corresponding to each reason.
      * @param text_transcripts
      * @param transcripts
-     * @returns {{other: number, chatbotRepetition: number, human_interaction: number, no_solution: number, privacy: number, lengthy_convo: number}}
+     * @returns {{other: number, chatbot_repetition: number, human_interaction: number, no_solution: number, privacy: number, lengthy_convo: number}}
      */
     checkReasons(text_transcripts, transcripts) {
         let l_text = text_transcripts.length;

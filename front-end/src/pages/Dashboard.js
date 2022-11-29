@@ -153,8 +153,8 @@ export default function Dashboard() {
                     <Grid item xs={12} md={6} lg={8}>
                         <AppGhostGraph
                             title={currentReason}
-                            subheader="MM/DD 2022"
-                            chartLabels={Object.keys(analysedData.total_convos_per_day)}
+                            subheader="DD/MM 2022"
+                            chartLabels={Object.keys(analysedData.total_convos_per_day).sort()}
                             chartData={[
                                 {
                                     name: 'Users Leaving due to '.concat(currentReason),

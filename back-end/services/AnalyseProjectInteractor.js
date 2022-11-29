@@ -90,7 +90,7 @@ class AnalyseProjectInteractor {
         for (let j = 0; j < l; j++) {
             let transcript = transcripts[j];
             let date = new Date(transcript.transcript_data[0].startTime.toString().slice(0, 10));
-            let key = date.getMonth().toString() + '/' + date.getDate().toString();
+            let key = date.getDate().toString() + '/' + date.getMonth().toString();
             if (map[key]) {
                 map[key] += 1;
             } else {
@@ -115,7 +115,7 @@ class AnalyseProjectInteractor {
             let textTranscript = text_transcripts[j];
             let transcript = transcripts[j];
             let date = new Date(transcript.transcript_data[0].startTime.toString().slice(0, 10));
-            let key = date.getMonth().toString() + '/' + date.getDate().toString();
+            let key = date.getDate().toString() + '/' + date.getMonth().toString();
             if (AnalyseTranscriptInteractor.userForceQuit(textTranscript.dialogue)) {
                 if (map[key]) {
                     map[key] += 1;
@@ -243,7 +243,7 @@ class AnalyseProjectInteractor {
 
             // Get the date of the user quitting the chat
             let date = new Date(transcript.transcript_data[0].startTime.toString().slice(0, 10));
-            let key = date.getMonth().toString() + '/' + date.getDate().toString();
+            let key = date.getDate().toString() + '/' + date.getMonth().toString();
 
             // Find the reason for the user quitting the chat
             let temp = AnalyseTranscriptInteractor.checkReason(textTranscript, Q3_text, transcript, Q3_time);

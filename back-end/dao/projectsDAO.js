@@ -37,7 +37,7 @@ export default class ProjectsDAO {
             return {
                 status: 200,
                 data: {response: `successfully created project`}
-            }
+            };
         } catch (e) {
             console.error(`Unable to issue create command, ${e}`);
             return {

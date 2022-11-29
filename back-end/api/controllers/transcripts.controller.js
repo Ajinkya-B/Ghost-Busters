@@ -10,8 +10,16 @@ export default class TranscriptsController {
    * @param {Object} res : json object that is returned after making an API call
    * @param {Object} next
    */
-  static async getParsedTranscripts(req, res, next) {
-      await TranscriptService.queryForParsedTranscripts(req, res)
+  static async apiGetCleanedTranscripts(req, res, next) {
+    try{
+      const getCleanedTranscriptsResponse = await TranscriptService.getFilteredTranscripts(req.query);
+      res
+        .status(getCleanedTranscriptsResponse.status)
+        .json(getCleanedTranscriptsResponse.data);
+    }catch(e){
+      res.status(500).json({error: e.message});
+    }
+      
   }
 
   /** GET API: Gets trimmed transcript data matching with the querry from MongoDB.
@@ -20,8 +28,15 @@ export default class TranscriptsController {
    * @param {Object} res : json object that is returned after making an API call
    * @param {Object} next
    */
-  static async getTrimmedTranscripts(req, res, next) {
-    await TranscriptService.queryForTrimmedTranscripts(req.query.project_id, res)
+  static async apiGetTextTranscripts(req, res, next) {
+    try {
+      const getTextTranscriptsResponse = await TranscriptService.getFilteredTextTranscripts(req.query);
+      res
+        .status(getTextTranscriptsResponse.status)
+        .json(getTextTranscriptsResponse.data);
+    } catch (e) {
+      res.status(500).json({ error: e.message });
+    }
   }
 
   /**
@@ -55,10 +70,5 @@ export default class TranscriptsController {
     project_id = req.body[1]
     res.json([api_key, project_id])
   }
-
-  // static async getValues(req, res, next){
-  //   res.json([api_key, project_id])
-  //
-  // }
 
 }

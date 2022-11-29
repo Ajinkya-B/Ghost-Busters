@@ -5,12 +5,19 @@ export default class TextTranscriptsDAO {
    * Get an array of all the text transcripts in MongoDB
    * @returns Array of all the text transcripts from the database
    */
-  async getTextTranscripts() {
+  async getTextTranscripts(query) {
     try {
-      return await TextTranscripts.find();
+      const transcriptList = await TextTranscripts.find(query);
+      return {
+        status: 200,
+        data: transcriptList,
+      };
     } catch (e) {
       console.error(`Unable to issue find command, ${e}`);
-      return [];
+      return {
+        status: 500,
+        data: { error: e.message },
+      };
     }
   }
 

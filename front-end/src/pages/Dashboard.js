@@ -152,7 +152,7 @@ export default function Dashboard() {
                     <Grid item xs={12} md={6} lg={8}>
                         <AppGhostGraph
                             title={currentReason}
-                            subheader="(+43%) than last year"
+                            subheader="2022"
                             chartLabels={Object.keys(analysedData.total_convos_per_day)}
                             chartData={[
                                 {

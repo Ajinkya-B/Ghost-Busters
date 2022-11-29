@@ -71,7 +71,6 @@ export default function Dashboard() {
     // ----------------------------------------------------------------------
     let currentReason; // current title of graph
     let currentColor; // current colour of the graph's bars
-    let chartLabels = Object.keys(analysedData.total_convos_per_day); // current labels of graph
     let chartData; // current data displayed by graph
 
     // The current counter (reason why the user left a chat) is selected when a Creator clicks on the card
@@ -85,7 +84,7 @@ export default function Dashboard() {
             currentColor = '#FFE16A'
             break
         case 'Chatbot Repetitions':
-            chartData = Object.values(analysedData.reasons_per_day.chatbotRepetition)
+            chartData = Object.values(analysedData.reasons_per_day.chatbot_repetition)
             currentReason ='Chatbot Repetitions'
             currentColor = '#BAF27F'
             break
@@ -114,6 +113,8 @@ export default function Dashboard() {
         <div>
             <Navbar />
             <br />
+            {Object.keys(analysedData.total_convos_per_day)} <br />
+            {Object.keys(analysedData.total_users_quit_per_day)}
 
             <Container maxWidth="xl">
                 <SelectProject />
@@ -154,7 +155,7 @@ export default function Dashboard() {
                         <AppGhostGraph
                             title={currentReason}
                             subheader="(+43%) than last year"
-                            chartLabels={chartLabels}
+                            chartLabels={Object.keys(analysedData.total_convos_per_day)}
                             chartData={[
                                 {
                                     name: 'Users Leaving due to '.concat(currentReason),

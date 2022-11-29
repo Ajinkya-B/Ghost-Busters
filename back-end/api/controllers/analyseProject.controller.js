@@ -8,10 +8,10 @@ import AnalyseProjectService from '../../services/analyseProject.service.js'
  * @param {Object} next
  */
 export default class AnalyseProjectController{
-    static async getAnalysedData(req, res, next){
+    static async getAnalysedData(dao, req, res, next){
         let id = req.params.id || {};
         try{
-            const analyseProjectResponse = await AnalyseProjectService.analyseProject(id)
+            const analyseProjectResponse = await AnalyseProjectService.analyseProject(dao, id)
         switch (analyseProjectResponse.status) {
             case "success":
                 console.log("Project Analysed!");

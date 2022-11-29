@@ -19,12 +19,12 @@ router.route("/getTrimmedTranscripts")
 
 router.route("/trimmed")
     .post((req, res, next) => {
-        TranscriptsCtrl.addClean(textDao, req, res, next)
+        TranscriptsCtrl.addClean(textDao, TranscriptDAO, req, res, next)
     })
 
 router.route("/flush")
     .get((req, res, next) => {
-        TranscriptsCtrl.flushDB(transcriptDao)
+        TranscriptsCtrl.flushDB(transcriptDao, req, res, next)
     })
 
 router.route("/store")

@@ -15,12 +15,7 @@ export default class TranscriptsController {
    * @param {Object} next
    */
   static async getParsedTranscripts(dao, req, res, next) {
-    if (dao instanceof TranscriptInterface) {
-      await TranscriptService.queryForParsedTranscripts(req, res)
-    } else {
-      throw new Error("not an TextTranscript Interface");
-    }
-
+      await TranscriptService.queryForParsedTranscripts(dao, req, res)
   }
 
   /** GET API: Gets trimmed transcript data matching with the querry from MongoDB.
@@ -31,31 +26,24 @@ export default class TranscriptsController {
    * @param {Object} next
    */
   static async getTrimmedTranscripts(dao, req, res, next) {
-    if (dao instanceof TextTranscriptsInterface) {
-    await TranscriptService.queryForTrimmedTranscripts(req.query.project_id, res)
-    } else {
-      throw new Error("not an TextTranscript Interface");
-    }
+    await TranscriptService.queryForTrimmedTranscripts(dao, req.query.project_id, res)
   }
 
   /**
    * Adds all the transcripts saved under a project in Voiceflow in form of 'textTranscripts' to Mongo DB
-   * @param dao
+   * @param textDAO
+   * @param transcriptDAO
    * @param {Object} req : contains additional body passed to an API call
    * @param {Object} res : json object that is returned after making an API call
    * @param {Object} next
    */
-  static async addClean(dao, req, res, next) {
-    if (dao instanceof TextTranscriptsInterface) {
+  static async addClean(textDAO, transcriptDAO, req, res, next) {
     try {
-      await TranscriptService.getVoiceFlowAPIData(api_key, project_id)
+      await TranscriptService.getVoiceFlowAPIData(textDAO, transcriptDAO, api_key, project_id)
       res.json({ status: "success" });
     } catch (e) {
       res.json({ status: "failure" });
     }
-    } else {
-      throw new Error("not an TextTranscript Interface");
-    }
 
   }
 
@@ -66,13 +54,10 @@ export default class TranscriptsController {
    * @param {Object} res : json object that is returned after making an API call
    * @param {Object} next
    */
+  //Come back to this function, deciding whether to add the dao as an if condition or just leave it
   static async flushDB(dao, req, res, next) {
-    if (dao instanceof TranscriptInterface) {
-    await TranscriptService.flushCollection(req.query.collection, res)
+    await TranscriptService.flushCollection(dao, req.query.collection, res)
 
-  } else {
-  throw new Error("not an TextTranscript Interface");
-  }
   }
 
   static async storeVales(dao, req, res, next){

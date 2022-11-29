@@ -1,5 +1,4 @@
 import ProjectsService from "../../services/projects.service.js";
-import {ProjectsInterface} from "../../interfaces/projects-interface.js";
 
 export default class ProjectsController {
 
@@ -12,20 +11,17 @@ export default class ProjectsController {
      * @returns {Promise<void>}
      */
     static async apiGetFilteredProjects(dao, req, res, next) {
-        if (dao instanceof  ProjectsInterface) {
         try{
-            const getAllProjectsResponse = await ProjectsService.getFilteredProjects(req.query);
+            const getAllProjectsResponse = await ProjectsService.getFilteredProjects(dao, req.query);
             res
                 .status(getAllProjectsResponse.status)
                 .json(getAllProjectsResponse.data);
         }catch(e) {
             res.status(500).json({error: e.message})
         }
-        } else {
-            throw new Error("not an ProjectInterface");
-        }
+
     }
-    
+
 
     /**
      * A POST API for creating a project object in MongoDB.
@@ -36,18 +32,15 @@ export default class ProjectsController {
      * @returns {Promise<void>}
      */
     static async apiCreateProject(dao, req, res, next) {
-        if (dao instanceof  ProjectsInterface) {
             try {
-                const createUserResult = await ProjectsService.createProject(req.body);
+                const createUserResult = await ProjectsService.createProject(dao, req.body);
                 res
                     .status(createUserResult.status)
                     .json(createUserResult.data);
             } catch (e) {
                 res.status(500).json({error: e.message})
             }
-        } else {
-            throw new Error("not an ProjectInterface");
-        }
+
     }
 
     /**
@@ -59,20 +52,16 @@ export default class ProjectsController {
      * @returns {Promise<void>}
      */
     static async apiDeleteProject(dao, req, res, next) {
-        if (dao instanceof  ProjectsInterface) {
             try {
                 const projectName = req.body.project_name;
-                const deleteProjectResponse = await ProjectsService.deleteProject(projectName);
+                const deleteProjectResponse = await ProjectsService.deleteProject(dao, projectName);
                 res
                     .status(deleteProjectResponse.status)
                     .json(deleteProjectResponse.data);
             } catch (e) {
                 res.status(500).json({error: e.message})
             }
-        }
-        else {
-            throw new Error("not an ProjectInterface");
-        }
+
     }
 
 
@@ -85,18 +74,15 @@ export default class ProjectsController {
      * @returns {Promise<void>}
      */
     static async apiGetProjectByID(dao, req, res, next) {
-        if (dao instanceof ProjectsInterface) {
             try {
                 let id = req.params.id || {};
-                const getprojectByIdResponse = await ProjectsService.getProjectbyID(id);
+                const getprojectByIdResponse = await ProjectsService.getProjectbyID(dao, id);
                 res
                     .status(getprojectByIdResponse.status)
                     .json(getprojectByIdResponse.data);
             } catch (e) {
                 res.status(500).json({error: e.message});
             }
-        } else {
-            throw new Error("not an ProjectInterface");
-        }
+
     }
 }

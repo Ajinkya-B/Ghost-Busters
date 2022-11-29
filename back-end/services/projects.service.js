@@ -8,10 +8,11 @@ export default class ProjectsService {
     /**
      * Gets all projects from the databse that satisfy the filters.
      * @returns {Promise<{data: *, status: string}|{data: *[], status: string}>}
+     * @param outputBoundary
      * @param dao
      * @param query
      */
-    static async getFilteredProjects(dao, query) {
+    static async getFilteredProjects(outputBoundary, dao, query) {
         if (dao instanceof ProjectsInterface) {
             try {
             let filters;
@@ -23,15 +24,15 @@ export default class ProjectsService {
                 }
             }
             const response = await dao.getProjects(filters);
-            return {
+            outputBoundary.setOutput( {
                 status: response.status,
                 data: response.data,
-            };
+            })
         } catch (e) {
-            return {
+            outputBoundary.setOutput({
                 status: 500,
                 data: {error: e.message},
-            }
+            })
         }
         } else {
             throw new Error("not an ProjectInterface");
@@ -93,23 +94,24 @@ export default class ProjectsService {
     /**
      * If succuess, returns status and project details of the project with project_id id.
      * Otherwise, returns status failure and empty array.
+     * @param outputBoundary
      * @param dao
      * @param id
      * @returns {Promise<{data: *, status: string}|{data: *[], status: string}>}
      */
-    static async getProjectbyID(dao, id) {
+    static async getProjectbyID(outputBoundary, dao, id) {
         if (dao instanceof ProjectsInterface) {
             try {
                 const response = await dao.getProjectByID(id);
-                return {
+                outputBoundary.setOutput({
                     status: response.status,
                     data: response.data,
-                };
+                })
             } catch (e) {
-                return {
+                outputBoundary.setOutput({
                     status: "failure",
                     data: { error: e.message },
-                };
+                })
             }
         } else {
             throw new Error("not an ProjectInterface");

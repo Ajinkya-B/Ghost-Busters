@@ -7,9 +7,14 @@ export class InputBoundaryInterface{
     static isInputBoundaryInterface = true;
 
     /**
-     * @param {Object} query find specific intent(s)
+     * Adds all the transcripts saved under a project in Voiceflow in form of 'textTranscripts' to Mongo DB
+     * @param textDAO
+     * @param transcriptDAO
+     * @param {Object} req : contains additional body passed to an API call
+     * @param {Object} res : json object that is returned after making an API call
+     * @param {Object} next
      */
-    static async getTranscript(query = {}){
+    static async addTranscripts(query = {}){
         throw new Error("not implemented");
     }
 
@@ -17,7 +22,7 @@ export class InputBoundaryInterface{
      *  @param {Object} rawTranscript raw transcript uploaded by user
      *  @return {Object} properly formatted data from the transcript
      * */
-    static async formatTranscript(rawTranscript = {}) {
+    static async storeValues(query = {}) {
         throw new Error("not implemented");
     }
 

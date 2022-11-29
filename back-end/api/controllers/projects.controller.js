@@ -2,6 +2,16 @@ import ProjectsService from "../../services/projects.service.js";
 
 export default class ProjectsController {
 
+    static #outputBoundary;
+
+    static setOutputBoundary(outputBoundary) {
+        if(outputBoundary.isOutputBoundaryInterface){
+            this.#outputBoundary = outputBoundary;
+        } else {
+            throw new Error("not an OutputBoundary");
+        }
+    }
+
     /**
      * A GET API for getting an array of all project objects.
      * @param dao
@@ -12,10 +22,10 @@ export default class ProjectsController {
      */
     static async apiGetFilteredProjects(dao, req, res, next) {
         try{
-            const getAllProjectsResponse = await ProjectsService.getFilteredProjects(dao, req.query);
+            await ProjectsService.getFilteredProjects(this.#outputBoundary, dao, req.query);
             res
-                .status(getAllProjectsResponse.status)
-                .json(getAllProjectsResponse.data);
+                .status(this.#outputBoundary.getOutput().status)
+                .json(this.#outputBoundary.getOutput().data);
         }catch(e) {
             res.status(500).json({error: e.message})
         }
@@ -76,10 +86,10 @@ export default class ProjectsController {
     static async apiGetProjectByID(dao, req, res, next) {
             try {
                 let id = req.params.id || {};
-                const getprojectByIdResponse = await ProjectsService.getProjectbyID(dao, id);
+                await ProjectsService.getProjectbyID(this.#outputBoundary, dao, id);
                 res
-                    .status(getprojectByIdResponse.status)
-                    .json(getprojectByIdResponse.data);
+                    .status(this.#outputBoundary.getOutput().status)
+                    .json(this.#outputBoundary.getOutput().data);
             } catch (e) {
                 res.status(500).json({error: e.message});
             }

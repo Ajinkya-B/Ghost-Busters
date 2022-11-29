@@ -4,10 +4,11 @@ import voiceflowAPI from "../helpers/voiceflowAPI.js";
 import transcriptDataFormatter from "../helpers/transcriptDataFormatter.js";
 import {TranscriptInterface} from "../interfaces/transcript-interface.js";
 import {TextTranscriptsInterface} from "../interfaces/textTranscripts-interface.js";
+import {InputBoundaryInterface} from "../interfaces/input-boundary-interface.js";
 
-export default class TranscriptService {
-  static #TranscriptsDAO = new TranscriptsDAO();
-  static #TextTranscriptsDAO = new TextTranscriptsDAO();
+export default class TranscriptService extends InputBoundaryInterface{
+
+
   /**
    * Receives a json file from the voiceflow api call
    * @param textDAO

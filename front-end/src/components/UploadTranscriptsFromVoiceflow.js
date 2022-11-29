@@ -2,7 +2,6 @@
 
 import React from "react";
 import {NavBtn, NavBtnLink} from "./Elements";
-import axios from "axios";
 import TranscriptDataService from "../services/TranscriptDataService";
 
 

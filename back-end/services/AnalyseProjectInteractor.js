@@ -162,10 +162,10 @@ class AnalyseProjectInteractor {
     }
 
     /**
-     * Returns the number of users that quit corresponding to each reason
+     * Returns the number of users that quit corresponding to each reason.
      * @param text_transcripts
      * @param transcripts
-     * @returns {{other: number, chatbotRepetition: number, human_interaction: number, no_solution: number, privacy: number, lengthy_convo: number}}
+     * @returns {{other: number, chatbot_repetition: number, human_interaction: number, no_solution: number, privacy: number, lengthy_convo: number}}
      */
     checkReasons(text_transcripts, transcripts) {
         let l_text = text_transcripts.length;
@@ -176,18 +176,14 @@ class AnalyseProjectInteractor {
             "no_solution": 0,
             "human_interaction": 0,
             "lengthy_convo": 0,
-            "chatbotRepetition": 0,
+            "chatbot_repetition": 0,
             "other": 0
         };
-
 
         for (let j = 0; j < l_text; j++) {
 
             let textTranscript = text_transcripts[j];
             let transcript = transcripts[j];
-
-            // Get the date of the user quitting the chat
-
 
             // Find the reason for the user quitting the chat
             let temp = AnalyseTranscriptInteractor.checkReason(textTranscript, Q3_text, transcript, Q3_time);
@@ -209,7 +205,7 @@ class AnalyseProjectInteractor {
 
             }
             if (temp.includes("chatbotRepetition")) {
-                reasons.chatbotRepetition += 1;
+                reasons.chatbot_repetition += 1;
 
             }
             if (temp.includes("other")) {
@@ -221,7 +217,7 @@ class AnalyseProjectInteractor {
     }
 
     /**
-     * Returns the no. of users that quit per day corresponding to each user.
+     * Returns the number of users that quit per day corresponding to each reason.
      * @param text_transcripts
      * @param transcripts
      * @returns {{other: {}, human_interaction: {}, no_solution: {}, privacy: {}, chatbot_repetition: {}, lengthy_convo: {}}}

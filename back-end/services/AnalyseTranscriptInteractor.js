@@ -1,7 +1,7 @@
 import {isPrivacyConcern, isNoSolution, isHumanInteraction, isLengthyConvo, isChatbotRepetition} from "./checkReasonsInteractor.js"
 
 
-class AnalyseTranscriptInteractor {
+export class AnalyseTranscriptInteractor {
     /**
      * Returns whether the user force quit a chat or wasn't satisfied.
      * @param text_transcript

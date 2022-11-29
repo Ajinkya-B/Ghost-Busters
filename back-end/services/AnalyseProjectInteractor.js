@@ -1,6 +1,11 @@
-import AnalyseTranscriptInteractor from './AnalyseTranscriptInteractor.js'
+import {AnalyseTranscriptInteractor} from './AnalyseTranscriptInteractor.js'
 
 export class AnalyseProjectInteractor {
+    transcriptAnalyser = new AnalyseTranscriptInteractor;
+
+    setTranscriptAnalyser(transcriptAnalyser) {
+        this.transcriptAnalyser = transcriptAnalyser;
+    }
 
     /**
      * Returns the average length of conversations of the transcripts.
@@ -12,7 +17,7 @@ export class AnalyseProjectInteractor {
             let total_duration = 0;
             let l = text_transcripts.length;
             for (let j = 0; j < l; j++) {
-                total_duration += AnalyseTranscriptInteractor.getDurationTexts(
+                total_duration += this.transcriptAnalyser.getDurationTexts(
                     text_transcripts[j].dialogue);
             }
             return total_duration / l;
@@ -32,7 +37,7 @@ export class AnalyseProjectInteractor {
         let l = transcripts.length;
         for (let j = 0; j < l; j++) {
             let transcript = transcripts[j];
-            total_duration += AnalyseTranscriptInteractor.getDurationTime(transcript.transcript_data);
+            total_duration += this.transcriptAnalyser.getDurationTime(transcript.transcript_data);
         }
         return total_duration / transcripts.length;
     }
@@ -47,7 +52,7 @@ export class AnalyseProjectInteractor {
         let Q3 = Math.floor(3 * (l + 1) / 4);
         let durations = [];
         for (let j = 0; j < l; j++) {
-            durations.push(AnalyseTranscriptInteractor.getDurationTime(transcripts[j].transcript_data));
+            durations.push(this.transcriptAnalyser.getDurationTime(transcripts[j].transcript_data));
         }
         durations.sort(function (a, b) {
             return a - b
@@ -67,7 +72,7 @@ export class AnalyseProjectInteractor {
         let Q3 = Math.floor(3 * (l + 1) / 4);
         let durations = [];
         for (let j = 0; j < l; j++) {
-            durations.push(AnalyseTranscriptInteractor.getDurationTexts(text_transcripts[j].dialogue));
+            durations.push(this.transcriptAnalyser.getDurationTexts(text_transcripts[j].dialogue));
         }
         durations.sort(function (a, b) {
             return a - b
@@ -118,7 +123,7 @@ export class AnalyseProjectInteractor {
             let transcript = transcripts[j];
             let date = new Date(transcript.transcript_data[0].startTime.toString().slice(0, 10));
             let key = date.getDate().toString() + date.getMonth().toString();
-            if (AnalyseTranscriptInteractor.userForceQuit(textTranscript.dialogue)) {
+            if (this.transcriptAnalyser.userForceQuit(textTranscript.dialogue)) {
                 if (map[key]) {
                     map[key] += 1;
                 } else {
@@ -137,7 +142,7 @@ export class AnalyseProjectInteractor {
      * @param transcripts
      * @returns {number}
      */
-    satisfaction(text_transcripts, transcripts){
+    satisfaction(text_transcripts, transcripts) {
         let usersQuit = this.totalUsersForceQuitPerDay(text_transcripts, transcripts);
         let usersQuitvalues = Object.values(usersQuit);
         let totalUsers = this.totalConvosPerDay(transcripts);
@@ -146,7 +151,7 @@ export class AnalyseProjectInteractor {
         let sumTotalUsers = totalUsersvalues.reduce((b, a) => b + a, 0);
         console.log(sumTotalUsers, sumUsersQuit);
 
-        return (sumTotalUsers - sumUsersQuit)/sumTotalUsers;
+        return (sumTotalUsers - sumUsersQuit) / sumTotalUsers;
     }
 
     /**
@@ -155,7 +160,7 @@ export class AnalyseProjectInteractor {
      * @param transcripts
      * @returns {number}
      */
-    numSatisfiedUsers(text_transcripts, transcripts){
+    numSatisfiedUsers(text_transcripts, transcripts) {
         let usersQuit = this.totalUsersForceQuitPerDay(text_transcripts, transcripts);
         let usersQuitValues = Object.values(usersQuit);
         let totalUsers = this.totalConvosPerDay(transcripts);
@@ -173,7 +178,7 @@ export class AnalyseProjectInteractor {
      * @param transcripts
      * @returns {number}
      */
-    numUnsatisfiedUsers(text_transcripts, transcripts){
+    numUnsatisfiedUsers(text_transcripts, transcripts) {
         let usersQuit = this.totalUsersForceQuitPerDay(text_transcripts, transcripts);
         let usersQuitValues = Object.values(usersQuit);
         let sumUsersQuit = usersQuitValues.reduce((b, a) => b + a, 0);
@@ -211,7 +216,7 @@ export class AnalyseProjectInteractor {
 
 
             // Find the reason for the user quitting the chat
-            let temp = AnalyseTranscriptInteractor.checkReason(textTranscript, Q3_text, transcript, Q3_time);
+            let temp = this.transcriptAnalyser.checkReason(textTranscript, Q3_text, transcript, Q3_time);
 
             if (temp.includes("privacy")) {
                 reasons.privacy += 1;
@@ -247,7 +252,7 @@ export class AnalyseProjectInteractor {
      * @param transcripts
      * @returns {{other: {}, human_interaction: {}, no_solution: {}, privacy: {}, chatbot_repetition: {}, lengthy_convo: {}}}
      */
-    checkReasonsPerDay(text_transcripts, transcripts){
+    checkReasonsPerDay(text_transcripts, transcripts) {
         let l_text = text_transcripts.length;
         let Q3_text = this.thirdQuantileTexts(text_transcripts);
         let Q3_time = this.thirdQuantileTime(transcripts);
@@ -271,42 +276,63 @@ export class AnalyseProjectInteractor {
             let key = date.getMonth().toString() + '/' + date.getDate().toString();
 
             // Find the reason for the user quitting the chat
-            let temp = AnalyseTranscriptInteractor.checkReason(textTranscript, Q3_text, transcript, Q3_time);
+            let temp = this.transcriptAnalyser.checkReason(textTranscript, Q3_text, transcript, Q3_time);
 
             if (temp.includes("privacy")) {
                 let map = reasonsPerDay.privacy[key];
-                if (map) { reasonsPerDay.privacy[key] += 1; }
-                else { reasonsPerDay.privacy[key] = 1; }
+                if (map) {
+                    reasonsPerDay.privacy[key] += 1;
+                } else {
+                    reasonsPerDay.privacy[key] = 1;
+                }
             }
             if (temp.includes("nosolution")) {
                 let map = reasonsPerDay.no_solution[key];
-                if (map) { reasonsPerDay.no_solution[key] += 1; }
-                else { reasonsPerDay.no_solution[key] = 1; }
+                if (map) {
+                    reasonsPerDay.no_solution[key] += 1;
+                } else {
+                    reasonsPerDay.no_solution[key] = 1;
+                }
             }
             if (temp.includes("humaninteraction")) {
                 let map = reasonsPerDay.human_interaction[key];
-                if (map) { reasonsPerDay.human_interaction[key] += 1; }
-                else { reasonsPerDay.human_interaction[key] = 1; }
+                if (map) {
+                    reasonsPerDay.human_interaction[key] += 1;
+                } else {
+                    reasonsPerDay.human_interaction[key] = 1;
+                }
             }
             if (temp.includes("lengthyConvo")) {
                 let map = reasonsPerDay.lengthy_convo[key];
-                if (map) { reasonsPerDay.lengthy_convo[key] += 1; }
-                else { reasonsPerDay.lengthy_convo[key]= 1; }
+                if (map) {
+                    reasonsPerDay.lengthy_convo[key] += 1;
+                } else {
+                    reasonsPerDay.lengthy_convo[key] = 1;
+                }
             }
             if (temp.includes("chatbotRepetition")) {
                 let map = reasonsPerDay.chatbot_repetition[key];
-                if (map) { reasonsPerDay.chatbot_repetition[key] += 1; }
-                else { reasonsPerDay.chatbot_repetition[key] = 1; }
+                if (map) {
+                    reasonsPerDay.chatbot_repetition[key] += 1;
+                } else {
+                    reasonsPerDay.chatbot_repetition[key] = 1;
+                }
             }
             if (temp.includes("other")) {
                 let map = reasonsPerDay.other[key];
-                if (map) { reasonsPerDay.other[key] += 1; }
-                else { reasonsPerDay.other[key] = 1; }
+                if (map) {
+                    reasonsPerDay.other[key] += 1;
+                } else {
+                    reasonsPerDay.other[key] = 1;
+                }
             }
         }
         return reasonsPerDay;
     }
+
+
 }
+
 
 export default new AnalyseProjectInteractor();
 

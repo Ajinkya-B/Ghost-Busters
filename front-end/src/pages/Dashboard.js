@@ -113,8 +113,6 @@ export default function Dashboard() {
         <div>
             <Navbar />
             <br />
-            {Object.keys(analysedData.total_convos_per_day)} <br />
-            {Object.keys(analysedData.total_users_quit_per_day)}
 
             <Container maxWidth="xl">
                 <SelectProject />

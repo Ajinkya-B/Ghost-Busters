@@ -1,6 +1,6 @@
 import AnalyseTranscriptInteractor from './AnalyseTranscriptInteractor.js'
 
-class AnalyseProjectInteractor {
+export class AnalyseProjectInteractor {
 
     /**
      * Returns the average length of conversations of the transcripts.

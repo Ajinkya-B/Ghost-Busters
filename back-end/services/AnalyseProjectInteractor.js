@@ -47,7 +47,7 @@ export function totalUsersForceQuit(text_transcripts) {
         let transcript = text_transcripts[j];
         if (userForceQuit(transcript.dialogue)) {
             i = i + 1;
-            console.log(i);
+            // console.log(i);
         }
     }
     return i;

@@ -25,7 +25,7 @@ export function isPrivacyConcern(dialogues) {
         if (dialogues[i].speaker == "bot") {
             let text = dialogues[i].text.toLowerCase();
             if (keywords.some(keyword => text.includes(keyword))) {
-                console.log("Found")
+                // console.log("Found")
                 if (i == l - 1) {
                     return true;
                 }
@@ -33,7 +33,7 @@ export function isPrivacyConcern(dialogues) {
                     "agent"]
                 let text2 = dialogues[i + 1].text.toLowerCase();
                 if (other_keywords.some(keyword => text.includes(keyword))) {
-                    console.log("Found")
+                    // console.log("Found")
                     return true;
 
                 }
@@ -57,7 +57,7 @@ export function isNoSolution(dialogues) {
         if (dialogues[i].speaker == "bot") {
             let text = dialogues[i].text.toLowerCase();
             if (keywords.some(keyword => text.includes(keyword))) {
-                console.log("Found");
+                // console.log("Found");
                 return true;
             }
         }
@@ -80,7 +80,7 @@ export function isHumanInteraction(dialogues){
         if (dialogues[i].speaker == "human") {
             let text = dialogues[i].text.toLowerCase();
             if (keywords.some(keyword => text.includes(keyword))) {
-                console.log("Found");
+                // console.log("Found");
                 return true;
             }
         }

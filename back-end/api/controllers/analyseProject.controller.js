@@ -8,14 +8,26 @@ import AnalyseProjectService from '../../services/analyseProject.service.js'
  * @param {Object} next
  */
 export default class AnalyseProjectController{
+
+    static #outputBoundary;
+
+    static setOutputBoundary(outputBoundary) {
+        if(outputBoundary.isOutputBoundaryInterface){
+            this.#outputBoundary = outputBoundary;
+        } else {
+            throw new Error("not an OutputBoundary");
+        }
+    }
+
+
     static async getAnalysedData(dao, req, res, next){
         let id = req.params.id || {};
         try{
-            const analyseProjectResponse = await AnalyseProjectService.analyseProject(dao, id)
-        switch (analyseProjectResponse.status) {
+            await AnalyseProjectService.analyseProject(this.#outputBoundary, dao, id)
+        switch (this.#outputBoundary.getOutput().status) {
             case "success":
                 console.log("Project Analysed!");
-                res.json(analyseProjectResponse.data);
+                res.json(this.#outputBoundary.getOutput().data);
                 return;
             case "failure":
                 res.json({ status: "failure" });

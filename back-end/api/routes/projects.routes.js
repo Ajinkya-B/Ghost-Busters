@@ -3,11 +3,11 @@ import ProjectsController from "../controllers/projects.controller.js";
 import ProjectsDAO from "../../dao/projectsDAO.js";
 
 const router = express.Router()
-
+const dao = new ProjectsDAO()
 router
     .route('/')
     .post((req, res, next) => {
-        const dao = new ProjectsDAO()
+
         ProjectsController.apiCreateProject(dao, req, res, next);
     })
     .delete((req, res, next) => {

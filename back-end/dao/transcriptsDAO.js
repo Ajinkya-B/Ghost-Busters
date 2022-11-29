@@ -1,6 +1,7 @@
 import { Transcripts } from "../schema/transcripts-schema.js";
+import {TranscriptInterface} from "../interfaces/transcript-interface.js";
 
-export default class TranscriptsDAO {
+export default class TranscriptsDAO extends TranscriptInterface{
 
   /**
    * Get a list of all transcripts and the number of transcripts from database

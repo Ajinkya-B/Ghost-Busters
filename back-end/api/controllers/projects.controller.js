@@ -12,6 +12,7 @@ export default class ProjectsController {
      * @returns {Promise<void>}
      */
     static async apiGetFilteredProjects(dao, req, res, next) {
+        if (dao instanceof  ProjectsInterface) {
         try{
             const getAllProjectsResponse = await ProjectsService.getFilteredProjects(req.query);
             res
@@ -19,6 +20,9 @@ export default class ProjectsController {
                 .json(getAllProjectsResponse.data);
         }catch(e) {
             res.status(500).json({error: e.message})
+        }
+        } else {
+            throw new Error("not an ProjectInterface");
         }
     }
     
@@ -81,13 +85,18 @@ export default class ProjectsController {
      * @returns {Promise<void>}
      */
     static async apiGetProjectByID(dao, req, res, next) {
-        try {
-            let id = req.params.id || {};
-            const getprojectByIdResponse = await ProjectsService.getProjectbyID(id);
-            res
-                .status(getprojectByIdResponse.status)
-                .json(getprojectByIdResponse.data);
-        } catch (e) {
-            res.status(500).json({ error: e.message });
+        if (dao instanceof ProjectsInterface) {
+            try {
+                let id = req.params.id || {};
+                const getprojectByIdResponse = await ProjectsService.getProjectbyID(id);
+                res
+                    .status(getprojectByIdResponse.status)
+                    .json(getprojectByIdResponse.data);
+            } catch (e) {
+                res.status(500).json({error: e.message});
+            }
+        } else {
+            throw new Error("not an ProjectInterface");
         }
-}}
+    }
+}

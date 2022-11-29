@@ -1,4 +1,7 @@
 import TranscriptService from "../../services/transcript.service.js";
+import {TextTranscriptsInterface} from "../../interfaces/textTranscripts-interface.js"
+import {TranscriptInterface} from "../../interfaces/transcript-interface.js";
+
 let api_key
 let project_id
 
@@ -6,51 +9,73 @@ let project_id
 export default class TranscriptsController {
 
   /** GET API: Gets parsed transcript data matching with the querry from MongoDB.
+   * @param dao
    * @param {Object} req : contains additonal body passed to an API call
    * @param {Object} res : json object that is returned after making an API call
    * @param {Object} next
    */
-  static async getParsedTranscripts(req, res, next) {
+  static async getParsedTranscripts(dao, req, res, next) {
+    if (dao instanceof TranscriptInterface) {
       await TranscriptService.queryForParsedTranscripts(req, res)
+    } else {
+      throw new Error("not an TextTranscript Interface");
+    }
+
   }
 
   /** GET API: Gets trimmed transcript data matching with the querry from MongoDB.
    * Trimmed transcripts are composed of an object with the speaker followed by the text
+   * @param dao
    * @param {Object} req : contains additonal body passed to an API call
    * @param {Object} res : json object that is returned after making an API call
    * @param {Object} next
    */
-  static async getTrimmedTranscripts(req, res, next) {
+  static async getTrimmedTranscripts(dao, req, res, next) {
+    if (dao instanceof TextTranscriptsInterface) {
     await TranscriptService.queryForTrimmedTranscripts(req.query.project_id, res)
+    } else {
+      throw new Error("not an TextTranscript Interface");
+    }
   }
 
   /**
    * Adds all the transcripts saved under a project in Voiceflow in form of 'textTranscripts' to Mongo DB
+   * @param dao
    * @param {Object} req : contains additional body passed to an API call
    * @param {Object} res : json object that is returned after making an API call
    * @param {Object} next
    */
-  static async addClean(req, res, next) {
+  static async addClean(dao, req, res, next) {
+    if (dao instanceof TextTranscriptsInterface) {
     try {
       await TranscriptService.getVoiceFlowAPIData(api_key, project_id)
       res.json({ status: "success" });
     } catch (e) {
       res.json({ status: "failure" });
     }
+    } else {
+      throw new Error("not an TextTranscript Interface");
+    }
 
   }
 
   /**
    * Adds all the transcripts saved under a project in Voiceflow in form of 'textTranscripts' to Mongo DB
+   * @param dao
    * @param {Object} req : contains additional body passed to an API call
    * @param {Object} res : json object that is returned after making an API call
    * @param {Object} next
    */
-  static async flushDB(req, res, next) {
+  static async flushDB(dao, req, res, next) {
+    if (dao instanceof TranscriptInterface) {
     await TranscriptService.flushCollection(req.query.collection, res)
+
+  } else {
+  throw new Error("not an TextTranscript Interface");
+  }
   }
 
-  static async storeVales(req, res, next){
+  static async storeVales(dao, req, res, next){
     api_key = req.body[0]
     project_id = req.body[1]
     res.json([api_key, project_id])

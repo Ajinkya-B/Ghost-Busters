@@ -134,3 +134,8 @@ h4 {
 h5 {
   font-size: 1rem;
 }
+
+/**
+ * Extra space for the dashboard UI
+ */
+.footer { margin-top: 200px; }

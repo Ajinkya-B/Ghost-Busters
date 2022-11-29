@@ -34,7 +34,7 @@ export const NavLink = styled(Link)`
   }
 `;
 
-// Button with a blue background
+// The foundation for a Navbar button
 export const NavBtn = styled.nav`
   display: flex;
   align-items: center;
@@ -49,7 +49,8 @@ export const NavBtn = styled.nav`
   }
 `;
 
-// Use this in between NavBtn for buttons that link to a different page
+// Blue button with hover animation
+// For Navbar buttons, use this in between NavBtn
 // E.g.,
 // <NavBtn>
 //     <NavBtnLink>

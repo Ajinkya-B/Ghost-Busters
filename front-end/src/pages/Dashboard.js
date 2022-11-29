@@ -221,6 +221,9 @@ export default function Dashboard() {
                     </Grid>
 
                 </Grid>
+
+                <div className={'footer'}></div>
+
             </Container>
         </div>
     );

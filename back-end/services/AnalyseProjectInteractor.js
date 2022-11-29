@@ -205,7 +205,7 @@ class AnalyseProjectInteractor {
 
             }
             if (temp.includes("chatbotRepetition")) {
-                reasons.chatbotRepetition += 1;
+                reasons.chatbot_repetition += 1;
 
             }
             if (temp.includes("other")) {

@@ -18,7 +18,7 @@ https://637309da5309e06258796f5f--spiffy-gingersnap-18a267.netlify.app
 4. Run ```npm install -g nodemon``` in any terminal.
 
 ## To run the app:
-Please request one of the authors for a ```.env``` file to add to the ```back-end```folder.
+Please request one of the authors for a ```.env``` file to add to the back-end folder.
 
 Run ```nodemon server``` in the back-end terminal to start the server.
 Then, run ```npm start``` in the front-end terminal to start the React app.

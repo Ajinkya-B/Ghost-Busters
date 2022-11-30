@@ -8,7 +8,7 @@ We're going to help businesses that use the services of [Voiceflow](https://www.
 ## You can visit the live demo here :smiley:
 https://637309da5309e06258796f5f--spiffy-gingersnap-18a267.netlify.app
 
-## To install the app:
+## To install the app
 1. Clone the project.
 2. Open 3 terminals: 
   - For one of them, run ```cd back-end``` to navigate to the back-end folder.
@@ -17,16 +17,16 @@ https://637309da5309e06258796f5f--spiffy-gingersnap-18a267.netlify.app
 3. Run ```npm install``` in all front-end, back-end, and main terminals to download all the dependencies.
 4. Run ```npm install -g nodemon``` in any terminal.
 
-## To run the app:
+## To run the app
 Please request one of the authors for a ```.env``` file to add to the back-end folder.
 
 Run ```nodemon server``` in the back-end terminal to start the server.
 Then, run ```npm start``` in the front-end terminal to start the React app.
 
-### Alternative run method:
+#### Alternative run method
 Run ```npm run dev``` to start both the back-end and front-end.
 
-## A tour of the app:
+## A tour of the app
 
 ![Welcome Page](./front-end/src/images/dashboard_screenshot.jpg)
 After landing on the welcome page, you may select a project and view its analytics dashboard. A project corresponds to a project on the Voiceflow Workspace. If you add a project, please make sure its Version ID and API Key are precisely from an existing Voiceflow project!
@@ -38,10 +38,10 @@ The data is aggregated from Voiceflow Transcripts. Specifically, we use the inst
 ![404 Page](./front-end/src/images/404page_screenshot.jpg)
 Boo! You'll see a 404 page if you navigate to an unsupported URL. 
 
-## License:
+## License
 Distributed under the [Apache-2.0 License](./LICENSE.md).
 
-## Attribution:
+## Attribution
 This app was created by Khushi Agrawal, Ajinkya Bhosale, Marco Marchesano, and Chelsea Wang.
 
 Thank you to University of Toronto's Technology Leadership Initiative professors and teaching assistants for your guidance and help!

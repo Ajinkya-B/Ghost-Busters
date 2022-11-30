@@ -126,7 +126,7 @@ describe("AnalyseProjectInteractor", () => {
         it('should correctly map each day with the conversations for that day', function () {
 
             const result = projectInteractor.totalConvosPerDay(TRANSCRIPTS);
-            expect(result).toStrictEqual({"2010": 1, "2110": 1});
+            expect(result).toStrictEqual({"10/20": 1, "10/21": 1});
         });
     });
 
@@ -139,14 +139,14 @@ describe("AnalyseProjectInteractor", () => {
 
             const result = projectInteractor.totalUsersForceQuitPerDay(TEXT_TRANSCRIPTS, TRANSCRIPTS);
             expect(transcriptAnalyser.userForceQuit).toHaveBeenCalledTimes(2);
-            expect(result).toStrictEqual({"2010": 1});
+            expect(result).toStrictEqual({"10/20": 1});
         });
     });
 
     describe("Satisfaction", () => {
         it('should correctly return satisfaction corresponding to the transcripts', function () {
-            projectInteractor.totalConvosPerDay = jest.fn().mockReturnValue({"2010": 1, "2110": 1});
-            projectInteractor.totalUsersForceQuitPerDay = jest.fn().mockReturnValue({"2010": 1});
+            projectInteractor.totalConvosPerDay = jest.fn().mockReturnValue({"10/20": 1, "10/21": 1});
+            projectInteractor.totalUsersForceQuitPerDay = jest.fn().mockReturnValue({"10/20": 1});
 
 
             const result = projectInteractor.satisfaction(TEXT_TRANSCRIPTS, TRANSCRIPTS);
@@ -158,8 +158,8 @@ describe("AnalyseProjectInteractor", () => {
 
     describe("Number of Satisfied Users", () => {
         it('should correctly return number of satisfied users', function () {
-            projectInteractor.totalConvosPerDay = jest.fn().mockReturnValue({"2010": 1, "2110": 1});
-            projectInteractor.totalUsersForceQuitPerDay = jest.fn().mockReturnValue({"2010": 1});
+            projectInteractor.totalConvosPerDay = jest.fn().mockReturnValue({"10/20": 1, "10/21": 1});
+            projectInteractor.totalUsersForceQuitPerDay = jest.fn().mockReturnValue({"10/20": 1});
 
 
             const result = projectInteractor.numSatisfiedUsers(TEXT_TRANSCRIPTS, TRANSCRIPTS);
@@ -171,7 +171,7 @@ describe("AnalyseProjectInteractor", () => {
 
     describe("Number of Unsatisfied Users", () => {
         it('should correctly return number of unsatisfied users', function () {
-            projectInteractor.totalUsersForceQuitPerDay = jest.fn().mockReturnValue({"2010": 1});
+            projectInteractor.totalUsersForceQuitPerDay = jest.fn().mockReturnValue({"10/20": 1});
 
             const result = projectInteractor.numUnsatisfiedUsers(TEXT_TRANSCRIPTS, TRANSCRIPTS);
             expect(projectInteractor.totalUsersForceQuitPerDay).toHaveBeenCalledTimes(1);

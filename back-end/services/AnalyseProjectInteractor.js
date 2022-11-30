@@ -96,7 +96,7 @@ export class AnalyseProjectInteractor {
         for (let j = 0; j < l; j++) {
             let transcript = transcripts[j];
             let date = new Date(transcript.transcript_data[0].startTime.toString().slice(0, 10));
-            let key = date.getDate().toString() + date.getMonth().toString();
+            let key = date.getMonth().toString() + '/' + date.getDate().toString();
             if (map[key]) {
                 map[key] += 1;
             } else {
@@ -121,7 +121,7 @@ export class AnalyseProjectInteractor {
             let textTranscript = text_transcripts[j];
             let transcript = transcripts[j];
             let date = new Date(transcript.transcript_data[0].startTime.toString().slice(0, 10));
-            let key = date.getDate().toString() + date.getMonth().toString();
+            let key = date.getMonth().toString() + '/' + date.getDate().toString();
             if (this.transcriptAnalyser.userForceQuit(textTranscript.dialogue)) {
                 if (map[key]) {
                     map[key] += 1;

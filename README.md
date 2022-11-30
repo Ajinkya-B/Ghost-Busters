@@ -9,33 +9,33 @@ We're going to help businesses that use the services of [Voiceflow](https://www.
 https://637309da5309e06258796f5f--spiffy-gingersnap-18a267.netlify.app
 
 ## To install the app:
-1. Fetch the project
+1. Clone the project.
 2. Open 3 terminals: 
-  - For one of them, run ```cd back-end``` to navigate to the back-end folder
-  - For the other, run ```cd front-end``` to navigate to the front-end folder
+  - For one of them, run ```cd back-end``` to navigate to the back-end folder.
+  - For the other, run ```cd front-end``` to navigate to the front-end folder.
   - Don't do anything for the last terminal. You're already in the main folder!
-3. Run ```npm install``` in all front-end, back-end, and main terminals to download all the dependencies
-3. Run ```npm install -g nodemon``` in any terminal
+3. Run ```npm install``` in all front-end, back-end, and main terminals to download all the dependencies.
+4. Run ```npm install -g nodemon``` in any terminal.
 
 ## To run the app:
 Please request one of the authors for a ```.env``` file to add to the ```back-end```folder.
 
 Run ```nodemon server``` in the back-end terminal to start the server.
-Then, run ```npm start``` in the front-end terminal to start the react app.
+Then, run ```npm start``` in the front-end terminal to start the React app.
 
 ### Alternative run method:
-Run ```npm run dev``` to start both the backend and the front end
+Run ```npm run dev``` to start both the back-end and front-end.
 
 ## A tour of the app:
 
-**(TO DO: INSERT IMAGE)**
+![preview](front-end/src/images/dashboard_screenshot.png)
 After landing on the welcome page, you may select a project and view its analytics dashboard. A project corresponds to a project on the Voiceflow Workspace. If you add a project, please make sure its Version ID and API Key are precisely from an existing Voiceflow project!
 
-**(TO DO: INSERT IMAGE)**
+![preview](front-end/src/images/selectproject_screenshot.png)
 After selecting a project, you'll be taken to its dashboard. Please be patient as it loads. :blush:
 The data is aggregated from Voiceflow Transcripts. Specifically, we use the instances of users leaving a conversation with a chatbot.
 
-**(TO DO: INSERT IMAGE)**
+![preview](front-end/src/images/404page_screenshot.png)
 Boo! You'll see a 404 page if you navigate to an unsupported URL. 
 
 ## License:

@@ -110,8 +110,7 @@ export default class TranscriptService extends InputBoundaryInterface{
   /**
    * Query's the database for text transcripts with a specific project id
    * @param dao
-   * @param {String} project_id : Contains the current project id
-   * @param res json format of the response of the function
+   * @param query
    */
   static async getFilteredTextTranscripts(dao, query) {
     if (dao instanceof TextTranscriptsInterface) {
@@ -123,7 +122,7 @@ export default class TranscriptService extends InputBoundaryInterface{
           }
         }
 
-      const response = await this.#TextTranscriptsDAO.getTextTranscripts({
+      const response = await dao.getTextTranscripts({
         filters,
       });
 

@@ -4,7 +4,6 @@
  * @class Interface
  */
 export class InputBoundaryInterface{
-    static isInputBoundaryInterface = true;
 
     /**
      * Adds all the transcripts saved under a project in Voiceflow in form of 'textTranscripts' to Mongo DB

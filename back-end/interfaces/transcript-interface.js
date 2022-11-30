@@ -23,7 +23,7 @@ export class TranscriptInterface extends EventEmitter{
      * @param {Array} transcriptData : Transcript conversation data
      * @returns
      */
-    async addTranscript(query = {}) {
+    async aaddTranscript(query = {}) {
         throw new Error("not implemented");
     }
 

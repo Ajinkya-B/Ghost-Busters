@@ -14,12 +14,12 @@ export default class TranscriptsController {
   }
 
   /** GET API: Gets parsed transcript data matching with the querry from MongoDB.
-   * @param dao
+   * @param transcriptDAO
    * @param {Object} req : contains additonal body passed to an API call
    * @param {Object} res : json object that is returned after making an API call
    * @param {Object} next
    */
-  static async apiGetCleanedTranscripts(req, res, next) {
+  static async apiGetCleanedTranscripts(transcriptDAO, req, res, next) {
     try{
       const getCleanedTranscriptsResponse = await this.#inputBoundary.getFilteredTranscripts(req.query);
       res
@@ -33,14 +33,14 @@ export default class TranscriptsController {
 
   /** GET API: Gets trimmed transcript data matching with the querry from MongoDB.
    * Trimmed transcripts are composed of an object with the speaker followed by the text
-   * @param dao
+   * @param textDAO
    * @param {Object} req : contains additonal body passed to an API call
    * @param {Object} res : json object that is returned after making an API call
    * @param {Object} next
    */
-  static async apiGetTextTranscripts(req, res, next) {
+  static async apiGetTextTranscripts(textDAO, req, res, next) {
     try {
-      const getTextTranscriptsResponse = await this.#inputBoundary.getFilteredTextTranscripts(req.query);
+      const getTextTranscriptsResponse = await this.#inputBoundary.getFilteredTextTranscripts(textDAO, req.query);
       res
         .status(getTextTranscriptsResponse.status)
         .json(getTextTranscriptsResponse.data);

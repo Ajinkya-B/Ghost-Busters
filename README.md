@@ -23,7 +23,7 @@ Please request one of the authors for a ```.env``` file to add to the back-end f
 Run ```nodemon server``` in the back-end terminal to start the server.
 Then, run ```npm start``` in the front-end terminal to start the React app.
 
-#### Alternative run method
+### Alternative run method:
 Run ```npm run dev``` to start both the back-end and front-end.
 
 ## A tour of the app

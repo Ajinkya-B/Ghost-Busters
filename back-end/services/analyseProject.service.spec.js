@@ -34,7 +34,7 @@ describe("AnalyseProjectService", () => {
         dao.getProjectByID.mockReturnValueOnce(SAMPLE_PROJECT);
 
 
-        // jest.clearAllMocks();
+        jest.clearAllMocks();
 
 
     });
@@ -116,7 +116,7 @@ describe("AnalyseProjectService", () => {
 
         it('should correctly call analyser.satisfaction', async () => {
 
-            analyser.satisfaction = jest.fn().mockReturnValueOnce([]);
+            analyser.satisfaction = jest.fn().mockReturnValueOnce(123);
             await AnalyseProjectService.analyseProject(id);
             expect(analyser.satisfaction).toHaveBeenCalledWith(
                 SAMPLE_PROJECT.data.text_transcripts,

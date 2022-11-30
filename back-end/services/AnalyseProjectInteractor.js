@@ -35,11 +35,14 @@ export class AnalyseProjectInteractor {
     avgDurationTime(transcripts) {
         let total_duration = 0;
         let l = transcripts.length;
+        if (l > 0){
         for (let j = 0; j < l; j++) {
             let transcript = transcripts[j];
             total_duration += this.transcriptAnalyser.getDurationTime(transcript.transcript_data);
         }
         return total_duration / transcripts.length;
+    }
+    return 0;
     }
 
     /**
@@ -57,7 +60,6 @@ export class AnalyseProjectInteractor {
         durations.sort(function (a, b) {
             return a - b
         });
-        console.log(durations);
         return durations[Q3 - 1];
 
     }
@@ -77,7 +79,6 @@ export class AnalyseProjectInteractor {
         durations.sort(function (a, b) {
             return a - b
         });
-        console.log(durations);
         return durations[Q3 - 1];
 
     }
@@ -101,8 +102,6 @@ export class AnalyseProjectInteractor {
             } else {
                 map[key] = 1
             }
-
-
         }
         return map;
     }
@@ -129,8 +128,6 @@ export class AnalyseProjectInteractor {
                 } else {
                     map[key] = 1
                 }
-                console.log(map)
-
             }
         }
         return map;
@@ -149,8 +146,6 @@ export class AnalyseProjectInteractor {
         let totalUsersvalues = Object.values(totalUsers);
         let sumUsersQuit = usersQuitvalues.reduce((b, a) => b + a, 0);
         let sumTotalUsers = totalUsersvalues.reduce((b, a) => b + a, 0);
-        console.log(sumTotalUsers, sumUsersQuit);
-
         return (sumTotalUsers - sumUsersQuit) / sumTotalUsers;
     }
 
@@ -167,7 +162,6 @@ export class AnalyseProjectInteractor {
         let totalUsersValues = Object.values(totalUsers);
         let sumUsersQuit = usersQuitValues.reduce((b, a) => b + a, 0);
         let sumTotalUsers = totalUsersValues.reduce((b, a) => b + a, 0);
-        console.log(sumTotalUsers, sumUsersQuit);
 
         return (sumTotalUsers - sumUsersQuit);
     }
@@ -191,7 +185,7 @@ export class AnalyseProjectInteractor {
      * Returns the number of users that quit corresponding to each reason
      * @param text_transcripts
      * @param transcripts
-     * @returns {{other: number, chatbotRepetition: number, human_interaction: number, no_solution: number, privacy: number, lengthy_convo: number}}
+     * @returns {{other: number, human_interaction: number, no_solution: number, privacy: number, chatbot_repetition: number, lengthy_convo: number}}
      */
     checkReasons(text_transcripts, transcripts) {
         let l_text = text_transcripts.length;
@@ -202,7 +196,7 @@ export class AnalyseProjectInteractor {
             "no_solution": 0,
             "human_interaction": 0,
             "lengthy_convo": 0,
-            "chatbotRepetition": 0,
+            "chatbot_repetition": 0,
             "other": 0
         };
 
@@ -235,7 +229,7 @@ export class AnalyseProjectInteractor {
 
             }
             if (temp.includes("chatbotRepetition")) {
-                reasons.chatbotRepetition += 1;
+                reasons.chatbot_repetition += 1;
 
             }
             if (temp.includes("other")) {
@@ -334,5 +328,5 @@ export class AnalyseProjectInteractor {
 }
 
 
-export default new AnalyseProjectInteractor();
+
 

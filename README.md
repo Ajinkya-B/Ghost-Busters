@@ -28,14 +28,14 @@ Run ```npm run dev``` to start both the back-end and front-end.
 
 ## A tour of the app:
 
-![preview](front-end/src/images/dashboard_screenshot.png)
+![Welcome Page](./front-end/src/images/dashboard_screenshot.jpg)
 After landing on the welcome page, you may select a project and view its analytics dashboard. A project corresponds to a project on the Voiceflow Workspace. If you add a project, please make sure its Version ID and API Key are precisely from an existing Voiceflow project!
 
-![preview](front-end/src/images/selectproject_screenshot.png)
+![Manage Project Page](./front-end/src/images/selectproject_screenshot.jpg)
 After selecting a project, you'll be taken to its dashboard. Please be patient as it loads. :blush:
 The data is aggregated from Voiceflow Transcripts. Specifically, we use the instances of users leaving a conversation with a chatbot.
 
-![preview](front-end/src/images/404page_screenshot.png)
+![404 Page](./front-end/src/images/404page_screenshot.jpg)
 Boo! You'll see a 404 page if you navigate to an unsupported URL. 
 
 ## License:

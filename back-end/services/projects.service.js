@@ -1,7 +1,8 @@
 import {ProjectsInterface} from "../interfaces/projects-interface.js";
+import {InputBoundaryInterface} from "../interfaces/input-boundary-interface.js";
 
 
-export default class ProjectsService {
+export default class ProjectsService extends InputBoundaryInterface {
 
     /**
      * Gets all projects from the databse that satisfy the filters.
@@ -40,23 +41,24 @@ export default class ProjectsService {
 
     /**
      * Creates a new project and returns the status.
+     * @param outputBoundary
      * @param dao
      * @param body
      * @returns {Promise<{status: string}>}
      */
-    static async createProject(dao, body) {
+     async createProject(outputBoundary, dao, body) {
         if (dao instanceof ProjectsInterface) {
             try {
                 const response = await dao.createProject(body);
-                return {
+                outputBoundary.setOutput({
                     status: response.status,
                     data: response.data,
-                };
+                });
             } catch (e) {
-                return {
+                outputBoundary.setOutput({
                     status: 500,
                     data: {error: e.message},
-                }
+                })
             }
         } else {
             throw new Error("not an ProjectInterface");
@@ -65,11 +67,12 @@ export default class ProjectsService {
 
     /**
      * Deleted a project with the name projectName and returns the status.
-     * @param dao
+     * @param outputBoundary
+     * @param ao
      * @param projectName
      * @returns {Promise<{status: string}>}
      */
-    static async deleteProject(dao, projectName) {
+    static async deleteProject(outputBoundary, dao, projectName) {
         if (dao instanceof ProjectsInterface) {
             try {
                 const response = await dao.deleteProject(projectName);
@@ -78,10 +81,10 @@ export default class ProjectsService {
                     data: response.data,
                 };
             } catch (e) {
-                return {
+                outputBoundary.setOutput({
                     status: 500,
                     data: { error: e.message },
-                };
+                })
             }
         } else {
             throw new Error("not an ProjectInterface");

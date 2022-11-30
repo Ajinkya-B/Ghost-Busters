@@ -27,18 +27,23 @@ export class InputBoundaryInterface{
     }
 
     /**
-     *  @param {Object} filter object passed to mangoose to find the question
-     *  @param {Object} status the star status
-     * */
-    static async setStarStatus(filter = {}, status = {}) {
+     * Creates a new project and returns the status.
+     * @param dao
+     * @param body
+     * @returns {Promise<{status: string}>}
+     */
+    static async createProject(query = {}) {
         throw new Error("not implemented");
     }
 
     /**
-     *  @param {Object} filter object passed to mangoose to find the question
-     *  @param {Object} status the flag status
-     * */
-    static async setFlagStatus(filter = {}, status = {}) {
+     * Returns analysed metrics for a project with the project_id id.
+     * @param outputBoundary
+     * @param dao
+     * @param id
+     * @returns {Promise<{data: {total_users_quit: *, avg_duration_text: *, avg_duration_time: *}, status: string}|{data: *[], status: string}>}
+     */
+    static async analyzeProject(filter = {}, status = {}) {
         throw new Error("not implemented");
     }
 }

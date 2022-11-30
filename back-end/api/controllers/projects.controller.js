@@ -1,6 +1,17 @@
 import ProjectsService from "../../services/projects.service.js";
+import {InputBoundaryInterface} from "../../interfaces/input-boundary-interface.js";
 
 export default class ProjectsController {
+
+    static #inputBoundary
+
+    static setProjectInteractor(interactor) {
+        if(interactor instanceof InputBoundaryInterface){
+            this.#inputBoundary = interactor;
+        } else {
+            throw new Error("not an InputBoundary");
+        }
+    }
 
     static #outputBoundary;
 
@@ -43,10 +54,10 @@ export default class ProjectsController {
      */
     static async apiCreateProject(dao, req, res, next) {
             try {
-                const createUserResult = await ProjectsService.createProject(dao, req.body);
+                await this.#inputBoundary.createProject(this.#outputBoundary, dao, req.body);
                 res
-                    .status(createUserResult.status)
-                    .json(createUserResult.data);
+                    .status(this.#outputBoundary.getOutput().status)
+                    .json(this.#outputBoundary.getOutput().data);
             } catch (e) {
                 res.status(500).json({error: e.message})
             }
@@ -64,10 +75,10 @@ export default class ProjectsController {
     static async apiDeleteProject(dao, req, res, next) {
             try {
                 const projectName = req.body.project_name;
-                const deleteProjectResponse = await ProjectsService.deleteProject(dao, projectName);
+                await ProjectsService.deleteProject(this.#outputBoundary, dao, projectName);
                 res
-                    .status(deleteProjectResponse.status)
-                    .json(deleteProjectResponse.data);
+                    .status(this.#outputBoundary.getOutput().status)
+                    .json(this.#outputBoundary.getOutput().data);
             } catch (e) {
                 res.status(500).json({error: e.message})
             }

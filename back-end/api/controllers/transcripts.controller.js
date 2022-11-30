@@ -1,7 +1,5 @@
 import TranscriptService from "../../services/transcript.service.js";
 import {InputBoundaryInterface} from "../../interfaces/input-boundary-interface.js";
-let api_key
-let project_id
 
 export default class TranscriptsController {
 

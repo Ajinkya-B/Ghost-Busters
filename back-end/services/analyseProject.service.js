@@ -1,7 +1,8 @@
 import {avgDurationTime, avgDurationTexts, totalUsersForceQuit, checkReasons} from './AnalyseProjectInteractor.js'
 import {ProjectsInterface} from "../interfaces/projects-interface.js";
+import {InputBoundaryInterface} from "../interfaces/input-boundary-interface.js";
 
-export default class AnalyseProjectService {
+export default class AnalyseProjectService extends InputBoundaryInterface {
 
   /**
    * Returns analysed metrics for a project with the project_id id.
@@ -11,7 +12,7 @@ export default class AnalyseProjectService {
    * @returns {Promise<{data: {total_users_quit: *, avg_duration_text: *, avg_duration_time: *}, status: string}|{data: *[], status: string}>}
    */
 
-  static async analyseProject(outputBoundary, dao, id) {
+  async analyseProject(outputBoundary, dao, id) {
     if (dao instanceof ProjectsInterface) {
     try {
       const project = await dao.getProjectByID(id);

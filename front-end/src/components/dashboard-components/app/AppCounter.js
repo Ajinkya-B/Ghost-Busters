@@ -60,8 +60,8 @@ export default function AppCounter({ title, total, icon, color = 'primary', sx, 
       </StyledIcon>
 
       { total ?
-          <Typography variant="h3">{fShortenNumber(total)}</Typography> :
-          <Typography variant="h3">{fNumber(total)}</Typography>
+          <Typography variant="h3" style={{paddingRight:'15px'}}>{fShortenNumber(total)}</Typography> :
+          <Typography variant="h3" style={{paddingRight:'15px'}}>{fNumber(total)}</Typography>
       }
 
       <Typography variant="subtitle2" sx={{ opacity: 0.72 }}>

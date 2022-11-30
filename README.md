@@ -39,7 +39,7 @@ The data is aggregated from Voiceflow Transcripts. Specifically, we use the inst
 Boo! You'll see a 404 page if you navigate to an unsupported URL. 
 
 ## License:
-Distributed under the Apache-2.0 License. **(TO DO: LINK THE LICENSE FROM MASTER)**
+Distributed under the [Apache-2.0 License](./LICENSE.md).
 
 ## Attribution:
 This app was created by Khushi Agrawal, Ajinkya Bhosale, Marco Marchesano, and Chelsea Wang.

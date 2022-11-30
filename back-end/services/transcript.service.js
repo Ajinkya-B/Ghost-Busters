@@ -2,6 +2,7 @@ import TranscriptsDAO from "../dao/transcriptsDAO.js";
 import TextTranscriptsDAO from "../dao/textTranscriptsDAO.js";
 import voiceflowAPI from "../helpers/voiceflowAPI.js";
 import transcriptDataFormatter from "../helpers/transcriptDataFormatter.js";
+
 export default class TranscriptService {
   static #TranscriptsDAO = new TranscriptsDAO();
   static #TextTranscriptsDAO = new TextTranscriptsDAO();
@@ -32,14 +33,14 @@ export default class TranscriptService {
     try {
       for (const transcript of response.data) {
         const parsedData = transcriptDataFormatter.cleanData(transcript);
-        const ReviewResponse = await TranscriptsDAO.addTranscript(
+        const ReviewResponse = await this.#TranscriptsDAO.addTranscript(
           project_id,
           parsedData
         );
 
         const formattedTranscript =
           transcriptDataFormatter.cleanTextTranscript(transcript);
-        const res = await TextTranscriptsDAO.addTextTranscript(
+        const res = await this.#TextTranscriptsDAO.addTextTranscript(
           project_id,
           formattedTranscript
         );
@@ -54,9 +55,11 @@ export default class TranscriptService {
    * @param {String} project_id : Contains the current project id
    * @param res json format of the response of the function
    */
-  static async queryForParsedTranscripts(project_id, res) {
+  static async queryForParsedTranscripts(req, res) {
     let filters = {};
-    filters.project_id = project_id;
+    if(req.query.project_id){
+      filters.project_id = project_id;
+    }
 
     const transcriptsList = await this.#TranscriptsDAO.getTranscripts({
       filters,

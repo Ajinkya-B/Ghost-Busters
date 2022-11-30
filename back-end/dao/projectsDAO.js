@@ -4,65 +4,68 @@ import mongoose from "mongoose";
 
 
 export default class ProjectsDAO {
-
+    /**
+     * Get the projects that match the query from MongoDB
+     * @param {Object} query Filters for projects
+     * @returns A list of project objects
+     */
     async getProjects(query) {
         try {
-            return await Projects.find(query);
+            const projectList = await Projects.find(query);
+            return {
+                status: 200,
+                data: projectList,
+            }
         } catch (e) {
             console.error(`Unable to issue find command, ${e}`);
-            return [];
+            return {
+                status: 500,
+                data: {error: e.message}
+            };
         }
     }
 
 
     /**
      * Create a project object in MongoDB (see AddProject.js in /front-end for more info).
+     * @param {Object} body A project object that has project data
+     * @returns A list of project objects
      */
     async createProject(body) {
         try {
             await Projects.create(body);
+            return {
+                status: 200,
+                data: {response: `successfully created project`}
+            }
         } catch (e) {
             console.error(`Unable to issue create command, ${e}`);
-
+            return {
+                status: 500,
+                data: { error: e.message },
+            };
         }
     }
 
 
     /**
      * Delete the project object with the name projectName from the database.
-     * @param projectName
+     * @param {String} projectName Name of the project to be deleted
      * @returns {Promise<{error}|*>}
      */
     async deleteProject(projectName) {
         try {
-            const deleteResponse = await Projects.deleteOne({
-                project_name: projectName,
-            });
-            return deleteResponse;
+            await Projects.deleteOne({project_name: projectName});
+            return {
+                status: 200,
+                data: { response: `successfully deleted project ${projectName}` },
+            };
         } catch (e) {
-            console.error(`Unable to delete project: ${e}`);
-            return {error: e};
-        }
-    }
-
-
-    /**
-     *
-     * @param projectName
-     * @param transcript
-     * @returns {Promise<{error}|*>}
-     */
-    async updateProject(projectName, transcript) {
-        try {
-            const updateResponse = await Projects.updateOne(
-                {project_name: projectName},
-                {$addToSet: {transcripts: transcript}}
-            );
-
-            return updateResponse;
-        } catch (e) {
-            console.error(`Unable to update project: ${e}`);
-            return {error: e};
+            console.error(`Unable to issue delete command, ${e}`);
+            return {
+                status: 500,
+                data: { error: e.message },
+            };
         }
     }
 
@@ -124,12 +127,20 @@ export default class ProjectsDAO {
                     },
                 },
             ];
-            const temp = await Projects.aggregate(pipeline);
-            return temp[0];
+            const transcriptsList = await Projects.aggregate(pipeline);
+            const temp = transcriptsList[0];
+            return {
+                status: 200,
+                data: temp,
+            };
             // return await Projects.aggregate(pipeline)
         } catch (e) {
-            console.error(`Something went wrong in getProjectByID: ${e}`);
-            throw e;
+            console.error(`Unable to issue aggregate command, ${e}`);
+            return {
+                status: 500,
+                data: { error: e.message },
+            };
         }
     }
 }
+

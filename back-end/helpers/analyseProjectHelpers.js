@@ -4,9 +4,9 @@
  * @returns {boolean}
  */
 export function hasDuplicates(arr) {
-    var counts = [];
+    let counts = [];
 
-    for (var i = 0; i <= arr.length; i++) {
+    for (let i = 0; i <= arr.length; i++) {
         if (counts[arr[i]] === undefined) {
             counts[arr[i]] = 1;
         } else {

@@ -7,8 +7,9 @@ export default class TextTranscriptsDAO {
    */
   async getTextTranscripts() {
     try {
-      return await TextTranscripts.find().exec();
+      return await TextTranscripts.find();
     } catch (e) {
+      console.error(`Unable to issue find command, ${e}`);
       return [];
     }
   }
@@ -19,7 +20,7 @@ export default class TextTranscriptsDAO {
    * @param projectId
    * @param dialogue
    */
-  static async addTextTranscript(projectId, dialogue) {
+  async addTextTranscript(projectId, dialogue) {
     try {
       const transcriptDoc = {
         project_id: projectId,
@@ -27,12 +28,12 @@ export default class TextTranscriptsDAO {
       };
       return TextTranscripts.create(transcriptDoc);
     } catch (e) {
-      console.error(`Unable to post textTranscripts: ${e}`);
+      console.error(`Unable to issue create command, ${e}`);
       return { error: e };
     }
   }
 
-  static async flushDatabase() {
+  async flushDatabase() {
     await TextTranscripts.deleteMany({});
   }
 }

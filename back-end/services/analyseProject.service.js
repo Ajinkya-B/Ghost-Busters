@@ -1,8 +1,18 @@
 import ProjectDAO from "../dao/projectsDAO.js";
-import AnalyseProjectInteractor from './AnalyseProjectInteractor.js'
+
+import {AnalyseProjectInteractor}  from "./AnalyseProjectInteractor.js";
 
 export default class AnalyseProjectService {
   static #ProjectDAO = new ProjectDAO;
+  static #analyser = new AnalyseProjectInteractor;
+
+  static setProjectDAO(dao){
+    this.#ProjectDAO = dao;
+  }
+
+  static setAnalyser(analyser){
+    this.#analyser = analyser;
+  }
   /**
    * Returns analysed metrics for a project with the project_id id.
    * @param id
@@ -11,17 +21,18 @@ export default class AnalyseProjectService {
   static async analyseProject(id) {
     try {
       const project = await this.#ProjectDAO.getProjectByID(id);
-      let text_transcripts = project.text_transcripts;
-      let transcripts = project.transcripts;
+      let text_transcripts = project.data.text_transcripts;
+      let transcripts = project.data.transcripts;
       const response = {
-        avg_duration_text: AnalyseProjectInteractor.avgDurationTexts(text_transcripts),
-        avg_duration_time: AnalyseProjectInteractor.avgDurationTime(transcripts),
-        total_users_quit_per_day: AnalyseProjectInteractor.totalUsersForceQuitPerDay(text_transcripts, transcripts),
-        reasons: AnalyseProjectInteractor.checkReasons(text_transcripts, transcripts),
-        num_satisfied_users: AnalyseProjectInteractor.numSatisfiedUsers(text_transcripts, transcripts),
-        num_unsatisfied_users: AnalyseProjectInteractor.numUnsatisfiedUsers(text_transcripts, transcripts),
-        total_convos_per_day: AnalyseProjectInteractor.totalConvosPerDay(transcripts),
-        reasons_per_day: AnalyseProjectInteractor.checkReasonsPerDay(text_transcripts, transcripts)
+        avg_duration_text: this.#analyser.avgDurationTexts(text_transcripts),
+        avg_duration_time: this.#analyser.avgDurationTime(transcripts),
+        total_users_quit_per_day: this.#analyser.totalUsersForceQuitPerDay(text_transcripts, transcripts),
+        reasons: this.#analyser.checkReasons(text_transcripts, transcripts),
+        num_satisfied_users: this.#analyser.numSatisfiedUsers(text_transcripts, transcripts),
+        num_unsatisfied_users: this.#analyser.numUnsatisfiedUsers(text_transcripts, transcripts),
+        total_convos_per_day: this.#analyser.totalConvosPerDay(transcripts),
+        reasons_per_day: this.#analyser.checkReasonsPerDay(text_transcripts, transcripts),
+        satisfaction: this.#analyser.satisfaction(text_transcripts, transcripts)
       };
 
       return {
@@ -29,9 +40,10 @@ export default class AnalyseProjectService {
         data: response,
       };
     } catch (e) {
+      console.error(`Unable to issue analyse project command, ${e}`)
       return {
         status: "failure",
-        data: [],
+        data: { error: e.message },
       };
     }
   }

@@ -4,6 +4,8 @@ import TextTranscriptsDAO from "./textTranscriptsDAO.js";
 jest.mock("../schema/textTranscripts-schema.js");
 
 let dao;
+const PROJECT_ID = "Project Name";
+const DIALOGUE = ["Hello"];
 
 describe("TextTranscriptsDao", () => {
     beforeEach(async () => {
@@ -11,14 +13,42 @@ describe("TextTranscriptsDao", () => {
         dao = newDao;
         jest.clearAllMocks();
     });
-    it("Should correctly get text transcripts", async () => {
-        await dao.getTextTranscripts();
-        expect(TextTranscripts.find).toHaveBeenCalled();
+
+    describe("Get Text Transcripts", () => {
+        it("Should correctly call find text transcripts", async () => {
+            await dao.getTextTranscripts();
+            expect(TextTranscripts.find).toHaveBeenCalled();
+        });
+        it("Should correctly throw a console error", async () => {
+            console.error = jest.fn();
+            TextTranscripts.find.mockImplementationOnce(() => {
+                throw "error";
+            });
+            await dao.getTextTranscripts();
+            expect(console.error).toHaveBeenCalledWith(
+                "Unable to issue find command, error"
+            );
+        });
     });
 
-    it("Should correctly get the right text trnascripts", async () => {
-        const res = await dao.getTextTranscripts();
-        console.log(res);
-        expect(res !== []).toBe(true);
+    describe("Add Text Transcripts", () => {
+        it("Should correctly call create text transcripts", async () => {
+            await dao.addTextTranscript(PROJECT_ID, DIALOGUE);
+            expect(TextTranscripts.create).toHaveBeenCalledWith({
+                project_id: PROJECT_ID,
+                dialogue: DIALOGUE,
+            });
+        });
+        it("Should correctly throw a console error", async () => {
+            console.error = jest.fn();
+            TextTranscripts.create.mockImplementationOnce(() => {
+                throw "error";
+            });
+            await dao.addTextTranscript();
+            expect(console.error).toHaveBeenCalledWith(
+              "Unable to issue create command, error"
+            );
+        });
     });
+    
 });

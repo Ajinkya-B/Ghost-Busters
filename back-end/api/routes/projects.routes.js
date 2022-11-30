@@ -8,8 +8,7 @@ router
     .route('/')
     .post(ProjectsController.apiCreateProject)
     .delete(ProjectsController.apiDeleteProject)
-    .get(ProjectsController.apiGetAllProjects)
-    .put(ProjectsController.apiUpdateProject)
+    .get(ProjectsController.apiGetFilteredProjects)
 
 router.route("/id/:id")
     .get(ProjectsController.apiGetProjectByID)

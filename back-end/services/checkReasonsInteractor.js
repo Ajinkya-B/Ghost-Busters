@@ -23,26 +23,27 @@ export function isPrivacyConcern(dialogues) {
     let keywords = PRIVACY_KEYWORDS;
     let l = dialogues.length;
 
-    for (let i = l - 1; i >= l / 2; i--) {
+    for (let i = l - 1; i >= 0; i--) {
 
-        if (dialogues[i].speaker == "bot") {
+        if (dialogues[i].speaker === "bot") {
             let text = dialogues[i].text.toLowerCase();
             if (keywords.some(keyword => text.includes(keyword))) {
-                if (i == l - 1) {
+                if (i === l - 1) {
                     return true;
-                }
-                let other_keywords = ["no", "don't want to", "not comfortable", "personal information",
-                    "agent"]
-                let text2 = dialogues[i + 1].text.toLowerCase();
-                if (other_keywords.some(keyword => text.includes(keyword))) {
-                    console.log("Found")
-                    return true;
+                } else {
+                    let other_keywords = ["no", "don't want to", "not comfortable", "personal information",
+                        "agent"]
+                    let text2 = dialogues[i + 1].text.toLowerCase();
+                    if (other_keywords.some(keyword => text2.includes(keyword))) {
+                        console.log("Found")
+                        return true;
 
+                    }
                 }
             }
         }
-        return false;
     }
+    return false;
 }
 
 /**
@@ -56,7 +57,7 @@ export function isNoSolution(dialogues) {
     let l = dialogues.length;
 
     for (let i = l - 1; i >= l / 2; i--) {
-        if (dialogues[i].speaker == "bot") {
+        if (dialogues[i].speaker === "bot") {
             let text = dialogues[i].text.toLowerCase();
             if (keywords.some(keyword => text.includes(keyword))) {
                 return true;
@@ -78,7 +79,7 @@ export function isHumanInteraction(dialogues) {
 
     for (let i = l - 1; i >= 0; i--) {
 
-        if (dialogues[i].speaker == "human") {
+        if (dialogues[i].speaker === "human") {
             let text = dialogues[i].text.toLowerCase();
             if (keywords.some(keyword => text.includes(keyword))) {
                 return true;
@@ -97,11 +98,7 @@ export function isHumanInteraction(dialogues) {
  * @returns {boolean}
  */
 export function isLengthyConvo(l_texts, Q3_texts, l_time, Q3_time) {
-    if (l_texts > Q3_texts && l_time > Q3_time) {
-        return true;
-    }
-    return false;
-
+    return l_texts > Q3_texts && l_time > Q3_time;
 }
 
 /**
@@ -116,7 +113,7 @@ export function isChatbotRepetition(dialogue, transcript_data) {
     for (let i = l - 1; i >= 0; i--) {
         try {
 
-            if (transcript_data[i].payload.path == "reprompt") {
+            if (transcript_data[i].payload.path === "reprompt") {
                 temp = true;
 
             }
@@ -124,9 +121,9 @@ export function isChatbotRepetition(dialogue, transcript_data) {
             console.log("no reprompt")
         }
     }
-    if (temp == true && hasDuplicates(dialogue)) {
-        return true;
-    }
+    return temp === true && hasDuplicates(dialogue);
+
+
 }
 
 

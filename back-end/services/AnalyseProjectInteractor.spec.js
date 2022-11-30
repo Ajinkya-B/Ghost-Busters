@@ -56,7 +56,7 @@ describe("AnalyseProjectInteractor", () => {
         newInteractor.setTranscriptAnalyser(newAnalyser);
         transcriptAnalyser = newAnalyser;
         projectInteractor = newInteractor;
-        // jest.clearAllMocks();
+        jest.clearAllMocks();
 
 
     });

@@ -7,7 +7,6 @@ const dao = new ProjectsDAO()
 router
     .route('/')
     .post((req, res, next) => {
-
         ProjectsController.apiCreateProject(dao, req, res, next);
     })
     .delete((req, res, next) => {

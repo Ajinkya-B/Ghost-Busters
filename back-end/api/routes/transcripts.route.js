@@ -32,6 +32,7 @@ router.route("/flush")
 
 router.route("/store")
     .post((req, res, next) => {
+        TranscriptsCtrl.setTranscriptInteractor(TranscriptServiceInteractor)
         TranscriptsCtrl.storeVales(req)
     });
 

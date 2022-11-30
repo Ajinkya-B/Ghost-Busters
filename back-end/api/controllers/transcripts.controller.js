@@ -46,7 +46,7 @@ export default class TranscriptsController {
    */
   static async addTranscripts(textDAO, transcriptDAO, req, res, next) {
     try {
-      await this.#inputBoundary.getVoiceFlowAPIData(textDAO, transcriptDAO, api_key, project_id)
+      await this.#inputBoundary.getVoiceFlowAPIData(textDAO, transcriptDAO)
       res.json({ status: "success" });
     } catch (e) {
       res.json({ status: "failure" });
@@ -72,8 +72,12 @@ export default class TranscriptsController {
    * @return {Promise<void>}
    */
   static async storeVales(req){
-    api_key = req.body[0]
-    project_id = req.body[1]
+    try {
+      await this.#inputBoundary.saveKeys(req)
+    } catch (e) {
+      console.log("Error in saving keys")
+    }
+
   }
 
 

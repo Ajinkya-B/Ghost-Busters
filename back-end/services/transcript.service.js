@@ -5,9 +5,9 @@ import transcriptDataFormatter from "../helpers/transcriptDataFormatter.js";
 import {TranscriptInterface} from "../interfaces/transcript-interface.js";
 import {TextTranscriptsInterface} from "../interfaces/textTranscripts-interface.js";
 import {InputBoundaryInterface} from "../interfaces/input-boundary-interface.js";
-
+let api_key
+let project_id
 export default class TranscriptService extends InputBoundaryInterface{
-
 
   /**
    * Receives a json file from the voiceflow api call
@@ -16,12 +16,12 @@ export default class TranscriptService extends InputBoundaryInterface{
    * @param {String} api_key : contains the current api key
    * @param {String} project_id : contains the current project id
    */
-  static async getVoiceFlowAPIData(textDAO, transcriptDAO, api_key, project_id) {
+    async getVoiceFlowAPIData(textDAO, transcriptDAO) {
     try {
       console.log(api_key);
       console.log(project_id);
       const response = await voiceflowAPI.getData(api_key, project_id);
-      await this.addTranscripts(textDAO, transcriptDAO, project_id, response);
+      await this.addTranscripts(textDAO, transcriptDAO, response);
       res.json({ status: "success" });
     } catch (e) {
       res.json({ status: "failure" });
@@ -36,7 +36,7 @@ export default class TranscriptService extends InputBoundaryInterface{
    * @param {String} project_id : contains the current project id
    * @param {Object} response : json format of the VoiceFlow API call
    */
-  static async addTranscripts(textDAO, transcriptDAO, project_id, response) {
+   async addTranscripts(textDAO, transcriptDAO, response) {
     try {
       for (const transcript of response.data) {
 
@@ -72,7 +72,7 @@ export default class TranscriptService extends InputBoundaryInterface{
    * @param req
    * @param res json format of the response of the function
    */
-  static async queryForParsedTranscripts(dao, req, res) {
+   async queryForParsedTranscripts(dao, req, res) {
     if (dao instanceof TranscriptInterface) {
       let filters = {};
       if(req.query.project_id){
@@ -99,7 +99,7 @@ export default class TranscriptService extends InputBoundaryInterface{
    * @param {String} project_id : Contains the current project id
    * @param res json format of the response of the function
    */
-  static async queryForTrimmedTranscripts(dao, project_id, res) {
+   async queryForTrimmedTranscripts(dao, project_id, res) {
     if (dao instanceof TextTranscriptsInterface) {
       let filters = {};
       filters.project_id = project_id;
@@ -124,7 +124,7 @@ export default class TranscriptService extends InputBoundaryInterface{
    * @param {String} collection_name :  name of the collection wished to drop
    * @param res json format of the response of the function
    */
-  static async flushCollection(dao, collection_name, res) {
+   async flushCollection(dao, collection_name, res) {
     try {
       if (collection_name === "Parsed") {
         await TranscriptsDAO.flushDatabase();
@@ -137,5 +137,12 @@ export default class TranscriptService extends InputBoundaryInterface{
       res.json({ status: "failure" });
     }
   }
+
+  async saveKeys(req){
+    api_key = req.body[0]
+    project_id = req.body[1]
+    console.log('services: ' + api_key + ', ' + project_id)
+  }
+
 }
 

@@ -2,8 +2,6 @@ import {ProjectsInterface} from "../interfaces/projects-interface.js";
 
 
 export default class ProjectsService {
-    // Initializing a projects dao so that there is no need to use static in ProjectsDAO.
-    // static #ProjectsDAO = new ProjectsDAO();
 
     /**
      * Gets all projects from the databse that satisfy the filters.

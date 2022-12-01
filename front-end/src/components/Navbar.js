@@ -10,11 +10,11 @@ const Navbar = () => {
     <>
       <Nav>
 
-        <NavLink to='/'>
+        <NavLink to='/' onClick={()=>{window.reload()}}>
           <h2>Home</h2>
         </NavLink>
 
-        <NavLink to='/ManageProjects' activeStyle>
+        <NavLink to='/ManageProjects' activeStyle onClick={()=>{window.reload()}}>
           Manage Projects
         </NavLink>
 

@@ -6,7 +6,7 @@ Often times, businesses who use chatbots don't know when and why this happens. T
 We're going to help businesses that use the services of [Voiceflow](https://www.voiceflow.com/) identify why and how many of their customers are leaving their chatbots. How? By creating an analytics dashboard that displays various reasons why users quit a conversation with a chatbot. 
 
 ## You can visit the live demo here :smiley:
-https://637309da5309e06258796f5f--spiffy-gingersnap-18a267.netlify.app
+https://spiffy-gingersnap-18a267.netlify.app/
 
 ## To install the app
 1. Clone the project.
@@ -27,11 +27,11 @@ Then, run ```npm start``` in the front-end terminal to start the React app.
 Run ```npm run dev``` to start both the back-end and front-end.
 
 ## A tour of the app
-
-![Welcome Page](./front-end/src/images/selectproject_screenshot.jpg)
+![Welcome Page](./front-end/src/images/welcomepage_screenshot.jpg)
+![Manage Projects Page](./front-end/src/images/selectproject_screenshot.jpg)
 After landing on the welcome page, you may select a project and view its analytics dashboard. A project corresponds to a project on the Voiceflow Workspace. If you add a project, please make sure its Version ID and API Key are precisely from an existing Voiceflow project!
 
-![Manage Project Page](./front-end/src/images/dashboard_screenshot.jpg)
+![Dashboard](./front-end/src/images/dashboard_screenshot.jpg)
 After selecting a project, you'll be taken to its dashboard. Please be patient as it loads. :blush:
 The data is aggregated from Voiceflow Transcripts. Specifically, we use the instances of users leaving a conversation with a chatbot.
 

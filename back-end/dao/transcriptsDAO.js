@@ -31,7 +31,7 @@ export default class TranscriptsDAO extends TranscriptInterface{
    * @param {Array} transcriptData : Transcript conversation data
    * @returns 
    */
-  async addTranscript(projectId, transcriptData) { 
+  async addTranscript(projectId, transcriptData) {
     try {
       const transcriptDoc = { 
         project_id: projectId,

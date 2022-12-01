@@ -1,5 +1,11 @@
 import TranscriptsController from "./transcripts.controller.js";
 import TranscriptService from "../../services/transcript.service.js";
+import TranscriptsCtrl from "../controllers/transcripts.controller.js"
+import TextTranscriptDAO from "../../dao/textTranscriptsDAO.js";
+import TranscriptDAO from "../../dao/transcriptsDAO.js"
+const textDao = new TextTranscriptDAO()
+const transcriptDao = new TranscriptDAO()
+const TranscriptServiceInteractor = new TranscriptService()
 
 jest.mock("../../services/transcript.service.js");
 
@@ -17,21 +23,22 @@ describe("TranscriptsController", () => {
     describe("Api Get Cleaned Transcripts", () => {
         it("Should correctly get transcripts", async () => {
             const res = mockResponse();
-            TranscriptService.getFilteredTranscripts = jest.fn().mockReturnValue({
+            TranscriptServiceInteractor.getFilteredTranscripts = jest.fn().mockReturnValue({
                 status: 200,
                 data: "meow",
             });
-            await TranscriptsController.apiGetCleanedTranscripts({}, res, {});
-            expect(TranscriptService.getFilteredTranscripts).toHaveBeenCalled();
+            TranscriptsController.setTranscriptInteractor(TranscriptServiceInteractor)
+            await TranscriptsController.apiGetCleanedTranscripts(transcriptDao,{}, res, {});
+            expect(TranscriptServiceInteractor.getFilteredTranscripts).toHaveBeenCalled();
             expect(res.json).toHaveBeenCalledWith("meow");
         });
 
         it("Should correctly throw a error", async () => {
             const res = mockResponse();
-            TranscriptService.getFilteredTranscripts = jest.fn().mockImplementation(() => {
+            TranscriptServiceInteractor.getFilteredTranscripts = jest.fn().mockImplementation(() => {
                 throw { message: "e" };
             });
-            await TranscriptsController.apiGetCleanedTranscripts({}, res, {});
+            await TranscriptsController.apiGetCleanedTranscripts(transcriptDao,{}, res, {});
             expect(res.json).toHaveBeenCalledWith({ error: "e" });
         });
     });
@@ -39,21 +46,21 @@ describe("TranscriptsController", () => {
     describe("Api Get Text Transcripts", () => {
         it("Should correctly get text transcripts", async () => {
             const res = mockResponse();
-            TranscriptService.getFilteredTextTranscripts = jest.fn().mockReturnValue({
+            TranscriptServiceInteractor.getFilteredTextTranscripts = jest.fn().mockReturnValue({
                 status: 200,
                 data: "successfully created project",
             });
-            await TranscriptsController.apiGetTextTranscripts({}, res, {});
-            expect(TranscriptService.getFilteredTextTranscripts).toHaveBeenCalled();
+            await TranscriptsController.apiGetTextTranscripts(textDao, {}, res, {});
+            expect(TranscriptServiceInteractor.getFilteredTextTranscripts).toHaveBeenCalled();
             expect(res.json).toHaveBeenCalledWith("successfully created project");
         });
 
         it("Should correctly throw a error", async () => {
             const res = mockResponse();
-            TranscriptService.getFilteredTextTranscripts = jest.fn().mockImplementation(() => {
+            TranscriptServiceInteractor.getFilteredTextTranscripts = jest.fn().mockImplementation(() => {
                 throw { message: "e" };
             });
-            await TranscriptsController.apiGetTextTranscripts({}, res, {});
+            await TranscriptsController.apiGetTextTranscripts(textDao,{}, res, {});
             expect(res.json).toHaveBeenCalledWith({ error: "e" });
         });
     });
@@ -61,18 +68,18 @@ describe("TranscriptsController", () => {
     describe("Api POST cleaned and text transcripts", () => {
         it("Should correctly delete a project ", async () => {
             const res = mockResponse();
-            TranscriptService.getVoiceFlowAPIData = jest.fn().mockReturnValue({});
-            await TranscriptsController.addClean({}, res, {});
-            expect(TranscriptService.getVoiceFlowAPIData).toHaveBeenCalled();
+            TranscriptServiceInteractor.getVoiceFlowAPIData = jest.fn().mockReturnValue({});
+            await TranscriptsController.addTranscripts(textDao,transcriptDao,{}, res, {});
+            expect(TranscriptServiceInteractor.getVoiceFlowAPIData).toHaveBeenCalled();
             expect(res.json).toHaveBeenCalledWith({ status: "success" });
         });
 
         it("Should correctly throw a error", async () => {
             const res = mockResponse();
-            TranscriptService.getVoiceFlowAPIData = jest.fn().mockImplementation(() => {
+            TranscriptServiceInteractor.getVoiceFlowAPIData = jest.fn().mockImplementation(() => {
                 throw { message: "e" };
             });
-            await TranscriptsController.addClean({body:{project_name: "meow"}}, res, {});
+            await TranscriptsController.addTranscripts(textDao,transcriptDao,{body:{project_name: "meow"}}, res, {});
             expect(res.json).toHaveBeenCalledWith({ status: "failure" });
         });
     });

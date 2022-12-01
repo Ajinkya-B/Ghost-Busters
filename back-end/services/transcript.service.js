@@ -16,7 +16,7 @@ export default class TranscriptService extends InputBoundaryInterface{
    * @param {String} api_key : contains the current api key
    * @param {String} project_id : contains the current project id
    */
-    async getVoiceFlowAPIData(textDAO, transcriptDAO) {
+  async getVoiceFlowAPIData(textDAO, transcriptDAO) {
     try {
       console.log(api_key);
       console.log(project_id);
@@ -38,8 +38,7 @@ export default class TranscriptService extends InputBoundaryInterface{
    */
    async addTranscripts(textDAO, transcriptDAO, response) {
     try {
-      for (const transcript of response.data) {
-
+      for (const transcript of response.data){
         if (transcriptDAO instanceof TranscriptInterface) {
           const parsedData = transcriptDataFormatter.cleanData(transcript);
           const ReviewResponse = await transcriptDAO.addTranscript(
@@ -169,7 +168,6 @@ export default class TranscriptService extends InputBoundaryInterface{
   async saveKeys(req){
     api_key = req.body[0]
     project_id = req.body[1]
-    console.log('services: ' + api_key + ', ' + project_id)
   }
 
 }

@@ -22,7 +22,7 @@ router.route("/getTrimmedTranscripts")
 router.route("/trimmed")
     .post((req, res, next) => {
         TranscriptsCtrl.setTranscriptInteractor(TranscriptServiceInteractor)
-        TranscriptsCtrl.addTranscripts(textDao, TranscriptDAO, req, res, next)
+        TranscriptsCtrl.addTranscripts(textDao, transcriptDao, req, res, next)
     })
 
 router.route("/flush")

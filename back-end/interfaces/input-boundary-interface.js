@@ -13,7 +13,7 @@ export class InputBoundaryInterface{
      * @param {Object} res : json object that is returned after making an API call
      * @param {Object} next
      */
-    static async addTranscripts(query = {}){
+    async addTranscripts(query = {}){
         throw new Error("not implemented");
     }
 
@@ -21,7 +21,7 @@ export class InputBoundaryInterface{
      *  @param {Object} rawTranscript raw transcript uploaded by user
      *  @return {Object} properly formatted data from the transcript
      * */
-    static async storeValues(query = {}) {
+    async saveKeys(query = {}) {
         throw new Error("not implemented");
     }
 
@@ -42,7 +42,7 @@ export class InputBoundaryInterface{
      * @param id
      * @returns {Promise<{data: {total_users_quit: *, avg_duration_text: *, avg_duration_time: *}, status: string}|{data: *[], status: string}>}
      */
-    static async analyzeProject(filter = {}, status = {}) {
+    async analyseProject(query = {}) {
         throw new Error("not implemented");
     }
 }

@@ -1,5 +1,9 @@
 import ProjectsController from "./projects.controller.js";
 import ProjectsService from "../../services/projects.service.js"
+import ProjectsDAO from "../../dao/projectsDAO.js";
+import OutputDataBoundary from "../../helpers/outputDataBoundary.js";
+const ProjectServiceInteractor = new ProjectsService()
+const dao = new ProjectsDAO()
 
 jest.mock("../../services/projects.service.js");
 
@@ -18,21 +22,21 @@ describe("ProjectsController", () => {
     describe("Api Get Filtered Projects", () => {
         it("Should correctly get a project ", async () => {
             const res = mockResponse();
-            ProjectsService.getFilteredProjects = jest.fn().mockReturnValue({
+            ProjectServiceInteractor.getFilteredProjects = jest.fn().mockReturnValue({
                 status: 200,
                 data: "meow",
             });
-            await ProjectsController.apiGetFilteredProjects({}, res, {});
+            await ProjectsController.apiGetFilteredProjects(dao,{}, res, {});
             expect(ProjectsService.getFilteredProjects).toHaveBeenCalled();
             expect(res.json).toHaveBeenCalledWith("meow");
         });
 
         it("Should correctly throw a error", async () => {
             const res = mockResponse();
-            ProjectsService.getFilteredProjects = jest.fn().mockImplementation(() => {
+            ProjectServiceInteractor.getFilteredProjects = jest.fn().mockImplementation(() => {
                 throw { message: "e" };
             });
-            await ProjectsController.apiGetFilteredProjects({}, res, {});
+            await ProjectsController.apiGetFilteredProjects(dao,{}, res, {});
             expect(res.json).toHaveBeenCalledWith({ error: "e" });
         });
     });
@@ -44,7 +48,7 @@ describe("ProjectsController", () => {
                 status: 200,
                 data: "successfully created project",
             });
-            await ProjectsController.apiCreateProject({}, res, {});
+            await ProjectsController.apiCreateProject(dao,{}, res, {});
             expect(ProjectsService.createProject).toHaveBeenCalled();
             expect(res.json).toHaveBeenCalledWith("successfully created project");
         });
@@ -54,7 +58,7 @@ describe("ProjectsController", () => {
             ProjectsService.createProject = jest.fn().mockImplementation(() => {
                 throw { message: "e" };
             });
-            await ProjectsController.apiCreateProject({}, res, {});
+            await ProjectsController.apiCreateProject(dao,{}, res, {});
             expect(res.json).toHaveBeenCalledWith({ error: "e" });
         });
     });
@@ -66,7 +70,7 @@ describe("ProjectsController", () => {
                 status: 200,
                 data: "successfully deleted project",
             });
-            await ProjectsController.apiDeleteProject({body:{project_name: "meow"}}, res, {});
+            await ProjectsController.apiDeleteProject(dao,{body:{project_name: "meow"}}, res, {});
             expect(ProjectsService.deleteProject).toHaveBeenCalled();
             expect(res.json).toHaveBeenCalledWith("successfully deleted project");
         });
@@ -76,7 +80,7 @@ describe("ProjectsController", () => {
             ProjectsService.deleteProject = jest.fn().mockImplementation(() => {
                 throw { message: "e" };
             });
-            await ProjectsController.apiDeleteProject({body:{project_name: "meow"}}, res, {});
+            await ProjectsController.apiDeleteProject(dao,{body:{project_name: "meow"}}, res, {});
             expect(res.json).toHaveBeenCalledWith({ error: "e" });
         });
     });
@@ -88,7 +92,7 @@ describe("ProjectsController", () => {
                 status: 200,
                 data: "meow",
             });
-            await ProjectsController.apiGetProjectByID({params:{}}, res, {});
+            await ProjectsController.apiGetProjectByID(dao,{params:{}}, res, {});
             expect(ProjectsService.getProjectbyID).toHaveBeenCalled();
             expect(res.json).toHaveBeenCalledWith("meow");
         });
@@ -98,7 +102,7 @@ describe("ProjectsController", () => {
             ProjectsService.getProjectbyID = jest.fn().mockImplementation(() => {
                 throw { message: "e" };
             });
-            await ProjectsController.apiGetProjectByID({params:{}}, res, {});
+            await ProjectsController.apiGetProjectByID(dao,{params:{}}, res, {});
             expect(res.json).toHaveBeenCalledWith({ error: "e" });
         });
     });

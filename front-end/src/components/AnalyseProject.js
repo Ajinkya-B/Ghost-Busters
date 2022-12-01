@@ -15,13 +15,17 @@ const AnalyseProject = props => {
 
         avg_duration_text: null,
         avg_duration_time: null,
+        total_conversations: {},
         total_users_quit: null,
         reasons: {
             privacy: null,
             no_solution: null,
             human_interaction: null,
+            lengthy_convo: null,
+            chatbotRepetition: null,
             other: null
-        }
+        },
+        satisfaction: null,
     };
 
     const [analysedData, setAnalysedData] = useState(initialDataState);
@@ -56,7 +60,7 @@ const AnalyseProject = props => {
 
     useEffect(() => {
         getAnalysedData(id)
-    }, []);
+    }, [id]);
 
 
     return (
@@ -68,12 +72,30 @@ const AnalyseProject = props => {
             <p>
                 <strong>Average Duration (in milliseconds): </strong>{analysedData.avg_duration_time}<br/>
                 <strong>Average Length (texts): </strong>{analysedData.avg_duration_text}<br/>
-                <strong>Total users force quit: </strong>{analysedData.total_users_quit}<br/>
+
+                <strong>Total conversations: </strong>
+                <ul>
+                    {Object.entries(analysedData.total_conversations)
+                .map( ([key, value]) => <li> {key} : {value}
+                </li>) }
+                </ul>
+
+                <strong>Totalusers force quit: </strong>
+                <ul>
+                    {Object.entries(analysedData.total_users_quit)
+                        .map( ([key, value]) => <li> {key} : {value}
+                        </li>) }
+                </ul>
+
+                {/*<strong>Total users force quit: </strong>{analysedData.total_users_quit}<br/>*/}
                 <strong>Reasons: </strong><br/>
                 <li>Privacy Concern: {analysedData.reasons.privacy}</li><br/>
                 <li>No solution: {analysedData.reasons.no_solution}</li><br/>
                 <li>Human Interaction: {analysedData.reasons.human_interaction}</li><br/>
+                <li>Lengthy Conversations: {analysedData.reasons.lengthy_convo}</li><br/>
+                <li>Chatbot Repetition: {analysedData.reasons.chatbotRepetition}</li><br/>
                 <li>Others: {analysedData.reasons.other} </li><br/>
+                <li>Satisfaction: {analysedData.satisfaction}</li><br/>
 
 
             </p>

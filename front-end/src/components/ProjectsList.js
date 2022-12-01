@@ -1,8 +1,10 @@
+// This component is the table of projects shown on the Manage Projects page.
+// It also allows the Voiceflow Creator to delete and select projects.
+
 import React, { useState, useEffect } from "react";
 import ProjectDataService from "../services/ProjectDataService";
-import { NavBtn, NavBtnLinkSelect, NavBtnLinkRemove } from "./NavbarElements";
+import { NavBtn, BtnSelect, BtnRemove } from "./Elements";
 import {Table} from "react-bootstrap";
-
 
 
 // The header of the table that lists the project names
@@ -17,15 +19,13 @@ const TableHeader = () => {
     );
 }
 
-
 export default function ProjectsList() {
     const [projects, setProjects] = useState([]);
 
     // Getting the Project objects
     const retrieveProjects = async () => {
         const response = await ProjectDataService.getAllProjects()
-        const res = await response.data
-        return res
+        return await response.data
     }
 
     const getProjects = async () => {
@@ -37,15 +37,13 @@ export default function ProjectsList() {
         getProjects()
     }, [])
 
+    // Method to delete a project from the database
     const deleteProject = async (projectName) => {
         console.log(projectName)
         await ProjectDataService.deleteProject(projectName)
         const res = await ProjectDataService.getAllProjects()
         setProjects(res.data)
     }
-
-
-
 
     // The body of the table
     const TableBody = () => {
@@ -55,12 +53,12 @@ export default function ProjectsList() {
                     <td>{row.project_name}</td>
                     <td>
                         <NavBtn>
-                            <NavBtnLinkSelect to={'/Dashboard/' + row._id} >
+                            <BtnSelect to={'/Dashboard/' + row._id} >
                                 Select
-                            </NavBtnLinkSelect>
-                            <NavBtnLinkRemove onClick={() => deleteProject(row.project_name)}>
+                            </BtnSelect>
+                            <BtnRemove onClick={() => deleteProject(row.project_name)}>
                                 Remove
-                            </NavBtnLinkRemove>
+                            </BtnRemove>
                         </NavBtn>
                     </td>
                 </tr>
@@ -68,7 +66,6 @@ export default function ProjectsList() {
         });
         return <tbody>{rows}</tbody>;
     }
-
 
     return (
         <div className='container-fluid'>
@@ -78,5 +75,4 @@ export default function ProjectsList() {
             </Table>
         </div>
     )
-
 }

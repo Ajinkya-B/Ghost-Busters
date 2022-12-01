@@ -1,20 +1,17 @@
-import React, {Component, createContext} from "react";
-import {NavBtn, NavBtnLink} from "./NavbarElements";
-import axios from "axios";
+// This component allows a user to click a button to upload transcripts to their project straight from Voiceflow.
+
+import React from "react";
+import {NavBtnLink} from "./Elements";
 import TranscriptDataService from "../services/TranscriptDataService";
 
-import AnalyzeTranscripts from "../pages/AnalyzeTranscripts";
 
 const UploadTranscriptsFromVoiceflow = () => {
 
     let transcriptData;
 
     const retrieveTranscripts = async () => {
-        // const response = TranscriptDataService.getCredentials()
-        // response.data
         TranscriptDataService.uploadTranscripts()
             .then(response => {
-                // console.log(response);
                 transcriptData = response;
             })
             .catch(e => {
@@ -24,12 +21,9 @@ const UploadTranscriptsFromVoiceflow = () => {
 
     return (
         <div>
-            <NavBtn>
-                <NavBtnLink onClick={() => retrieveTranscripts()}>
-                    Upload
-                </NavBtnLink>
-            </NavBtn>
-            {transcriptData}
+            <NavBtnLink onClick={() => retrieveTranscripts()}>
+                Upload
+            </NavBtnLink>
         </div>
     );
 

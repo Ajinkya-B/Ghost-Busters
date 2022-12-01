@@ -11,12 +11,12 @@ const TranscriptServiceInteractor = new TranscriptService()
 // uses the controller to call a specific api
 router.route("/getParsedTranscripts")
     .get((req, res, next) => {
-        TranscriptsCtrl.getParsedTranscripts(transcriptDao, req, res, next)
+        TranscriptsCtrl.apiGetCleanedTranscripts(transcriptDao, req, res, next)
     })
 
 router.route("/getTrimmedTranscripts")
     .get((req, res, next) =>{
-        TranscriptsCtrl.getTrimmedTranscripts(textDao, req, res, next)
+        TranscriptsCtrl.apiGetTextTranscripts(textDao, req, res, next)
     })
 
 router.route("/trimmed")

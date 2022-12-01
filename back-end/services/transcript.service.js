@@ -72,22 +72,36 @@ export default class TranscriptService extends InputBoundaryInterface{
    * @param req
    * @param res json format of the response of the function
    */
-   async queryForParsedTranscripts(dao, req, res) {
+  static async getFilteredTranscripts(dao, query) {
     if (dao instanceof TranscriptInterface) {
-      let filters = {};
-      if(req.query.project_id){
-        filters.project_id = project_id;
+    try{
+      let filters={};
+      if (query) {
+        if (query.project_id) {
+          filters = {project_name: {$eq: query.project_name}};
+        } else if (query.project_id) {
+          filters = {project_id: {$eq: query.project_id}};
+        }
       }
 
-      const transcriptsList = await dao.getTranscripts({
+      const response = await dao.getTranscripts({
         filters,
       });
 
-      let response = {
-        transcripts: transcriptsList,
+      let data = {
+        transcripts: response.data,
         filters: filters,
       };
-      res.json(response);
+      return {
+        status: response.status,
+        data: data,
+      };
+    }catch(e){
+      return {
+        status: 500,
+        data: { error: e.message },
+      };
+    }
     } else {
       new Error("not an ParsedTranscript Interface");
     }
@@ -99,23 +113,38 @@ export default class TranscriptService extends InputBoundaryInterface{
    * @param {String} project_id : Contains the current project id
    * @param res json format of the response of the function
    */
-   async queryForTrimmedTranscripts(dao, project_id, res) {
+  static async getFilteredTextTranscripts(dao, query) {
     if (dao instanceof TextTranscriptsInterface) {
-      let filters = {};
-      filters.project_id = project_id;
+      try {
+        let filters = {};
+        if (query) {
+          if (query.project_id) {
+            filters = {project_name: {$eq: query.project_name}};
+          }
+        }
 
-      const transcriptsList = await dao.getTextTranscripts({
+      const response = await this.#TextTranscriptsDAO.getTextTranscripts({
         filters,
       });
 
-      let response = {
-        transcripts: transcriptsList,
+      let data = {
+        transcripts: response.data,
         filters: filters,
       };
-      res.json(response);
+      return {
+        status: response.status,
+        data: data,
+      };
+    }catch(e){
+      return {
+        status: 500,
+        data: { error: e.message },
+      };
+    }
     } else {
       throw new Error("not an TextTranscript Interface");
     }
+
   }
 
   /**

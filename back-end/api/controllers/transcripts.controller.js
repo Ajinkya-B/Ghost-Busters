@@ -19,8 +19,16 @@ export default class TranscriptsController {
    * @param {Object} res : json object that is returned after making an API call
    * @param {Object} next
    */
-  static async getParsedTranscripts(dao, req, res, next) {
-      await this.#inputBoundary.queryForParsedTranscripts(dao, req, res)
+  static async apiGetCleanedTranscripts(req, res, next) {
+    try{
+      const getCleanedTranscriptsResponse = await this.#inputBoundary.getFilteredTranscripts(req.query);
+      res
+        .status(getCleanedTranscriptsResponse.status)
+        .json(getCleanedTranscriptsResponse.data);
+    }catch(e){
+      res.status(500).json({error: e.message});
+    }
+
   }
 
   /** GET API: Gets trimmed transcript data matching with the querry from MongoDB.
@@ -30,8 +38,15 @@ export default class TranscriptsController {
    * @param {Object} res : json object that is returned after making an API call
    * @param {Object} next
    */
-  static async getTrimmedTranscripts(dao, req, res, next) {
-    await this.#inputBoundary.queryForTrimmedTranscripts(dao, req.query.project_id, res)
+  static async apiGetTextTranscripts(req, res, next) {
+    try {
+      const getTextTranscriptsResponse = await this.#inputBoundary.getFilteredTextTranscripts(req.query);
+      res
+        .status(getTextTranscriptsResponse.status)
+        .json(getTextTranscriptsResponse.data);
+    } catch (e) {
+      res.status(500).json({ error: e.message });
+    }
   }
 
   /**

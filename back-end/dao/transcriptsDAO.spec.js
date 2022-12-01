@@ -23,9 +23,7 @@ describe("TranscriptsDao", () => {
 
         it("Should correctly call find transcripts with project_id in the query", async () => {
             await dao.getTranscripts(QUERY);
-            expect(Transcripts.find).toHaveBeenCalledWith({
-                project_id: { $eq: "1234" },
-            });
+            expect(Transcripts.find).toHaveBeenCalledWith(QUERY);
         });
 
         it("Should correctly throw a console error", async () => {

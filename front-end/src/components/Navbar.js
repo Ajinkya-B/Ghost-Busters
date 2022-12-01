@@ -3,7 +3,7 @@
 import React from 'react';
 import { Nav, NavLink } from './Elements';
 import UploadTranscriptsModal from "./UploadTranscriptsModal";
-import AnalyzeTranscripts from "./AnalyzeTranscripts";
+
 
 const Navbar = () => {
   return (
@@ -19,8 +19,6 @@ const Navbar = () => {
         </NavLink>
 
         <UploadTranscriptsModal />
-
-        <AnalyzeTranscripts />
 
       </Nav>
     </>

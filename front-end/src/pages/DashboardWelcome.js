@@ -30,7 +30,7 @@ function DashboardWelcomeMessage() {
             <br />
 
             <Button to="/ManageProjects" size="large" variant="outlined" component={RouterLink}>
-                Click me or "Manage Projects"!
+                Manage Projects
             </Button>
         </div>
     )

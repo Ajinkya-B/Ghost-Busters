@@ -18,12 +18,14 @@ import SelectProject from "../components/SelectProject";
 import Navbar from "../components/Navbar";
 // etc.
 import AnalyseProjectDataService from "../services/AnalyseProjectDataService";
+import ClipLoader from "react-spinners/ClipLoader";
 
 
 export default function Dashboard() {
     // Analysing the project
     // ----------------------------------------------------------------------
     const {id} = useParams()
+    const [loading, setLoading] = useState(true);
 
     const initialDataState = {
         avg_duration_text: 0,
@@ -52,18 +54,20 @@ export default function Dashboard() {
 
     const [analysedData, setAnalysedData] = useState(initialDataState);
 
-    const getAnalysedData = id => {
-        AnalyseProjectDataService.analyseProject(id)
-            .then(response => {
-                setAnalysedData(response.data);
-            })
-            .catch(e => {
-                console.log(e);
-            });
+    const getAnalysedData = async (id) => {
+      setLoading(true);
+      await AnalyseProjectDataService.analyseProject(id)
+        .then((response) => {
+          setAnalysedData(response.data);
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+      setLoading(false);
     };
 
-    useEffect(() => {
-        getAnalysedData(id)
+    useEffect(async() => {
+        await getAnalysedData(id)
     }, []);
 
     // Setting data for the graph according the current selected project
@@ -109,122 +113,204 @@ export default function Dashboard() {
     const theme = useTheme();
 
     return (
-        <div>
-            <Navbar />
+      <div>
+        <Navbar />
+        {loading ? (
+          <div
+            style={{
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+            }}
+          >
+            <ClipLoader
+              color="blue"
+              loading={loading}
+              size={150}
+              aria-label="Loading Spinner"
+              data-testid="loader"
+            />
+          </div>
+        ) : (
+          <div>
             <br />
 
             <Container maxWidth="xl">
-                {/* PROJECT TITLE */}
-                <SelectProject />
+              {/* PROJECT TITLE */}
+              <SelectProject />
 
-                {/* COUNTERS */}
-                <Grid container spacing={4}>
-                    <Grid item xs={10} sm={1} md={2.3}>
-                        <counterButton onClick={() => setCounter('Privacy Concerns')}>
-                            <AppCounter title="Privacy Concerns" total={analysedData.reasons.privacy} color="error" icon={'ant-design:key-outlined'} />
-                        </counterButton>
-                    </Grid>
-
-                    <Grid item xs={10} sm={1} md={2.3}>
-                        <counterButton onClick={() => setCounter('Unsatisfactory Solutions')}>
-                            <AppCounter title="Unsatisfactory Solutions" total={analysedData.reasons.no_solution} color="warning" icon={'ant-design:frown-outline'} />
-                        </counterButton>
-                    </Grid>
-
-                    <Grid item xs={10} sm={1} md={2.3}>
-                        <counterButton onClick={() => setCounter('Chatbot Repetitions')}>
-                            <AppCounter title="Chatbot Repetitions" total={analysedData.reasons.chatbot_repetition} color="success" icon={'ant-design:comment-outlined'} />
-                        </counterButton>
-                    </Grid>
-
-                    <Grid item xs={10} sm={1} md={2.3}>
-                        <counterButton onClick={() => setCounter('Lengthy Chat Durations')}>
-                            <AppCounter title="Lengthy Chat Durations" total={analysedData.reasons.lengthy_convo} color="info" icon={'ant-design:field-time-outlined'} />
-                        </counterButton>
-                    </Grid>
-
-                    <Grid item xs={10} sm={1} md={2.3}>
-                        <counterButton onClick={() => setCounter('Live Agent Requests')}>
-                            <AppCounter title="Live Agent Requests" total={analysedData.reasons.human_interaction} color="secondary" icon={'ant-design:user-outlined'} />
-                        </counterButton>
-                    </Grid>
-
-                    {/* GRAPH */}
-                    <Grid item xs={12} md={6} lg={8}>
-                        <AppGhostGraph
-                            title={currentReason}
-                            subheader="DD/MM 2022"
-                            chartLabels={Object.keys(analysedData.total_convos_per_day).sort()}
-                            chartData={[
-                                {
-                                    name: 'Users Leaving due to '.concat(currentReason),
-                                    type: 'column',
-                                    fill: 'solid',
-                                    color: currentColor,
-                                    data: chartData,
-                                },
-                                {
-                                    name: 'Total Users',
-                                    type: 'area',
-                                    fill: 'gradient',
-                                    color: '#A9A9A9',
-                                    data: Object.values(analysedData.total_convos_per_day),
-                                },
-                                {
-                                    name: 'Total Users Leaving',
-                                    type: 'line',
-                                    fill: 'solid',
-                                    color: '#2F4F4F',
-                                    data: Object.values(analysedData.total_users_quit_per_day),
-                                },
-                            ]}
-                        />
-                    </Grid>
-
-                    {/* SATISFACTION METER */}
-                    <Grid item xs={12} md={6} lg={4}>
-                        <AppGhostMeter
-                            title="Satisfaction Meter"
-                            chartData={[
-                                { label: 'Satisfied with chatbot', value: analysedData.num_satisfied_users },
-                                { label: 'Unsatisfied', value: analysedData.num_unsatisfied_users },
-                            ]}
-                            chartColors={[
-                                theme.palette.success.light,
-                                theme.palette.error.light,
-                            ]}
-                        />
-                    </Grid>
-
-                    {/* MISCELLANEOUS DATA */}
-                    <Grid item xs={12} md={6} lg={6}>
-                        <AppIndexCard
-                            title="Miscellaneous"
-                            list={[
-                                {
-                                    name: 'Average Chat Duration (in seconds)',
-                                    value: Math.floor(analysedData.avg_duration_time / 1000),
-                                    icon: <Iconify icon={'eva:clock-outline'} color="#1877F2" width={32} />,
-                                },
-                                {
-                                    name: 'Average Chat Length (by number of texts)',
-                                    value: analysedData.avg_duration_text,
-                                    icon: <Iconify icon={'eva:activity-outline'} color="#1877F2" width={32} />,
-                                },
-                                {
-                                    name: 'Users Quitting due to Other Reasons',
-                                    value: analysedData.reasons.other,
-                                    icon: <Iconify icon={'eva:person-delete-outline'} color="#1877F2" width={32} />,
-                                },
-                            ]}
-                        />
-                    </Grid>
-
+              {/* COUNTERS */}
+              <Grid container spacing={4}>
+                <Grid item xs={10} sm={1} md={2.3}>
+                  <counterButton onClick={() => setCounter("Privacy Concerns")}>
+                    <AppCounter
+                      title="Privacy Concerns"
+                      total={analysedData.reasons.privacy}
+                      color="error"
+                      icon={"ant-design:key-outlined"}
+                    />
+                  </counterButton>
                 </Grid>
 
-                <div className={'footer'}></div>
+                <Grid item xs={10} sm={1} md={2.3}>
+                  <counterButton
+                    onClick={() => setCounter("Unsatisfactory Solutions")}
+                  >
+                    <AppCounter
+                      title="Unsatisfactory Solutions"
+                      total={analysedData.reasons.no_solution}
+                      color="warning"
+                      icon={"ant-design:frown-outline"}
+                    />
+                  </counterButton>
+                </Grid>
 
+                <Grid item xs={10} sm={1} md={2.3}>
+                  <counterButton
+                    onClick={() => setCounter("Chatbot Repetitions")}
+                  >
+                    <AppCounter
+                      title="Chatbot Repetitions"
+                      total={analysedData.reasons.chatbot_repetition}
+                      color="success"
+                      icon={"ant-design:comment-outlined"}
+                    />
+                  </counterButton>
+                </Grid>
+
+                <Grid item xs={10} sm={1} md={2.3}>
+                  <counterButton
+                    onClick={() => setCounter("Lengthy Chat Durations")}
+                  >
+                    <AppCounter
+                      title="Lengthy Chat Durations"
+                      total={analysedData.reasons.lengthy_convo}
+                      color="info"
+                      icon={"ant-design:field-time-outlined"}
+                    />
+                  </counterButton>
+                </Grid>
+
+                <Grid item xs={10} sm={1} md={2.3}>
+                  <counterButton
+                    onClick={() => setCounter("Live Agent Requests")}
+                  >
+                    <AppCounter
+                      title="Live Agent Requests"
+                      total={analysedData.reasons.human_interaction}
+                      color="secondary"
+                      icon={"ant-design:user-outlined"}
+                    />
+                  </counterButton>
+                </Grid>
+
+                {/* GRAPH */}
+                <Grid item xs={12} md={6} lg={8}>
+                  <AppGhostGraph
+                    title={currentReason}
+                    subheader="DD/MM 2022"
+                    chartLabels={Object.keys(
+                      analysedData.total_convos_per_day
+                    ).sort()}
+                    chartData={[
+                      {
+                        name: "Users Leaving due to ".concat(currentReason),
+                        type: "column",
+                        fill: "solid",
+                        color: currentColor,
+                        data: chartData,
+                      },
+                      {
+                        name: "Total Users",
+                        type: "area",
+                        fill: "gradient",
+                        color: "#A9A9A9",
+                        data: Object.values(analysedData.total_convos_per_day),
+                      },
+                      {
+                        name: "Total Users Leaving",
+                        type: "line",
+                        fill: "solid",
+                        color: "#2F4F4F",
+                        data: Object.values(
+                          analysedData.total_users_quit_per_day
+                        ),
+                      },
+                    ]}
+                  />
+                </Grid>
+
+                {/* SATISFACTION METER */}
+                <Grid item xs={12} md={6} lg={4}>
+                  <AppGhostMeter
+                    title="Satisfaction Meter"
+                    chartData={[
+                      {
+                        label: "Satisfied with chatbot",
+                        value: analysedData.num_satisfied_users,
+                      },
+                      {
+                        label: "Unsatisfied",
+                        value: analysedData.num_unsatisfied_users,
+                      },
+                    ]}
+                    chartColors={[
+                      theme.palette.success.light,
+                      theme.palette.error.light,
+                    ]}
+                  />
+                </Grid>
+
+                {/* MISCELLANEOUS DATA */}
+                <Grid item xs={12} md={6} lg={6}>
+                  <AppIndexCard
+                    title="Miscellaneous"
+                    list={[
+                      {
+                        name: "Average Chat Duration (in seconds)",
+                        value: Math.floor(
+                          analysedData.avg_duration_time / 1000
+                        ),
+                        icon: (
+                          <Iconify
+                            icon={"eva:clock-outline"}
+                            color="#1877F2"
+                            width={32}
+                          />
+                        ),
+                      },
+                      {
+                        name: "Average Chat Length (by number of texts)",
+                        value: analysedData.avg_duration_text,
+                        icon: (
+                          <Iconify
+                            icon={"eva:activity-outline"}
+                            color="#1877F2"
+                            width={32}
+                          />
+                        ),
+                      },
+                      {
+                        name: "Users Quitting due to Other Reasons",
+                        value: analysedData.reasons.other,
+                        icon: (
+                          <Iconify
+                            icon={"eva:person-delete-outline"}
+                            color="#1877F2"
+                            width={32}
+                          />
+                        ),
+                      },
+                    ]}
+                  />
+                </Grid>
+              </Grid>
+
+              <div className={"footer"}></div>
             </Container>
-        </div>
+          </div>
+        )}
+      </div>
     );
 }

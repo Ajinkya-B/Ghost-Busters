@@ -1,4 +1,3 @@
-import {avgDurationTime, avgDurationTexts, totalUsersForceQuit, checkReasons} from './AnalyseProjectInteractor.js'
 import {ProjectsInterface} from "../interfaces/projects-interface.js";
 import {InputBoundaryInterface} from "../interfaces/input-boundary-interface.js";
 import ProjectDAO from "../dao/projectsDAO.js";
@@ -12,7 +11,7 @@ export default class AnalyseProjectService extends InputBoundaryInterface {
     this.#ProjectDAO = dao;
   }
 
-  static setAnalyser(analyser){
+   static setAnalyser(analyser){
     this.#analyser = analyser;
   }
   /**
@@ -41,7 +40,7 @@ export default class AnalyseProjectService extends InputBoundaryInterface {
         satisfaction: this.#analyser.satisfaction(text_transcripts, transcripts)
       };
       outputBoundary.setOutput({status: "success",
-          data: reponse})
+          data: response})
     } catch (e) {
       console.error(`Unable to issue analyse project command, ${e}`)
       outputBoundary.setOutput({status: "failure", error: e.message})

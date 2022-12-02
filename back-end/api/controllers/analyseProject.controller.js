@@ -1,5 +1,5 @@
-import AnalyseProjectService from '../../services/analyseProject.service.js'
 import {InputBoundaryInterface} from "../../interfaces/input-boundary-interface.js";
+import {AnalyseProjectInteractor} from "../../services/AnalyseProjectInteractor.js";
 
 
 /**

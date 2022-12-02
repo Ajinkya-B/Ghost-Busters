@@ -31,7 +31,7 @@ export class InputBoundaryInterface{
      * @param body
      * @returns {Promise<{status: string}>}
      */
-    static async createProject(query = {}) {
+     async createProject(query = {}) {
         throw new Error("not implemented");
     }
 

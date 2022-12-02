@@ -4,12 +4,7 @@ import ProjectDAO from "../dao/projectsDAO.js";
 import {AnalyseProjectInteractor}  from "./AnalyseProjectInteractor.js";
 
 export default class AnalyseProjectService extends InputBoundaryInterface {
-  static #ProjectDAO = new ProjectDAO;
   static analyser = new AnalyseProjectInteractor;
-
-  static setProjectDAO(dao){
-    this.#ProjectDAO = dao;
-  }
 
    static setAnalyser(analyser){
     this.analyser = analyser;

@@ -17,16 +17,16 @@ export class ProjectsInterface extends EventEmitter{
     }
 
     /**
-     *  @param {Object} body A project object that has project data
      *  @returns A list of project objects
+     * @param query
      **/
     async createProject(query = {}) {
         throw new Error("not implemented");
     }
 
     /**
-     * @param {String} projectName Name of the project to be deleted
      * @returns {Promise<{error}|*>}
+     * @param query
      */
     async deleteProject(query = {}) {
         throw new Error("not implemented");
@@ -34,8 +34,8 @@ export class ProjectsInterface extends EventEmitter{
 
     /**
      * Also, add parsed and trimmed transcripts corresponding to that project to the project object.
-     * @param id
      * @returns {Promise<*>}
+     * @param query
      */
     async getProjectByID(query = {}) {
         throw new Error("not implemented");

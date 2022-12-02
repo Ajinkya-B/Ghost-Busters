@@ -1,6 +1,4 @@
 import {InputBoundaryInterface} from "../../interfaces/input-boundary-interface.js";
-import {AnalyseProjectInteractor} from "../../services/AnalyseProjectInteractor.js";
-import AnalyseProjectService from "../../services/analyseProject.service.js";
 
 
 /**
@@ -32,6 +30,14 @@ export default class AnalyseProjectController{
     }
 
 
+    /**
+     * An get analysed data API
+     * @param dao
+     * @param req
+     * @param res
+     * @param next
+     * @returns {Promise<void>}
+     */
     static async getAnalysedData(dao, req, res, next){
         let id = req.params.id || {};
         try{

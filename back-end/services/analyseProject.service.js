@@ -1,12 +1,11 @@
 import {ProjectsInterface} from "../interfaces/projects-interface.js";
 import {InputBoundaryInterface} from "../interfaces/input-boundary-interface.js";
-import ProjectDAO from "../dao/projectsDAO.js";
 import {AnalyseProjectInteractor}  from "./AnalyseProjectInteractor.js";
 
 export default class AnalyseProjectService extends InputBoundaryInterface {
-  static analyser = new AnalyseProjectInteractor;
+  analyser = new AnalyseProjectInteractor;
 
-   static setAnalyser(analyser){
+   setAnalyser(analyser){
     this.analyser = analyser;
   }
   /**
@@ -20,7 +19,6 @@ export default class AnalyseProjectService extends InputBoundaryInterface {
   async analyseProject(outputBoundary, dao, id) {
     if (dao instanceof ProjectsInterface) {
     try {
-      this.analyser = new AnalyseProjectInteractor
       const project = await dao.getProjectByID(id);
       let text_transcripts = project.data.text_transcripts;
       let transcripts = project.data.transcripts;

@@ -1,12 +1,18 @@
 import AnalyseProjectService from "./analyseProject.service.js";
 import {AnalyseProjectInteractor} from "./AnalyseProjectInteractor.js";
-import ProjectsDAO from "../dao/projectsDAO.js";
+import {ProjectsInterface} from "../interfaces/projects-interface.js";
+import {OutputBoundaryInterface} from "../interfaces/output-boundary-interface.js";
 
-
+jest.mock("../interfaces/input-boundary-interface.js")
+jest.mock("../interfaces/projects-interface.js")
 jest.mock("./AnalyseProjectInteractor.js");
 jest.mock("../dao/projectsDAO.js");
+jest.mock("../interfaces/output-boundary-interface.js");
+
 let dao;
+let projectInteractor;
 let analyser;
+let outputBoundary;
 
 const id = 1;
 
@@ -24,16 +30,15 @@ const SAMPLE_PROJECT = {data: {
 describe("AnalyseProjectService", () => {
     beforeEach(() => {
 
-        let newDao = new ProjectsDAO;
-
-        AnalyseProjectService.setProjectDAO(newDao);
-        dao = newDao;
-        let newAnalyser = new AnalyseProjectInteractor;
-        AnalyseProjectService.setAnalyser(newAnalyser);
-        analyser = newAnalyser;
-        dao.getProjectByID.mockReturnValueOnce(SAMPLE_PROJECT);
+        outputBoundary = OutputBoundaryInterface;
+        dao = new ProjectsInterface;
+        projectInteractor = new AnalyseProjectInteractor;
 
 
+        analyser = new AnalyseProjectService;
+        analyser.setAnalyser(projectInteractor);
+
+        dao.getProjectByID = jest.fn().mockReturnValueOnce(SAMPLE_PROJECT);
         jest.clearAllMocks();
 
 
@@ -42,93 +47,94 @@ describe("AnalyseProjectService", () => {
     describe("Analyse Project", () => {
         it('should correctly call dao with the given arguments', async () => {
 
-            await AnalyseProjectService.analyseProject(id);
+            await analyser.analyseProject(outputBoundary, dao, id);
             expect(dao.getProjectByID).toHaveBeenCalledWith(id);
         });
 
-        it('should correctly call analyser.avgDurationTexts', async () => {
+        it('should correctly call projectInteractor.avgDurationTexts', async () => {
 
-            analyser.avgDurationTexts = jest.fn().mockReturnValueOnce([]);
+
+            projectInteractor.avgDurationTexts = jest.fn().mockReturnValueOnce([]);
             const id = 1;
-            await AnalyseProjectService.analyseProject(id);
-            expect(analyser.avgDurationTexts).toHaveBeenCalledWith(SAMPLE_PROJECT.data.text_transcripts);
+            await analyser.analyseProject(outputBoundary, dao, id);
+            expect(projectInteractor.avgDurationTexts).toHaveBeenCalledWith(SAMPLE_PROJECT.data.text_transcripts);
         });
 
-        it('should correctly call analyser.avgDurationTime', async () => {
-            analyser.avgDurationTime = jest.fn().mockReturnValueOnce([]);
-            await AnalyseProjectService.analyseProject(id);
-            expect(analyser.avgDurationTime).toHaveBeenCalledWith(SAMPLE_PROJECT.data.transcripts);
+        it('should correctly call projectInteractor.avgDurationTime', async () => {
+            projectInteractor.avgDurationTime = jest.fn().mockReturnValueOnce([]);
+            await analyser.analyseProject(outputBoundary, dao, id);
+            expect(projectInteractor.avgDurationTime).toHaveBeenCalledWith(SAMPLE_PROJECT.data.transcripts);
         });
 
-        it('should correctly call analyser.totalUsersForceQuitPerDay', async () => {
+        it('should correctly call projectInteractor.totalUsersForceQuitPerDay', async () => {
 
-            analyser.totalUsersForceQuitPerDay = jest.fn().mockReturnValueOnce([]);
-            await AnalyseProjectService.analyseProject(id);
-            expect(analyser.totalUsersForceQuitPerDay).toHaveBeenCalledWith(
+            projectInteractor.totalUsersForceQuitPerDay = jest.fn().mockReturnValueOnce([]);
+            await analyser.analyseProject(outputBoundary, dao, id);
+            expect(projectInteractor.totalUsersForceQuitPerDay).toHaveBeenCalledWith(
                 SAMPLE_PROJECT.data.text_transcripts,
                 SAMPLE_PROJECT.data.transcripts);
         });
 
-        it('should correctly call analyser.checkReasons', async () => {
+        it('should correctly call projectInteractor.checkReasons', async () => {
 
-            analyser.checkReasons = jest.fn().mockReturnValueOnce([]);
-            await AnalyseProjectService.analyseProject(id);
-            expect(analyser.checkReasons).toHaveBeenCalledWith(
+            projectInteractor.checkReasons = jest.fn().mockReturnValueOnce([]);
+            await analyser.analyseProject(outputBoundary, dao, id);
+            expect(projectInteractor.checkReasons).toHaveBeenCalledWith(
                 SAMPLE_PROJECT.data.text_transcripts,
                 SAMPLE_PROJECT.data.transcripts);
         });
 
-        it('should correctly call analyser.numSatisfiedUsers', async () => {
+        it('should correctly call projectInteractor.numSatisfiedUsers', async () => {
 
-            analyser.numSatisfiedUsers = jest.fn().mockReturnValueOnce([]);
-            await AnalyseProjectService.analyseProject(id);
-            expect(analyser.numSatisfiedUsers).toHaveBeenCalledWith(
+            projectInteractor.numSatisfiedUsers = jest.fn().mockReturnValueOnce([]);
+            await analyser.analyseProject(outputBoundary, dao, id);
+            expect(projectInteractor.numSatisfiedUsers).toHaveBeenCalledWith(
                 SAMPLE_PROJECT.data.text_transcripts,
                 SAMPLE_PROJECT.data.transcripts);
         });
 
-        it('should correctly call analyser.numUnsatisfiedUsers', async () => {
+        it('should correctly call projectInteractor.numUnsatisfiedUsers', async () => {
 
-            analyser.numUnsatisfiedUsers = jest.fn().mockReturnValueOnce([]);
-            await AnalyseProjectService.analyseProject(id);
-            expect(analyser.numUnsatisfiedUsers).toHaveBeenCalledWith(
+            projectInteractor.numUnsatisfiedUsers = jest.fn().mockReturnValueOnce([]);
+            await analyser.analyseProject(outputBoundary, dao, id);
+            expect(projectInteractor.numUnsatisfiedUsers).toHaveBeenCalledWith(
                 SAMPLE_PROJECT.data.text_transcripts,
                 SAMPLE_PROJECT.data.transcripts);
         });
 
-        it('should correctly call analyser.totalConvosPerDay', async () => {
+        it('should correctly call projectInteractor.totalConvosPerDay', async () => {
 
-            analyser.totalConvosPerDay = jest.fn().mockReturnValueOnce([]);
-            await AnalyseProjectService.analyseProject(id);
-            expect(analyser.totalConvosPerDay).toHaveBeenCalledWith(
+            projectInteractor.totalConvosPerDay = jest.fn().mockReturnValueOnce([]);
+            await analyser.analyseProject(outputBoundary, dao, id);
+            expect(projectInteractor.totalConvosPerDay).toHaveBeenCalledWith(
                 SAMPLE_PROJECT.data.transcripts);
         });
 
 
-        it('should correctly call analyser.checkReasonsPerDay', async () => {
+        it('should correctly call projectInteractor.checkReasonsPerDay', async () => {
 
-            analyser.checkReasonsPerDay = jest.fn().mockReturnValueOnce([]);
-            await AnalyseProjectService.analyseProject(id);
-            expect(analyser.checkReasonsPerDay).toHaveBeenCalledWith(
+            projectInteractor.checkReasonsPerDay = jest.fn().mockReturnValueOnce([]);
+            await analyser.analyseProject(outputBoundary, dao, id);
+            expect(projectInteractor.checkReasonsPerDay).toHaveBeenCalledWith(
                 SAMPLE_PROJECT.data.text_transcripts,
                 SAMPLE_PROJECT.data.transcripts);
         });
 
-        it('should correctly call analyser.satisfaction', async () => {
+        it('should correctly call projectInteractor.satisfaction', async () => {
 
-            analyser.satisfaction = jest.fn().mockReturnValueOnce(123);
-            await AnalyseProjectService.analyseProject(id);
-            expect(analyser.satisfaction).toHaveBeenCalledWith(
+            projectInteractor.satisfaction = jest.fn().mockReturnValueOnce(123);
+            await analyser.analyseProject(outputBoundary, dao, id);
+            expect(projectInteractor.satisfaction).toHaveBeenCalledWith(
                 SAMPLE_PROJECT.data.text_transcripts,
                 SAMPLE_PROJECT.data.transcripts);
         });
 
         it('should correctly throw a console error', async () => {
             console.error = jest.fn();
-            analyser.satisfaction.mockImplementationOnce(() => {
+            projectInteractor.satisfaction.mockImplementationOnce(() => {
                 throw "error";
             });
-            await AnalyseProjectService.analyseProject(id);
+            await analyser.analyseProject(outputBoundary, dao, id);
             expect(console.error).toHaveBeenCalledWith(
                 "Unable to issue analyse project command, error"
             );

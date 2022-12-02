@@ -1,8 +1,12 @@
 import AnalyseProjectController from "./analyseProject.controller.js";
-import AnalyseProjectService from "../../services/analyseProject.service.js";
-
+import {OutputBoundaryInterface} from "../../interfaces/output-boundary-interface.js";
+import {InputBoundaryInterface} from "../../interfaces/input-boundary-interface.js";
+import ProjectsDAO from "../../dao/projectsDAO.js";
 
 jest.mock("../../services/analyseProject.service.js");
+jest.mock("../../interfaces/input-boundary-interface.js");
+jest.mock("../../interfaces/output-boundary-interface.js");
+jest.mock("../../dao/projectsDAO.js");
 
 const mockResponse = () => {
     let res = {};
@@ -14,28 +18,44 @@ const mockResponse = () => {
     return res;
 };
 
+let interactor;
+let outputBoundary;
+let dao;
+
 describe("AnalyseProjectsController", () => {
     describe("Get Analysed Data", () => {
-        it("Should correctly get analysed data of a project by id", async () => {
-            const res = mockResponse();
-            // AnalyseProjectService.analyseProject.mockImplementationOnce(() =>({id: 1}))
-            AnalyseProjectService.analyseProject = jest.fn(() =>({id: 1})).mockReturnValue({
-                status: 200,
+        beforeEach(() => {
+
+            outputBoundary = OutputBoundaryInterface;
+            outputBoundary.getOutput = jest.fn().mockReturnValue({
+                status: "success",
                 data: {"abcd": 0},
             });
-            await AnalyseProjectController.getAnalysedData({params:{id:1}}, res);
-            expect(AnalyseProjectService.analyseProject).toHaveBeenCalled();
+
+            interactor = new InputBoundaryInterface();
+            AnalyseProjectController.setAnalyzeProjectInteractor(interactor);
+            AnalyseProjectController.setOutputBoundary(outputBoundary);
+            dao = new ProjectsDAO;
+            jest.clearAllMocks();
+
+        });
+
+        it("Should correctly get analysed data of a project by id", async () => {
+            const res = mockResponse();
+            interactor.analyseProject = jest.fn().mockImplementation((obj) => obj);
+            await AnalyseProjectController.getAnalysedData(dao,{params: {id: 1}}, res, {});
+            expect(interactor.analyseProject).toHaveBeenCalled();
             expect(res.json).toHaveBeenCalledWith({"abcd": 0});
 
         });
 
         it("Should correctly throw a error", async () => {
             const res = mockResponse();
-            AnalyseProjectService.analyseProject = jest.fn().mockImplementation(() => {
-                throw { message: "e" };
+            interactor.analyseProject = jest.fn().mockImplementation(() => {
+                throw {message: "e"};
             });
-            await AnalyseProjectController.getAnalysedData({params:{}}, res, {});
-            expect(res.json).toHaveBeenCalledWith({ error: "e" });
+            await AnalyseProjectController.getAnalysedData(dao,{params: {id: 1}}, res, {});
+            expect(res.json).toHaveBeenCalledWith({error: "e"});
         });
     })
 })

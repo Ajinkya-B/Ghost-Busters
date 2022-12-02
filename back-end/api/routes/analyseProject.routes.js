@@ -1,7 +1,7 @@
 import express from "express";
 import AnalyseProjectController from "../controllers/analyseProject.controller.js";
 import ProjectsDAO from "../../dao/projectsDAO.js";
-const ProjectDAO = new ProjectsDAO()
+const ProjectDAO = new ProjectsDAO();
 import OutputDataBoundary from "../../helpers/outputDataBoundary.js";
 import AnalyseProjectService from "../../services/analyseProject.service.js";
 const AnalyzeProjectInteractor = new AnalyseProjectService()

@@ -1,7 +1,12 @@
-import { FaBars } from 'react-icons/fa';
+// The UI elements of the application (e.g., buttons and the styling of the Navbar).
+
 import { NavLink as Link } from 'react-router-dom';
 import styled from 'styled-components';
 
+
+/* Navbar styling
+   ========================================================================== */
+// The background of the navbar
 export const Nav = styled.nav`
   background: #eee;
   height: 80px;
@@ -14,6 +19,7 @@ export const Nav = styled.nav`
   /* justify-content: flex-start; */
 `;
 
+// Text that links to a different page
 export const NavLink = styled(Link)`
   color: #000;
   display: flex;
@@ -28,38 +34,7 @@ export const NavLink = styled(Link)`
   }
 `;
 
-export const Bars = styled(FaBars)`
-  display: none;
-  color: #fff;
-
-  @media screen and (max-width: 768px) {
-    display: block;
-    position: absolute;
-    top: 0;
-    right: 0;
-    transform: translate(-100%, 75%);
-    font-size: 1.8rem;
-    cursor: pointer;
-  }
-`;
-
-export const NavMenu = styled.div`
-  display: flex;
-  align-items: center;
-  margin-right: -24px;
-
-  /* Second Nav */
-  /* margin-right: 24px; */
-
-  /* Third Nav */
-  /* width: 100vw;
-  white-space: nowrap; */
-
-  @media screen and (max-width: 768px) {
-    display: none;
-  }
-`;
-
+// The foundation for a Navbar button
 export const NavBtn = styled.nav`
   display: flex;
   align-items: center;
@@ -74,6 +49,14 @@ export const NavBtn = styled.nav`
   }
 `;
 
+// Blue button with hover animation
+// For Navbar buttons, use this in between NavBtn
+// E.g.,
+// <NavBtn>
+//     <NavBtnLink>
+//         Text inside your button
+//     </NavBtnLink>
+// </NavBtn>
 export const NavBtnLink = styled(Link)`
   border-radius: 4px;
   background: #3e81e2;
@@ -95,7 +78,28 @@ export const NavBtnLink = styled(Link)`
   }
 `;
 
-export const NavBtnLinkSelect = styled(Link)`
+// Inactive button
+export const BtnInactive = styled(Link)`
+  border-radius: 4px;
+  background: #bbb;
+  padding: 10px 18px;
+  color: #fff;
+  outline: none;
+  border: none;
+  cursor: not-allowed;
+  text-decoration: none;
+
+  /* Second Nav */
+  margin-left: 24px;
+
+  }
+`;
+
+
+/* Miscellaneous
+   ========================================================================== */
+// Button for selecting a project
+export const BtnSelect = styled(Link)`
   border-radius: 100000px;
   background: #bbb;
   padding: 2px 10px;
@@ -116,7 +120,8 @@ export const NavBtnLinkSelect = styled(Link)`
   }
 `;
 
-export const NavBtnLinkRemove = styled(Link)`
+// Button for removing a project
+export const BtnRemove = styled(Link)`
   border-radius: 100000px;
   background: #bbb;
   padding: 2px 10px;
@@ -134,21 +139,5 @@ export const NavBtnLinkRemove = styled(Link)`
     // transition: all 0.2s ease-in-out;
     background: #DE4747;
     color: #7F0909;
-  }
-`;
-
-export const NavBtnLinkInactive = styled(Link)`
-  border-radius: 4px;
-  background: #bbb;
-  padding: 10px 18px;
-  color: #fff;
-  outline: none;
-  border: none;
-  cursor: not-allowed;
-  text-decoration: none;
-
-  /* Second Nav */
-  margin-left: 24px;
-
   }
 `;

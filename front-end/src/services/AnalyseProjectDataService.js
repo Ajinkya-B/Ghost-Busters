@@ -1,4 +1,4 @@
-import http from "../http-common/http-common.analyseProject";
+import http from "../http-common/http-common";
 
 
 // This class contains all the functions that make API calls and return info from the calls.

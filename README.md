@@ -1,19 +1,49 @@
-# We are the GhostBusters!
-Companies use chatbots to redirect traffic from live customer service. But sometimes, a customer quits a chat for some specific reason and would instead call the live customer service representative.
+# We are the Ghost Busters!
+Companies use chatbots to redirect traffic from live customer service. But sometimes, a customer quits a chat for some specific reason and would instead call a live customer service representative.
 
-Often times, companies who use chatbots don't know when and why this happens and end up spending a ton of time and resources.
+Often times, businesses who use chatbots don't know when and why this happens. They end up spending a ton of time and resources on chatbots that their customers are "ghosting".
 
-We're going to help businesses that use Voiceflow's chatbot identify why their customers are leaving their chatbots by creating an analytics dashboard that displays various reasons why users quit a chat from the data aggregated on the instances of customers leaving a conversation.
+We're going to help businesses that use the services of [Voiceflow](https://www.voiceflow.com/) identify why and how many of their customers are leaving their chatbots. How? By creating an analytics dashboard that displays various reasons why users quit a conversation with a chatbot. 
 
-## To launch the app
-1. Fetch the project
-2. Run ```npm install``` for all front-end, back-end and the main folder to download all the dependencies
-3. Run ```npm install -g nodemon```
+## You can visit the live demo here :smiley:
+https://spiffy-gingersnap-18a267.netlify.app/
 
-## To run the app 
-Run ```nodemon server``` to start the server
+## To install the app
+1. Clone the project.
+2. Open 3 terminals: 
+  - For one of them, run ```cd back-end``` to navigate to the back-end folder.
+  - For the other, run ```cd front-end``` to navigate to the front-end folder.
+  - Don't do anything for the last terminal. You're already in the main folder!
+3. Run ```npm install``` in all front-end, back-end, and main terminals to download all the dependencies.
+4. Run ```npm install -g nodemon``` in any terminal.
 
-Run ```npm start``` to start the react app
+## To run the app
+Please request one of the authors for a ```.env``` file to add to the back-end folder.
 
-## Alternative Run Method
-Run ```npm run dev``` to start both the backend and the front end
+Run ```nodemon server``` in the back-end terminal to start the server.
+Then, run ```npm start``` in the front-end terminal to start the React app.
+
+### Alternative run method:
+Run ```npm run dev``` to start both the back-end and front-end.
+
+## A tour of the app
+![Welcome Page](./front-end/src/images/welcomepage_screenshot.jpg)
+![Manage Projects Page](./front-end/src/images/selectproject_screenshot.jpg)
+After landing on the welcome page, you may select a project and view its analytics dashboard. A project corresponds to a project on the Voiceflow Workspace. If you add a project, please make sure its Version ID and API Key are precisely from an existing Voiceflow project!
+
+![Dashboard](./front-end/src/images/dashboard_screenshot.jpg)
+After selecting a project, you'll be taken to its dashboard. Please be patient as it loads. :blush:
+The data is aggregated from Voiceflow Transcripts. Specifically, we use the instances of users leaving a conversation with a chatbot.
+
+![404 Page](./front-end/src/images/404page_screenshot.jpg)
+Boo! You'll see a 404 page if you navigate to an unsupported URL. 
+
+## License
+Distributed under the [Apache-2.0 License](./LICENSE.md).
+
+## Attribution
+This app was created by Khushi Agrawal, Ajinkya Bhosale, Marco Marchesano, and Chelsea Wang.
+
+Thank you to University of Toronto's Technology Leadership Initiative professors and teaching assistants for your guidance and help, and to Best-Flow for aiding in the development of interface boundaries!
+
+Built with MongoDB, Express, React, Node, Material UI, and more. We use icons from [Ant Design](https://ant.design/) and [Eva Icons](https://akveo.github.io/eva-icons/#/). Credits to [Apparate](https://www.deviantart.com/apparate) on DeviantArt for the welcome page's ghost animation, and to [Freepik](https://www.freepik.com/) for our 404 page's ghost image. Aspects of the app's styling are derived from [Primitive UI](https://github.com/taniarascia/primitive) and [Minimal UI Kit](https://github.com/minimal-ui-kit/material-kit-react). 

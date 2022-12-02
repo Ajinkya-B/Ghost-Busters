@@ -1,9 +1,20 @@
 import {avgDurationTime, avgDurationTexts, totalUsersForceQuit, checkReasons} from './AnalyseProjectInteractor.js'
 import {ProjectsInterface} from "../interfaces/projects-interface.js";
 import {InputBoundaryInterface} from "../interfaces/input-boundary-interface.js";
+import ProjectDAO from "../dao/projectsDAO.js";
+import {AnalyseProjectInteractor}  from "./AnalyseProjectInteractor.js";
 
 export default class AnalyseProjectService extends InputBoundaryInterface {
+  static #ProjectDAO = new ProjectDAO;
+  static #analyser = new AnalyseProjectInteractor;
 
+  static setProjectDAO(dao){
+    this.#ProjectDAO = dao;
+  }
+
+  static setAnalyser(analyser){
+    this.#analyser = analyser;
+  }
   /**
    * Returns analysed metrics for a project with the project_id id.
    * @param outputBoundary
@@ -18,16 +29,22 @@ export default class AnalyseProjectService extends InputBoundaryInterface {
       const project = await dao.getProjectByID(id);
       let text_transcripts = project.data.text_transcripts;
       let transcripts = project.data.transcripts;
-      const reponse = {
-        avg_duration_text: avgDurationTexts(text_transcripts),
-        avg_duration_time: avgDurationTime(transcripts),
-        total_users_quit: totalUsersForceQuit(text_transcripts),
-        reasons: checkReasons(text_transcripts),
+      const response = {
+        avg_duration_text: this.#analyser.avgDurationTexts(text_transcripts),
+        avg_duration_time: this.#analyser.avgDurationTime(transcripts),
+        total_users_quit_per_day: this.#analyser.totalUsersForceQuitPerDay(text_transcripts, transcripts),
+        reasons: this.#analyser.checkReasons(text_transcripts, transcripts),
+        num_satisfied_users: this.#analyser.numSatisfiedUsers(text_transcripts, transcripts),
+        num_unsatisfied_users: this.#analyser.numUnsatisfiedUsers(text_transcripts, transcripts),
+        total_convos_per_day: this.#analyser.totalConvosPerDay(transcripts),
+        reasons_per_day: this.#analyser.checkReasonsPerDay(text_transcripts, transcripts),
+        satisfaction: this.#analyser.satisfaction(text_transcripts, transcripts)
       };
       outputBoundary.setOutput({status: "success",
           data: reponse})
     } catch (e) {
-      outputBoundary.setOutput({status: "failure", data: []})
+      console.error(`Unable to issue analyse project command, ${e}`)
+      outputBoundary.setOutput({status: "failure", error: e.message})
     }
     } else {
       new Error("not an ProjectInterface");

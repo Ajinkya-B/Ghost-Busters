@@ -45,7 +45,7 @@ export default class AnalyseProjectController{
                 return;
         }
     } catch (e) {
-            res.status(500).json({status: "failure"});
+            res.status(500).json({error: e.message});
         }
     }
 }

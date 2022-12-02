@@ -42,7 +42,7 @@ export class InputBoundaryInterface{
      * @param id
      * @returns {Promise<{data: {total_users_quit: *, avg_duration_text: *, avg_duration_time: *}, status: string}|{data: *[], status: string}>}
      */
-    async analyseProject(query = {}) {
+     async analyseProject(query = {}) {
         throw new Error("not implemented");
     }
 }

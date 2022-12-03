@@ -76,8 +76,7 @@ export default class TranscriptsController {
    */
   //Come back to this function, deciding whether to add the dao as an if condition or just leave it
   static async flushDB(dao, req, res, next) {
-    await this.#inputBoundary.flushCollection(dao, req.query.collection, res)
-
+    await this.#inputBoundary.flushCollection(dao, res)
   }
 
   /**

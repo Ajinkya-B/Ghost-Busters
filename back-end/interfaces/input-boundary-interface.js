@@ -45,4 +45,13 @@ export class InputBoundaryInterface{
      async analyseProject(outputBoundary, dao, id) {
         throw new Error("not implemented");
     }
+
+    /**
+     *    * Receives a json file from the voiceflow api call
+     *    * @param textDAO
+     *    * @param transcriptDAO
+     */
+    async getVoiceFlowAPIData(textDAO, transcriptDAO) {
+        throw new Error("not implemented");
+    }
 }

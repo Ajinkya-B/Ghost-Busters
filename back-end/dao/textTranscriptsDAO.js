@@ -45,7 +45,7 @@ export default class TextTranscriptsDAO extends TextTranscriptsInterface{
    * Deletes the objects in the textTranscripts collection
    * @return {Promise<void>}
    */
-  async flushDatabase() {
-    await TextTranscripts.deleteMany({});
+  async flushCollection(project_id) {
+    await TextTranscripts.deleteMany({project_id: `${project_id}`});
   }
 }

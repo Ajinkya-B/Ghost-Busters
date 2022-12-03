@@ -33,7 +33,6 @@ export default class AnalyseProjectService extends InputBoundaryInterface {
         reasons_per_day: this.analyser.checkReasonsPerDay(text_transcripts, transcripts),
         satisfaction: this.analyser.satisfaction(text_transcripts, transcripts)
       };
-      console.log(response)
       outputBoundary.setOutput({status: "success",
           data: response})
     } catch (e) {

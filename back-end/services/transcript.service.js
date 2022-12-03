@@ -38,6 +38,8 @@ export default class TranscriptService extends InputBoundaryInterface{
    */
    async addTranscripts(textDAO, transcriptDAO, response) {
     try {
+      await this.flushCollection(textDAO, project_id)
+      await this.flushCollection(transcriptDAO, project_id)
       for (const transcript of response.data){
         if (transcriptDAO instanceof TranscriptInterface) {
           const parsedData = transcriptDataFormatter.cleanData(transcript);
@@ -148,20 +150,12 @@ export default class TranscriptService extends InputBoundaryInterface{
   /**
    * Query's the database for text transcripts with a specific project id
    * @param dao
-   * @param {String} collection_name :  name of the collection wished to drop
-   * @param res json format of the response of the function
+   * @param project_id
    */
-   async flushCollection(dao, collection_name, res) {
+   async flushCollection(dao, project_id) {
     try {
-      if (collection_name === "Parsed") {
-        await TranscriptsDAO.flushDatabase();
-      }
-      if (collection_name === "Text") {
-        await TextTranscriptsDAO.flushDatabase();
-      }
-      res.json({ status: "success" });
+      await dao.flushCollection(project_id)
     } catch (e) {
-      res.json({ status: "failure" });
     }
   }
 

@@ -46,8 +46,8 @@ export default class TranscriptsDAO extends TranscriptInterface{
   }
 
   //A function to clear the database with the given name
-  async flushDatabase(){
-    await Transcripts.deleteMany({})
+  async flushCollection(project_id){
+    await Transcripts.deleteMany({project_id: `${project_id}`})
   }
 
 }

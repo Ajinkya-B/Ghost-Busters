@@ -2,6 +2,7 @@ import AnalyseProjectService from "./analyseProject.service.js";
 import {AnalyseProjectInteractor} from "./AnalyseProjectInteractor.js";
 import {ProjectsInterface} from "../interfaces/projects-interface.js";
 import {OutputBoundaryInterface} from "../interfaces/output-boundary-interface.js";
+import ProjectsDAO from "../dao/projectsDAO.js";
 
 jest.mock("../interfaces/input-boundary-interface.js")
 jest.mock("../interfaces/projects-interface.js")
@@ -137,6 +138,16 @@ describe("AnalyseProjectService", () => {
             await analyser.analyseProject(outputBoundary, dao, id);
             expect(console.error).toHaveBeenCalledWith(
                 "Unable to issue analyse project command, error"
+            );
+
+        });
+
+        it('should correctly throw an console error if passed a wrong dao ', async () => {
+            console.error = jest.fn();
+            dao = new ProjectsDAO;
+            await analyser.analyseProject(outputBoundary, dao, id);
+            expect(console.error).toHaveBeenCalledWith(
+                "not an ProjectInterface"
             );
 
         });

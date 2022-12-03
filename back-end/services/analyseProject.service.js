@@ -41,7 +41,8 @@ export default class AnalyseProjectService extends InputBoundaryInterface {
       outputBoundary.setOutput({status: "failure", error: e.message})
     }
     } else {
-      new Error("not an ProjectInterface");
+      let e = new Error("not an ProjectInterface");
+      console.error(e.message);
     }
   }
 

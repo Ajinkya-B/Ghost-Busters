@@ -118,7 +118,7 @@ export function isChatbotRepetition(dialogue, transcript_data) {
 
             }
         } catch (e) {
-            console.log("no reprompt")
+            // console.log("no reprompt")
         }
     }
     return temp === true && hasDuplicates(dialogue);

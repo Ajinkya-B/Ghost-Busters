@@ -11,7 +11,7 @@ export default class TranscriptsController {
    * @param {Object} next
    */
   static async getParsedTranscripts(req, res, next) {
-      await TranscriptService.queryForParsedTranscripts(req.query.project_id, res)
+      await TranscriptService.queryForParsedTranscripts(req, res)
   }
 
   /** GET API: Gets trimmed transcript data matching with the querry from MongoDB.

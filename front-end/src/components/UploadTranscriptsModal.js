@@ -7,7 +7,7 @@ import {NavBtn, NavBtnLink} from "./Elements";
 import UploadTranscriptsFromVoiceflow from "./UploadTranscriptsFromVoiceflow";
 
 
-// Create the modal.
+// Create the modal
 function VerticallyCenteredModal(props) {
     return (
         <Modal
@@ -26,21 +26,21 @@ function VerticallyCenteredModal(props) {
 
             <Modal.Body>
                 <center>
-                    {/* CHELSEA'S TODO: Center the buttons */}
                     <p>Automatically upload from your current project:</p>
-
+                    <br />
                     {/*This component returns a button that logs textTranscripts into the console*/}
                     <UploadTranscriptsFromVoiceflow />
 
                     {/*<p>Upload from your device:</p>*/}
                     {/*<UploadTranscriptsFromDevice />*/}
+                    <br />
                 </center>
             </Modal.Body>
         </Modal>
     );
 }
 
-// Display the modal when the "Upload Transcripts" button is clicked.
+// Display the modal when the "Upload Transcripts" button is clicked
 export default function UploadTranscriptsModal() {
     const [modalShow, setModalShow] = React.useState(false);
     return (

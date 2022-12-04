@@ -30,7 +30,7 @@ function DashboardWelcomeMessage() {
             <br />
 
             <Button to="/ManageProjects" size="large" variant="outlined" component={RouterLink}>
-                Click me or "Manage Projects"!
+                Manage Projects
             </Button>
         </div>
     )
@@ -38,12 +38,11 @@ function DashboardWelcomeMessage() {
 
 export default function DashboardWelcomePage() {
     const style = {
-        backgroundImage: `url(${ghost_animation})`,
-        backgroundRepeat: "no-repeat",
-        backgroundPosition: "left",
-        backgroundColor: "#f7f7f7",
-        overflowY: "scroll",
-        position: "absolute",
+        "background-image": `url(${ghost_animation})`,
+        "background-repeat": "no-repeat",
+        "background-position": "left",
+        "background-color": "#f7f7f7",
+        position: "fixed",
         height: "100%",
         width: "100%"
     }

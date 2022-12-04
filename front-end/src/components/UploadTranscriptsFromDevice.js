@@ -1,4 +1,4 @@
-// THIS PAGE IS NOT USED.
+// THIS PAGE IS NOT CURRENTLY USED.
 // This component allows a user to upload a transcript from their device.
 
 import React, {Component} from "react";
@@ -18,7 +18,7 @@ class UploadTranscriptsFromDevice extends Component {
         const data = new FormData()
         data.append('file', this.state.selectedFile)
         axios.post("https://ghost-busters-backend-f6c6b7uoga-uc.a.run.app/api/v1/transcripts/test", data, {
-            // receive two    parameter endpoint url ,form data
+            // receive two parameter endpoint url, form data
         })
         .then(res => { // then print response status
             console.log(res.statusText)

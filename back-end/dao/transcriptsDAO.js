@@ -1,7 +1,4 @@
-import {MongoClient} from "mongodb";
 import { Transcripts } from "../schema/transcripts-schema.js";
-
-let transcripts
 
 export default class TranscriptsDAO {
 
@@ -21,11 +18,8 @@ export default class TranscriptsDAO {
         query = { "project_id": { $eq: filters["project_id"] } }
       } 
     }
-
-    let cursor
-    
     try {
-      return await Transcripts.find(query).exec();
+      return await Transcripts.find(query);
     } catch (e) {
       console.error(`Unable to issue find command, ${e}`)
       return []
@@ -39,22 +33,22 @@ export default class TranscriptsDAO {
    * @param {Array} transcriptData : Transcript conversation data
    * @returns 
    */
-  static async addTranscript(projectId, transcriptData) { 
+  async addTranscript(projectId, transcriptData) { 
     try {
       const transcriptDoc = { 
         project_id: projectId,
         transcript_data: transcriptData
       }
 
-      return await Transcripts.create(transcriptDoc)
+      return await Transcripts.create(transcriptDoc);
     } catch (e) {
-      console.error(`Unable to post transcripts: ${e}`)
+      console.error(`Unable to issue create command, ${e}`);
       return { error: e }
     }
   }
 
   //A function to clear the database with the given name
-  static async flushDatabase(){
+  async flushDatabase(){
     await Transcripts.deleteMany({})
   }
 

@@ -6,8 +6,8 @@ import ProjectDataService from "../services/ProjectDataService";
 
 
 export default class AddProject extends Component {
-    constructor() {
-        super()
+    constructor(props) {
+        super(props)
         this.state = {
             project_name:'',
             project_id:'',

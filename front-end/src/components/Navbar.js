@@ -1,28 +1,24 @@
 // This is the Navbar displayed on each page of the application.
 
 import React from 'react';
-import { Nav, NavLink, NavMenu } from './Elements';
+import { Nav, NavLink } from './Elements';
 import UploadTranscriptsModal from "./UploadTranscriptsModal";
-import AnalyzeTranscripts from "./AnalyzeTranscripts";
+
 
 const Navbar = () => {
   return (
     <>
       <Nav>
 
-        <NavLink to='/'>
+        <NavLink to='/' onClick={()=>{window.reload()}}>
           <h2>Home</h2>
         </NavLink>
 
-        <NavMenu>
-          <NavLink to='/ManageProjects'>
-            Manage Projects
-          </NavLink>
-        </NavMenu>
+        <NavLink to='/ManageProjects' activeStyle onClick={()=>{window.reload()}}>
+          Manage Projects
+        </NavLink>
 
         <UploadTranscriptsModal />
-
-        <AnalyzeTranscripts />
 
       </Nav>
     </>

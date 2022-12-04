@@ -6,17 +6,51 @@ export default class ProjectsService {
     static #ProjectsDAO = new ProjectsDAO();
 
     /**
+     * Gets all projects from the databse that satisfy the filters.
+     * @param filters
+     * @returns {Promise<{data: *, status: string}|{data: *[], status: string}>}
+     */
+    static async getFilteredProjects(query) {
+        try {
+            let filters;
+            if (query) {
+                if (query.project_name) {
+                    filters = {project_name: {$eq: query.project_name}};
+                } else if (query.project_id) {
+                    filters = {project_id: {$eq: query.project_id}};
+                }
+            }
+            const response = await this.#ProjectsDAO.getProjects(filters);
+            return {
+                status: response.status,
+                data: response.data,
+            };
+        } catch (e) {
+            return {
+                status: 500,
+                data: {error: e.message},
+            }
+        }
+    }
+
+
+    /**
      * Creates a new project and returns the status.
      * @param body
      * @returns {Promise<{status: string}>}
      */
     static async createProject(body) {
         try {
-            console.log(body);
-            await this.#ProjectsDAO.createProject(body);
-            return {status: "success"};
+            const response = await this.#ProjectsDAO.createProject(body);
+            return {
+                status: response.status,
+                data: response.data,
+            };
         } catch (e) {
-            return {status: "failure"};
+            return {
+                status: 500,
+                data: {error: e.message},
+            }
         }
     }
 
@@ -27,76 +61,37 @@ export default class ProjectsService {
      */
     static async deleteProject(projectName) {
         try {
-            await this.#ProjectsDAO.deleteProject(projectName);
-            return {status: "success"};
-        } catch (e) {
-            return {status: "failure"};
-        }
-    }
-
-
-    /**
-     * Gets all projects from the databse that satisfy the filters.
-     * @param filters
-     * @returns {Promise<{data: *, status: string}|{data: *[], status: string}>}
-     */
-    static async getFilteredProjects({filters = null} = {}) {
-        try {
-            let query;
-            if (filters) {
-                if ("project_name" in filters) {
-                    query = {project_name: {$eq: filters["project_name"]}};
-                } else if ("version_id" in filters) {
-                    query = {version_id: {$eq: filters["version_id"]}};
-                }
-            }
-            const response = await this.#ProjectsDAO.getProjects(query);
-
+            const response = await this.#ProjectsDAO.deleteProject(projectName);
             return {
-                status: "success",
-                data: response,
+                status: response.status,
+                data: response.data,
             };
         } catch (e) {
             return {
-                status: "failure",
-                data: [],
+                status: 500,
+                data: { error: e.message },
             };
         }
     }
 
-    /**
-     *
-     * @param projectName
-     * @param transcript
-     * @returns {Promise<{status: string}>}
-     */
-    static async updateProject(projectName, transcript) {
-        try {
-            await this.#ProjectsDAO.updateProject(projectName, transcript);
-            return {status: "success"};
-        } catch (e) {
-            return {status: "failure"};
-        }
-    }
 
     /**
-     * If success, returns status and project details of the project with the version_id.
+     * If succuess, returns status and project details of the project with project_id id.
      * Otherwise, returns status failure and empty array.
      * @param id
      * @returns {Promise<{data: *, status: string}|{data: *[], status: string}>}
      */
     static async getProjectbyID(id) {
         try {
-
             const response = await this.#ProjectsDAO.getProjectByID(id);
             return {
-                status: "success",
-                data: response,
+                status: response.status,
+                data: response.data,
             };
         } catch (e) {
             return {
                 status: "failure",
-                data: [],
+                data: { error: e.message },
             };
         }
     }

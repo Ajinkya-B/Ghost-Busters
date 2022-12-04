@@ -27,4 +27,5 @@ describe('App', () => {
         );
         expect(renderer.toJSON()).toMatchSnapshot();
     });
+
 });

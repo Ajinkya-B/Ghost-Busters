@@ -69,11 +69,11 @@ export default class TranscriptService extends InputBoundaryInterface{
   }
   /**
    * Query's the database for parsed transcripts with a specific project id
+   * @param outputBoundary
    * @param dao
-   * @param req
-   * @param res json format of the response of the function
+   * @param query
    */
-  static async getFilteredTranscripts(dao, query) {
+  static async getFilteredTranscripts(outputBoundary, dao, query) {
     if (dao instanceof TranscriptInterface) {
     try{
       let filters={};
@@ -93,15 +93,15 @@ export default class TranscriptService extends InputBoundaryInterface{
         transcripts: response.data,
         filters: filters,
       };
-      return {
+      outputBoundary.setOutput({
         status: response.status,
         data: data,
-      };
+      });
     }catch(e){
-      return {
+      outputBoundary.setOutput({
         status: 500,
         data: { error: e.message },
-      };
+      });
     }
     } else {
       new Error("not an ParsedTranscript Interface");
@@ -110,10 +110,11 @@ export default class TranscriptService extends InputBoundaryInterface{
 
   /**
    * Query's the database for text transcripts with a specific project id
+   * @param outputBoundary
    * @param dao
    * @param query
    */
-  static async getFilteredTextTranscripts(dao, query) {
+  static async getFilteredTextTranscripts(outputBoundary, dao, query) {
     if (dao instanceof TextTranscriptsInterface) {
       try {
         let filters = {};
@@ -131,15 +132,15 @@ export default class TranscriptService extends InputBoundaryInterface{
         transcripts: response.data,
         filters: filters,
       };
-      return {
+      outputBoundary.setOutput({
         status: response.status,
         data: data,
-      };
+      });
     }catch(e){
-      return {
+        outputBoundary.setOutput({
         status: 500,
         data: { error: e.message },
-      };
+      });
     }
     } else {
       throw new Error("not an TextTranscript Interface");

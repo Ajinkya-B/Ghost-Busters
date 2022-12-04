@@ -1,4 +1,3 @@
-import TranscriptService from "../../services/transcript.service.js";
 import {InputBoundaryInterface} from "../../interfaces/input-boundary-interface.js";
 
 export default class TranscriptsController {
@@ -13,6 +12,16 @@ export default class TranscriptsController {
     }
   }
 
+  static #outputBoundary;
+
+  static setOutputBoundary(outputBoundary) {
+    if(outputBoundary.isOutputBoundaryInterface){
+      this.#outputBoundary = outputBoundary;
+    } else {
+      throw new Error("not an OutputBoundary");
+    }
+  }
+
   /** GET API: Gets parsed transcript data matching with the querry from MongoDB.
    * @param transcriptDAO
    * @param {Object} req : contains additonal body passed to an API call
@@ -21,10 +30,10 @@ export default class TranscriptsController {
    */
   static async apiGetCleanedTranscripts(transcriptDAO, req, res, next) {
     try{
-      const getCleanedTranscriptsResponse = await this.#inputBoundary.getFilteredTranscripts(req.query);
+      await this.#inputBoundary.getFilteredTranscripts(this.#outputBoundary, req.query);
       res
-        .status(getCleanedTranscriptsResponse.status)
-        .json(getCleanedTranscriptsResponse.data);
+        .status(this.#outputBoundary.getOutput().status)
+        .json(this.#outputBoundary.getOutput().data);
     }catch(e){
       res.status(500).json({error: e.message});
     }
@@ -40,10 +49,10 @@ export default class TranscriptsController {
    */
   static async apiGetTextTranscripts(textDAO, req, res, next) {
     try {
-      const getTextTranscriptsResponse = await this.#inputBoundary.getFilteredTextTranscripts(textDAO, req.query);
+      await this.#inputBoundary.getFilteredTextTranscripts(this.#outputBoundary, textDAO, req.query);
       res
-        .status(getTextTranscriptsResponse.status)
-        .json(getTextTranscriptsResponse.data);
+        .status(this.#outputBoundary.getOutput().status)
+        .json(this.#outputBoundary.getOutput().data);
     } catch (e) {
       res.status(500).json({ error: e.message });
     }

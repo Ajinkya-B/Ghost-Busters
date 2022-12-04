@@ -4,13 +4,12 @@ exports[`App renders the Navbar navigation correctly 1`] = `
 <div
   style={
     {
-      "backgroundColor": "#f7f7f7",
-      "backgroundImage": "url([object Object])",
-      "backgroundPosition": "left",
-      "backgroundRepeat": "no-repeat",
+      "background-color": "#f7f7f7",
+      "background-image": "url([object Object])",
+      "background-position": "left",
+      "background-repeat": "no-repeat",
       "height": "100%",
-      "overflowY": "scroll",
-      "position": "absolute",
+      "position": "fixed",
       "width": "100%",
     }
   }
@@ -28,39 +27,24 @@ exports[`App renders the Navbar navigation correctly 1`] = `
         Home
       </h2>
     </a>
-    <div
-      className="sc-dkrFOg eIXIWZ"
+    <a
+      activeStyle={true}
+      className="sc-gswNZR RClpZ"
+      href="/ManageProjects"
+      onClick={[Function]}
     >
-      <a
-        className="sc-gswNZR RClpZ"
-        href="/ManageProjects"
-        onClick={[Function]}
-      >
-        Manage Projects
-      </a>
-    </div>
+      Manage Projects
+    </a>
     <nav
-      className="sc-hLBbgP hCPAKv"
+      className="sc-dkrFOg jijIET"
     >
       <a
         aria-current="page"
-        className="sc-eDvSVe dOdeYF active"
+        className="sc-hLBbgP jYsoAB active"
         href="/"
         onClick={[Function]}
       >
         Upload Transcripts
-      </a>
-    </nav>
-    <nav
-      className="sc-hLBbgP hCPAKv"
-    >
-      <a
-        aria-current="page"
-        className="sc-eDvSVe dOdeYF active"
-        href="/"
-        onClick={[Function]}
-      >
-        Analyze Transcripts
       </a>
     </nav>
   </nav>
@@ -103,7 +87,7 @@ exports[`App renders the Navbar navigation correctly 1`] = `
       onTouchStart={[Function]}
       tabIndex={0}
     >
-      Click me or "Manage Projects"!
+      Manage Projects
       <span
         className="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
       />

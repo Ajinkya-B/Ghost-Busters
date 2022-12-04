@@ -46,12 +46,5 @@ describe("AddProject form", () => {
         expect(projectNameInput).toBeEmptyDOMElement();
         expect(projectIDInput).toBeEmptyDOMElement();
         expect(apiKeyInput).toBeEmptyDOMElement();
-
     });
-
-    // TODO
-    it.skip('should display the new project on the projects list', () => {
-        render(<ProjectsList />);
-        expect(screen.getByText("Project Name Test")).toBeInTheDocument();
-    })
 });

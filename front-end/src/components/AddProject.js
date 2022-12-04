@@ -75,8 +75,7 @@ export default class AddProject extends Component {
             api_key:'',
             transcripts: [],
         })
-
-        // window.location.reload()
+        window.location.reload()
     }
 
     render() {

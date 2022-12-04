@@ -20,28 +20,30 @@ import Page404 from "../pages/Page404.js";
 import userEvent from "@testing-library/user-event";
 
 
-// These aren't working--it's not navigating to the specified page
+// These aren't working at the moment--the tests aren't able to mock the navigation
 describe('Dashboard Welcome Page', () => {
     it.skip('should navigate to Manage Projects', async () => {
-        render(<DashboardWelcome/>, {wrapper: BrowserRouter});
-        //expect(history.location.pathname).toBe('/');
-        //fireEvent.click(screen.getByDisplayValue('Click me or "Manage Projects"!'));
-        //fireEvent.click(screen.getByRole('href', { name: '/ManageProjects' }))
-        await userEvent.click(screen.getByRole('link', {name: 'Click me or "Manage Projects"!'}))
+        const history = createMemoryHistory({initialEntries: ['/']});
+        render(
+            <Router history={history}>
+                <DashboardWelcome />
+            </Router>
+        );
+        expect(history.location.pathname).toBe('/');
+        await userEvent.click(screen.getAllByRole('link', {name: 'Manage Projects'})[1])
         expect(screen.getByText(/add a new project/i)).toBeInTheDocument()
     })
 
-    // it.skip('should navigate to Home from the Manage Projects page', () => {
-    //     const history = createMemoryHistory({initialEntries: ['/ManageProjects']});
-    //     render(
-    //         <Router history={history}>
-    //             <DashboardWelcome />
-    //         </Router>
-    //     );
-    //     expect(history.location.pathname).toBe('/ManageProjects');
-    //     //fireEvent.click(screen.getByRole('link', { name: 'Home' }));
-    //     userEvent.click(screen.getByRole('link', { name: 'Home' }));
-    //     expect(history.location.pathname).toBe('/');
-    // })
+    it.skip('should navigate to Home from the Manage Projects page', async () => {
+        const history = createMemoryHistory({initialEntries: ['/ManageProjects']});
+        render(
+            <Router history={history}>
+                <DashboardWelcome />
+            </Router>
+        );
+        expect(history.location.pathname).toBe('/ManageProjects');
+        await userEvent.click(screen.getByRole('link', { name: 'Home' }));
+        expect(history.location.pathname).toBe('/');
+    })
 
 })

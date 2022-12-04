@@ -38,7 +38,7 @@ export default function AppCounter({ title, total, icon, color = 'primary', sx, 
     <Card
       sx={{
         py: 2,
-        boxShadow: 0,
+        boxShadow: 0.5,
         textAlign: 'center',
         color: (theme) => theme.palette[color].darker,
         backgroundColor: (theme) => theme.palette[color].lighter,
@@ -64,7 +64,7 @@ export default function AppCounter({ title, total, icon, color = 'primary', sx, 
           <Typography variant="h3" style={{paddingLeft:'0px'}}>{fNumber(total)}</Typography>
       }
 
-      <Typography variant="subtitle2" sx={{ opacity: 0.72 }}>
+      <Typography variant={'h6'}>
         {title}
       </Typography>
     </Card>

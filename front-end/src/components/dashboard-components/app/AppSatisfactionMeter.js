@@ -32,14 +32,14 @@ const StyledChartWrapper = styled('div')(({ theme }) => ({
 }));
 
 // Parameters for the satisfaction meter
-AppGhostMeter.propTypes = {
+AppSatisfactionMeter.propTypes = {
   title: PropTypes.string,
   subheader: PropTypes.string,
   chartColors: PropTypes.arrayOf(PropTypes.string),
   chartData: PropTypes.array,
 };
 
-export default function AppGhostMeter({ title, subheader, chartColors, chartData, ...other }) {
+export default function AppSatisfactionMeter({ title, subheader, chartColors, chartData, ...other }) {
   const theme = useTheme();
 
   // This creates the x-axis labels

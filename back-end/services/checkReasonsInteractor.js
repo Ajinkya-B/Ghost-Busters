@@ -35,7 +35,6 @@ export function isPrivacyConcern(dialogues) {
                         "agent"]
                     let text2 = dialogues[i + 1].text.toLowerCase();
                     if (other_keywords.some(keyword => text2.includes(keyword))) {
-                        console.log("Found")
                         return true;
 
                     }

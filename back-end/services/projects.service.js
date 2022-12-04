@@ -11,7 +11,7 @@ export default class ProjectsService extends InputBoundaryInterface {
      * @param dao
      * @param query
      */
-    static async getFilteredProjects(outputBoundary, dao, query) {
+     async getFilteredProjects(outputBoundary, dao, query) {
         if (dao instanceof ProjectsInterface) {
             try {
             let filters;
@@ -72,7 +72,7 @@ export default class ProjectsService extends InputBoundaryInterface {
      * @param projectName
      * @returns {Promise<{status: string}>}
      */
-    static async deleteProject(outputBoundary, dao, projectName) {
+     async deleteProject(outputBoundary, dao, projectName) {
         if (dao instanceof ProjectsInterface) {
             try {
                 const response = await dao.deleteProject(projectName);

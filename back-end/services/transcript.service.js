@@ -73,7 +73,7 @@ export default class TranscriptService extends InputBoundaryInterface{
    * @param dao
    * @param query
    */
-  static async getFilteredTranscripts(outputBoundary, dao, query) {
+   async getFilteredTranscripts(outputBoundary, dao, query) {
     if (dao instanceof TranscriptInterface) {
     try{
       let filters={};
@@ -114,7 +114,7 @@ export default class TranscriptService extends InputBoundaryInterface{
    * @param dao
    * @param query
    */
-  static async getFilteredTextTranscripts(outputBoundary, dao, query) {
+   async getFilteredTextTranscripts(outputBoundary, dao, query) {
     if (dao instanceof TextTranscriptsInterface) {
       try {
         let filters = {};

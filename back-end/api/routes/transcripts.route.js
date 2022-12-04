@@ -12,12 +12,14 @@ import OutputDataBoundary from "../../helpers/outputDataBoundary.js";
 // uses the controller to call a specific api
 router.route("/getParsedTranscripts")
     .get((req, res, next) => {
+        TranscriptsCtrl.setTranscriptInteractor(TranscriptServiceInteractor)
         TranscriptsCtrl.setOutputBoundary(OutputDataBoundary)
         TranscriptsCtrl.apiGetCleanedTranscripts(transcriptDao, req, res, next)
     })
 
 router.route("/getTrimmedTranscripts")
     .get((req, res, next) =>{
+        TranscriptsCtrl.setTranscriptInteractor(TranscriptServiceInteractor)
         TranscriptsCtrl.setOutputBoundary(OutputDataBoundary)
         TranscriptsCtrl.apiGetTextTranscripts(textDao, req, res, next)
     })

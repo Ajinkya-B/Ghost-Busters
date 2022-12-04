@@ -15,10 +15,12 @@ router
         ProjectsController.apiCreateProject(dao, req, res, next);
     })
     .delete((req, res, next) => {
+        ProjectsController.setProjectInteractor(ProjectServiceInteractor)
         ProjectsController.setOutputBoundary(OutputDataBoundary)
         ProjectsController.apiDeleteProject(dao, req, res, next)
     })
     .get((req, res, next) => {
+        ProjectsController.setProjectInteractor(ProjectServiceInteractor)
         ProjectsController.setOutputBoundary(OutputDataBoundary)
         ProjectsController.apiGetFilteredProjects(dao, req, res, next)
     })

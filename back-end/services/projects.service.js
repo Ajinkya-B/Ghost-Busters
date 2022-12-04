@@ -5,6 +5,9 @@ export default class ProjectsService {
     // Initializing a projects dao so that there is no need to use static in ProjectsDAO.
     static #ProjectsDAO = new ProjectsDAO();
 
+    static setProjectDAO(dao){
+        this.#ProjectsDAO = dao;
+    }
     /**
      * Gets all projects from the databse that satisfy the filters.
      * @param filters
@@ -12,7 +15,7 @@ export default class ProjectsService {
      */
     static async getFilteredProjects(query) {
         try {
-            let filters;
+            let filters={};
             if (query) {
                 if (query.project_name) {
                     filters = {project_name: {$eq: query.project_name}};

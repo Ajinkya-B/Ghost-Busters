@@ -1,13 +1,13 @@
 import TranscriptsController from "./transcripts.controller.js";
-import TranscriptService from "../../services/transcript.service.js";
-import TranscriptsCtrl from "../controllers/transcripts.controller.js"
+import { OutputBoundaryInterface } from "../../interfaces/output-boundary-interface.js";
+import { InputBoundaryInterface } from "../../interfaces/input-boundary-interface.js";
 import TextTranscriptDAO from "../../dao/textTranscriptsDAO.js";
 import TranscriptDAO from "../../dao/transcriptsDAO.js"
-const textDao = new TextTranscriptDAO()
-const transcriptDao = new TranscriptDAO()
-const TranscriptServiceInteractor = new TranscriptService()
 
 jest.mock("../../services/transcript.service.js");
+jest.mock("../../interfaces/input-boundary-interface.js");
+jest.mock("../../interfaces/output-boundary-interface.js");
+jest.mock("../../helpers/outputDataBoundary.js");
 
 const mockResponse = () => {
     let res = {};
@@ -19,26 +19,64 @@ const mockResponse = () => {
     return res;
 };
 
+let interactor;
+let outputBoundary;
+let cleanedDao;
+let textDao;
+
+
 describe("TranscriptsController", () => {
+    describe("Set Output Boundary", () => {
+        it('should correctly throw an error', function () {
+            outputBoundary = new InputBoundaryInterface();
+            const t = () => {
+                TranscriptsController.setOutputBoundary(outputBoundary)
+            }
+            expect(t).toThrow(Error("not an OutputBoundary"))
+
+        });
+    });
+
+    describe("Set Transcript Interactor", () => {
+        it('should correctly throw an error', function () {
+            interactor = new OutputBoundaryInterface();
+            const t = () => {
+                TranscriptsController.setTranscriptInteractor(interactor);
+            }
+            expect(t).toThrow(Error("not an InputBoundary"))
+
+        });
+    });
+
+    beforeEach(() => {
+        outputBoundary = OutputBoundaryInterface;
+        interactor = new InputBoundaryInterface();
+        TranscriptsController.setTranscriptInteractor(interactor);
+        TranscriptsController.setOutputBoundary(outputBoundary);
+        cleanedDao = new TranscriptDAO();
+        textDao = new TextTranscriptDAO();
+        jest.clearAllMocks();
+    });
+
     describe("Api Get Cleaned Transcripts", () => {
         it("Should correctly get transcripts", async () => {
             const res = mockResponse();
-            TranscriptServiceInteractor.getFilteredTranscripts = jest.fn().mockReturnValue({
+            interactor.getFilteredTranscripts = jest.fn().mockImplementation((obj) => obj);
+            outputBoundary.getOutput = jest.fn().mockReturnValue({
                 status: 200,
                 data: "meow",
             });
-            TranscriptsController.setTranscriptInteractor(TranscriptServiceInteractor)
-            await TranscriptsController.apiGetCleanedTranscripts(transcriptDao,{}, res, {});
-            expect(TranscriptServiceInteractor.getFilteredTranscripts).toHaveBeenCalled();
+            await TranscriptsController.apiGetCleanedTranscripts(cleanedDao, {}, res, {});
+            expect(interactor.getFilteredTranscripts).toHaveBeenCalled();
             expect(res.json).toHaveBeenCalledWith("meow");
         });
 
         it("Should correctly throw a error", async () => {
             const res = mockResponse();
-            TranscriptServiceInteractor.getFilteredTranscripts = jest.fn().mockImplementation(() => {
+            interactor.getFilteredTranscripts = jest.fn().mockImplementation(() => {
                 throw { message: "e" };
             });
-            await TranscriptsController.apiGetCleanedTranscripts(transcriptDao,{}, res, {});
+            await TranscriptsController.apiGetCleanedTranscripts(cleanedDao,{}, res, {});
             expect(res.json).toHaveBeenCalledWith({ error: "e" });
         });
     });
@@ -46,18 +84,19 @@ describe("TranscriptsController", () => {
     describe("Api Get Text Transcripts", () => {
         it("Should correctly get text transcripts", async () => {
             const res = mockResponse();
-            TranscriptServiceInteractor.getFilteredTextTranscripts = jest.fn().mockReturnValue({
+            interactor.getFilteredTextTranscripts = jest.fn().mockImplementation((obj) => obj);
+            outputBoundary.getOutput = jest.fn().mockReturnValue({
                 status: 200,
                 data: "successfully created project",
             });
             await TranscriptsController.apiGetTextTranscripts(textDao, {}, res, {});
-            expect(TranscriptServiceInteractor.getFilteredTextTranscripts).toHaveBeenCalled();
+            expect(interactor.getFilteredTextTranscripts).toHaveBeenCalled();
             expect(res.json).toHaveBeenCalledWith("successfully created project");
         });
 
         it("Should correctly throw a error", async () => {
             const res = mockResponse();
-            TranscriptServiceInteractor.getFilteredTextTranscripts = jest.fn().mockImplementation(() => {
+            interactor.getFilteredTextTranscripts = jest.fn().mockImplementation(() => {
                 throw { message: "e" };
             });
             await TranscriptsController.apiGetTextTranscripts(textDao,{}, res, {});
@@ -68,18 +107,19 @@ describe("TranscriptsController", () => {
     describe("Api POST cleaned and text transcripts", () => {
         it("Should correctly delete a project ", async () => {
             const res = mockResponse();
-            TranscriptServiceInteractor.getVoiceFlowAPIData = jest.fn().mockReturnValue({});
-            await TranscriptsController.addTranscripts(textDao,transcriptDao,{}, res, {});
-            expect(TranscriptServiceInteractor.getVoiceFlowAPIData).toHaveBeenCalled();
+            interactor.getVoiceFlowAPIData = jest.fn().mockImplementation((obj) => obj);
+            outputBoundary.getOutput = jest.fn().mockReturnValue({});
+            await TranscriptsController.addTranscripts(textDao, cleanedDao,{}, res, {});
+            expect(interactor.getVoiceFlowAPIData).toHaveBeenCalled();
             expect(res.json).toHaveBeenCalledWith({ status: "success" });
         });
 
         it("Should correctly throw a error", async () => {
             const res = mockResponse();
-            TranscriptServiceInteractor.getVoiceFlowAPIData = jest.fn().mockImplementation(() => {
+            interactor.getVoiceFlowAPIData = jest.fn().mockImplementation(() => {
                 throw { message: "e" };
             });
-            await TranscriptsController.addTranscripts(textDao,transcriptDao,{body:{project_name: "meow"}}, res, {});
+            await TranscriptsController.addTranscripts(textDao, cleanedDao,{body:{project_name: "meow"}}, res, {});
             expect(res.json).toHaveBeenCalledWith({ status: "failure" });
         });
     });

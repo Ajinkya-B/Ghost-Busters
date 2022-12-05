@@ -72,7 +72,7 @@ export default class ProjectsService extends InputBoundaryInterface {
      * @param projectName
      * @returns {Promise<{status: string}>}
      */
-     async deleteProject(outputBoundary, dao, projectName) {
+    async deleteProject(outputBoundary, dao, projectName) {
         if (dao instanceof ProjectsInterface) {
             try {
                 const response = await dao.deleteProject(projectName);
@@ -100,7 +100,7 @@ export default class ProjectsService extends InputBoundaryInterface {
      * @param id
      * @returns {Promise<{data: *, status: string}|{data: *[], status: string}>}
      */
-    static async getProjectbyID(outputBoundary, dao, id) {
+    async getProjectbyID(outputBoundary, dao, id) {
         if (dao instanceof ProjectsInterface) {
             try {
                 const response = await dao.getProjectByID(id);
@@ -110,7 +110,7 @@ export default class ProjectsService extends InputBoundaryInterface {
                 })
             } catch (e) {
                 outputBoundary.setOutput({
-                    status: "failure",
+                    status: 500,
                     data: { error: e.message },
                 })
             }

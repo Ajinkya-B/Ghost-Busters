@@ -7,8 +7,7 @@ import ProjectsService from "../../services/projects.service.js";
 const ProjectServiceInteractor = new ProjectsService()
 const router = express.Router()
 const dao = new ProjectsDAO()
-router
-    .route('/')
+router.route('/')
     .post((req, res, next) => {
         ProjectsController.setProjectInteractor(ProjectServiceInteractor)
         ProjectsController.setOutputBoundary(OutputDataBoundary)
@@ -27,6 +26,7 @@ router
 
 router.route("/id/:id")
     .get((req, res, next) => {
+        ProjectsController.setProjectInteractor(ProjectServiceInteractor)
         ProjectsController.setOutputBoundary(OutputDataBoundary)
         ProjectsController.apiGetProjectByID(dao, req, res, next)
     })

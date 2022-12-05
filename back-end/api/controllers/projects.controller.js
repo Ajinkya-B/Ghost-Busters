@@ -73,15 +73,15 @@ export default class ProjectsController {
      * @returns {Promise<void>}
      */
     static async apiDeleteProject(dao, req, res, next) {
-            try {
-                const projectName = req.body.project_name;
-                await this.#inputBoundary.deleteProject(this.#outputBoundary, dao, projectName);
-                res
-                    .status(this.#outputBoundary.getOutput().status)
-                    .json(this.#outputBoundary.getOutput().data);
-            } catch (e) {
-                res.status(500).json({error: e.message})
-            }
+        try {
+            const projectName = req.body.project_name;
+            await this.#inputBoundary.deleteProject(this.#outputBoundary, dao, projectName);
+            res
+                .status(this.#outputBoundary.getOutput().status)
+                .json(this.#outputBoundary.getOutput().data);
+        } catch (e) {
+            res.status(500).json({error: e.message})
+        }
 
     }
 
@@ -97,7 +97,7 @@ export default class ProjectsController {
     static async apiGetProjectByID(dao, req, res, next) {
             try {
                 let id = req.params.id || {};
-                await ProjectsService.getProjectbyID(this.#outputBoundary, dao, id);
+                await this.#inputBoundary.getProjectbyID(this.#outputBoundary, dao, id);
                 res
                     .status(this.#outputBoundary.getOutput().status)
                     .json(this.#outputBoundary.getOutput().data);

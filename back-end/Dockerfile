@@ -5,7 +5,6 @@ COPY package*.json ./
 COPY . .
 
 RUN yarn install
-RUN npm install
 RUN npm install nodemon -g
 
 EXPOSE 8000

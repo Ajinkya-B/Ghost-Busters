@@ -47,3 +47,4 @@ This app was created by Khushi Agrawal, Ajinkya Bhosale, Marco Marchesano, and C
 Thank you to University of Toronto's Technology Leadership Initiative professors and teaching assistants for your guidance and help, and to Best-Flow for aiding in the development of interface boundaries!
 
 Built with MongoDB, Express, React, Node, Material UI, and more. We use icons from [Ant Design](https://ant.design/) and [Eva Icons](https://akveo.github.io/eva-icons/#/). Credits to [Apparate](https://www.deviantart.com/apparate) on DeviantArt for the welcome page's ghost animation, and to [Freepik](https://www.freepik.com/) for our 404 page's ghost image. Aspects of the app's styling are derived from [Primitive UI](https://github.com/taniarascia/primitive) and [Minimal UI Kit](https://github.com/minimal-ui-kit/material-kit-react). 
+

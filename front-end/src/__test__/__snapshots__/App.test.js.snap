@@ -1,0 +1,97 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`App renders the Navbar navigation correctly 1`] = `
+<div
+  style={
+    {
+      "background-color": "#f7f7f7",
+      "background-image": "url([object Object])",
+      "background-position": "left",
+      "background-repeat": "no-repeat",
+      "height": "100%",
+      "position": "fixed",
+      "width": "100%",
+    }
+  }
+>
+  <nav
+    className="sc-bcXHqe wPPAu"
+  >
+    <a
+      aria-current="page"
+      className="sc-gswNZR RClpZ active"
+      href="/"
+      onClick={[Function]}
+    >
+      <h2>
+        Home
+      </h2>
+    </a>
+    <a
+      activeStyle={true}
+      className="sc-gswNZR RClpZ"
+      href="/ManageProjects"
+      onClick={[Function]}
+    >
+      Manage Projects
+    </a>
+    <nav
+      className="sc-dkrFOg jijIET"
+    >
+      <a
+        aria-current="page"
+        className="sc-hLBbgP jYsoAB active"
+        href="/"
+        onClick={[Function]}
+      >
+        Upload Transcripts
+      </a>
+    </nav>
+  </nav>
+  <div
+    style={
+      {
+        "color": "black",
+        "padding": "18%",
+        "textAlign": "right",
+      }
+    }
+  >
+    <h1
+      className="h1 title fw-bolder"
+    >
+      Welcome to your Ghostboard!
+    </h1>
+    <br />
+    <h4
+      className="subtitle"
+    >
+      Please select a project.
+    </h4>
+    <br />
+    <a
+      className="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeLarge MuiButton-outlinedSizeLarge MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeLarge MuiButton-outlinedSizeLarge css-9y1egq-MuiButtonBase-root-MuiButton-root"
+      href="/ManageProjects"
+      onBlur={[Function]}
+      onClick={[Function]}
+      onContextMenu={[Function]}
+      onDragLeave={[Function]}
+      onFocus={[Function]}
+      onKeyDown={[Function]}
+      onKeyUp={[Function]}
+      onMouseDown={[Function]}
+      onMouseLeave={[Function]}
+      onMouseUp={[Function]}
+      onTouchEnd={[Function]}
+      onTouchMove={[Function]}
+      onTouchStart={[Function]}
+      tabIndex={0}
+    >
+      Manage Projects
+      <span
+        className="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+      />
+    </a>
+  </div>
+</div>
+`;

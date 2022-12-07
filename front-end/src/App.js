@@ -9,14 +9,15 @@ import Dashboard from './pages/Dashboard';
 import ManageProjects from './pages/ManageProjects';
 import Page404 from "./pages/Page404";
 
+
 class App extends Component {
     render() {
         return (
             <ThemeProvider>
               <HelmetProvider>
-                  <Helmet>
-                      <title> Ghostboard </title>
-                  </Helmet>
+                <Helmet>
+                    <title> Ghostboard </title>
+                </Helmet>
 
                 <Router>
                   <Routes>

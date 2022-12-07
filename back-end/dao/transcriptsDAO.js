@@ -5,7 +5,7 @@ export default class TranscriptsDAO extends TranscriptInterface{
 
   /**
    * Get a list of all transcripts and the number of transcripts from database
-   * @param filters : A object full of querry filters that you can apply when you get the data
+   * @param filters : A object full of query filters that you can apply when you get the data
    * @returns : A list of talk steps for a transcript
    */
   async getTranscripts(query) {

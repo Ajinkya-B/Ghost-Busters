@@ -100,6 +100,4 @@ export default class TranscriptsController {
     }
 
   }
-
-
 }

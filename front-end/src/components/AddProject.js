@@ -15,7 +15,7 @@ export default class AddProject extends Component {
             transcripts: [],
         }
         this.addProjectName = this.addProjectName.bind(this)
-        this.addProjectID = this.addProjectID.bind(this)
+        this.addVersionID = this.addVersionID.bind(this)
         this.addApiKey = this.addApiKey.bind(this)
         this.onSubmit = this.onSubmit.bind(this)
     }
@@ -34,7 +34,7 @@ export default class AddProject extends Component {
      * A method that stores the project_id value inputted into the state.
      * @param event
      */
-    addProjectID(event) {
+    addVersionID(event) {
         this.setState({
             project_id: event.target.value
         })
@@ -75,7 +75,7 @@ export default class AddProject extends Component {
             api_key:'',
             transcripts: [],
         })
-        window.location.reload()
+
     }
 
     render() {
@@ -85,7 +85,6 @@ export default class AddProject extends Component {
                     <form onSubmit={this.onSubmit}>
                         {/* TEXT FIELDS THAT TAKE IN USER INPUTS */}
                         <input type='text'
-                               aria-label='project name'
                                placeholder='Project Name'
                                id="project_name"
                                onChange={this.addProjectName}
@@ -93,15 +92,13 @@ export default class AddProject extends Component {
                                className='form-control form-group'
                         />
                         <input type='text'
-                               aria-label='project id'
                                placeholder='Version ID'
                                id="project_id"
-                               onChange={this.addProjectID}
+                               onChange={this.addVersionID}
                                value={this.state.project_id}
                                className='form-control form-group'
                         />
                         <input type='text'
-                               aria-label='api key'
                                placeholder='API Key'
                                id="api_key"
                                onChange={this.addApiKey}

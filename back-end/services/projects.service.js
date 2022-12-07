@@ -4,9 +4,6 @@ import {InputBoundaryInterface} from "../interfaces/input-boundary-interface.js"
 
 export default class ProjectsService extends InputBoundaryInterface {
 
-    static setProjectDAO(dao){
-        this.#ProjectsDAO = dao;
-    }
     /**
      * Gets all projects from the databse that satisfy the filters.
      * @returns {Promise<{data: *, status: string}|{data: *[], status: string}>}

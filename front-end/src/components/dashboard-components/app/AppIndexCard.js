@@ -25,7 +25,7 @@ export default function AppIndexCard({ title, subheader, list, ...other }) {
           sx={{
             display: 'grid',
             gap: 2,
-            gridTemplateColumns: 'repeat(2, 1fr)',
+            gridTemplateColumns: 'repeat(3, 1fr)',
           }}
         >
           {list.map((site) => (
@@ -34,7 +34,7 @@ export default function AppIndexCard({ title, subheader, list, ...other }) {
 
               <Typography variant="h6">{fNumber(site.value)}</Typography>
 
-              <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+              <Typography variant="body1" sx={{ color: 'text.secondary' }}>
                 {site.name}
               </Typography>
             </Paper>

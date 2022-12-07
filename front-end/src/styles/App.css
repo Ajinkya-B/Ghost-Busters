@@ -9,13 +9,31 @@ MIT License).
 
 /* Fonts
    ========================================================================== */
-@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
-
+/*@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');*/
 * {
   font-family: 'Roboto', sans-serif;
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+}
+
+/**
+ * Setting the font weight
+ */
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font: normal normal normal 1rem/1.6 -apple-system, BlinkMacSystemFont, Helvetica Neue, Helvetica, Arial, sans-serif;
+}
+
+/**
+ * Correct the font size and margin on `h3` elements within `section` and
+ * `article` contexts in Chrome, Firefox, and Safari.
+ */
+h3 {
+  font-size: 2em;
+  margin: 0.67em 0;
+  padding-left: 15px;
 }
 
 
@@ -31,36 +49,6 @@ html {
   /* 1 */
   -webkit-text-size-adjust: 100%;
   /* 2 */
-}
-
-
-/* Sections
-   ========================================================================== */
-/**
- * Correct the font size and margin on `h1` elements within `section` and
- * `article` contexts in Chrome, Firefox, and Safari.
- */
-h1 {
-  font-size: 2em;
-  margin: 0.67em 0;
-}
-/**
- * Correct the font size and margin on `h2` elements within `section` and
- * `article` contexts in Chrome, Firefox, and Safari.
- */
-h2 {
-  font-size: 2em;
-  margin: 0.67em 0;
-  padding-left: 15px;
-}
-/**
- * Correct the font size and margin on `h2` elements within `section` and
- * `article` contexts in Chrome, Firefox, and Safari.
- */
-h3 {
-  font-size: 2em;
-  margin: 0.67em 0;
-  padding-left: 15px;
 }
 
 
@@ -100,41 +88,6 @@ counterButton {
 
 /* Misc
  ========================================================================== */
-/**
- * Scaffolding
- */
-html {
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  font: normal normal normal 1rem/1.6 -apple-system, BlinkMacSystemFont, Helvetica Neue, Helvetica, Arial, sans-serif;
-}
-
-body {
-  color: #404040;
-  background: white;
-  font-size: 1rem;
-}
-
-h1 {
-  font-size: 1.75rem;
-}
-
-h2 {
-  font-size: 1.5rem;
-}
-
-h3 {
-  font-size: 1.25rem;
-}
-
-h4 {
-  font-size: 1.1rem;
-}
-
-h5 {
-  font-size: 1rem;
-}
-
 /**
  * Extra space for the dashboard UI
  */

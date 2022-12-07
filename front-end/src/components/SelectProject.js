@@ -39,7 +39,7 @@ const Project = () => {
         <div>
             {project.project_id ? (
                 <div>
-                    <h4>{project.project_name}</h4>
+                    <h3 style={ {paddingLeft: '0px'} }>{project.project_name}</h3>
                     <p>
                         {/*<strong>API_KEY: </strong>{project.api_key}<br/>*/}
                         {/*<strong>PROJECT_ID: </strong>{project.project_id}<br/>*/}

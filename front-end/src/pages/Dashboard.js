@@ -25,7 +25,6 @@ export default function Dashboard() {
     // Analysing the project
     // ----------------------------------------------------------------------
     const {id} = useParams()
-    const [loading, setLoading] = useState(true);
 
     const initialDataState = {
         avg_duration_text: 0,
@@ -108,6 +107,9 @@ export default function Dashboard() {
             break
     }
 
+    // Variables for the loading spinner
+    const [loading, setLoading] = useState(true);
+
     // Displaying the Dashboard UI
     // ----------------------------------------------------------------------
     const theme = useTheme();
@@ -115,6 +117,8 @@ export default function Dashboard() {
     return (
       <div>
         <Navbar />
+
+        {/* Display the loading spinner when the transcripts are being analysed */}
         {loading ? (
           <div
             style={{
@@ -134,6 +138,7 @@ export default function Dashboard() {
           </div>
         ) : (
           <div>
+
             <br />
 
             <Container maxWidth="xl">
@@ -142,7 +147,7 @@ export default function Dashboard() {
 
               {/* COUNTERS */}
               <Grid container spacing={4}>
-                <Grid item xs={10} sm={1} md={2.3}>
+                <Grid item md={2.4}>
                   <counterButton onClick={() => setCounter("Privacy Concerns")}>
                     <AppCounter
                       title="Privacy Concerns"
@@ -153,7 +158,7 @@ export default function Dashboard() {
                   </counterButton>
                 </Grid>
 
-                <Grid item xs={10} sm={1} md={2.3}>
+                <Grid item md={2.4}>
                   <counterButton
                     onClick={() => setCounter("Unsatisfactory Solutions")}
                   >
@@ -166,7 +171,7 @@ export default function Dashboard() {
                   </counterButton>
                 </Grid>
 
-                <Grid item xs={10} sm={1} md={2.3}>
+                <Grid item md={2.4}>
                   <counterButton
                     onClick={() => setCounter("Chatbot Repetitions")}
                   >
@@ -179,7 +184,7 @@ export default function Dashboard() {
                   </counterButton>
                 </Grid>
 
-                <Grid item xs={10} sm={1} md={2.3}>
+                <Grid item md={2.4}>
                   <counterButton
                     onClick={() => setCounter("Lengthy Chat Durations")}
                   >
@@ -192,7 +197,7 @@ export default function Dashboard() {
                   </counterButton>
                 </Grid>
 
-                <Grid item xs={10} sm={1} md={2.3}>
+                <Grid item xs={10} md={2.4}>
                   <counterButton
                     onClick={() => setCounter("Live Agent Requests")}
                   >
@@ -209,7 +214,7 @@ export default function Dashboard() {
                 <Grid item xs={12} md={6} lg={8}>
                   <AppGhostGraph
                     title={currentReason}
-                    subheader="DD/MM 2022"
+                    subheader="Month/Day 2022"
                     chartLabels={Object.keys(
                       analysedData.total_convos_per_day
                     ).sort()}
@@ -256,14 +261,14 @@ export default function Dashboard() {
                       },
                     ]}
                     chartColors={[
-                      theme.palette.success.light,
+                      theme.palette.success.main,
                       theme.palette.error.light,
                     ]}
                   />
                 </Grid>
 
                 {/* MISCELLANEOUS DATA */}
-                <Grid item xs={12} md={6} lg={6}>
+                <Grid item lg={8}>
                   <AppIndexCard
                     title="Miscellaneous"
                     list={[

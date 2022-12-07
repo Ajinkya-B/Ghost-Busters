@@ -1,7 +1,7 @@
 import React from "react";
 import merge from 'lodash/merge';
 // @mui
-import { useTheme, alpha } from '@mui/material/styles';
+import { useTheme } from '@mui/material/styles';
 
 // ----------------------------------------------------------------------
 
@@ -12,17 +12,17 @@ export default function useChart(options) {
     show: true,
     label: 'Total',
     color: theme.palette.text.secondary,
-    fontSize: theme.typography.subtitle2.fontSize,
-    fontWeight: theme.typography.subtitle2.fontWeight,
-    lineHeight: theme.typography.subtitle2.lineHeight,
+    fontSize: theme.typography.subtitle1.fontSize,
+    fontWeight: theme.typography.subtitle1.fontWeight,
+    lineHeight: theme.typography.subtitle1.lineHeight,
   };
 
   const LABEL_VALUE = {
     offsetY: 8,
     color: theme.palette.text.primary,
-    fontSize: theme.typography.h3.fontSize,
-    fontWeight: theme.typography.h3.fontWeight,
-    lineHeight: theme.typography.h3.lineHeight,
+    fontSize: theme.typography.h1.fontSize,
+    fontWeight: theme.typography.h1.fontWeight,
+    lineHeight: theme.typography.h1.lineHeight,
   };
 
   const baseOptions = {
@@ -42,8 +42,7 @@ export default function useChart(options) {
     chart: {
       toolbar: { show: false },
       zoom: { enabled: false },
-      // animations: { enabled: false },
-      foreColor: theme.palette.text.disabled,
+      foreColor: theme.palette.text.primary,
       fontFamily: theme.typography.fontFamily,
     },
 
@@ -97,12 +96,6 @@ export default function useChart(options) {
       axisTicks: { show: false },
     },
 
-    // Markers
-    markers: {
-      size: 0,
-      strokeColors: theme.palette.background.paper,
-    },
-
     // Tooltip
     tooltip: {
       x: {
@@ -113,14 +106,9 @@ export default function useChart(options) {
     // Legend
     legend: {
       show: true,
-      fontSize: String(13),
+      fontSize: String(16),
       position: 'top',
       horizontalAlign: 'right',
-      markers: {
-        radius: 12,
-      },
-      fontWeight: 500,
-      itemMargin: { horizontal: 12 },
       labels: {
         colors: theme.palette.text.primary,
       },

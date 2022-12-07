@@ -1,4 +1,4 @@
-import AnalyseProjectService from '../../services/analyseProject.service.js'
+import {InputBoundaryInterface} from "../../interfaces/input-boundary-interface.js";
 
 
 /**
@@ -8,13 +8,49 @@ import AnalyseProjectService from '../../services/analyseProject.service.js'
  * @param {Object} next
  */
 export default class AnalyseProjectController{
-    static async getAnalysedData(req, res){
+
+    static #inputBoundary
+
+    static setAnalyzeProjectInteractor(interactor) {
+        if(interactor instanceof InputBoundaryInterface){
+            this.#inputBoundary = interactor;
+        } else {
+            throw new Error("not an InputBoundary");
+        }
+    }
+
+    static #outputBoundary;
+
+    static setOutputBoundary(outputBoundary) {
+        if(outputBoundary.isOutputBoundaryInterface){
+            this.#outputBoundary = outputBoundary;
+        } else {
+            throw new Error("not an OutputBoundary");
+        }
+    }
+
+
+    /**
+     * An get analysed data API
+     * @param dao
+     * @param req
+     * @param res
+     * @param next
+     * @returns {Promise<void>}
+     */
+    static async getAnalysedData(dao, req, res, next){
         let id = req.params.id || {};
         try{
-            const analyseProjectResponse = await AnalyseProjectService.analyseProject(id)
-            res.json(analyseProjectResponse.data);
-            res.status(analyseProjectResponse.status);
-
+            await this.#inputBoundary.analyseProject(this.#outputBoundary, dao, id)
+        switch (this.#outputBoundary.getOutput().status) {
+            case "success":
+                console.log("Project Analysed!");
+                res.json(this.#outputBoundary.getOutput().data);
+                return;
+            case "failure":
+                res.json({ status: "failure" });
+                return;
+        }
     } catch (e) {
             res.status(500).json({error: e.message});
         }

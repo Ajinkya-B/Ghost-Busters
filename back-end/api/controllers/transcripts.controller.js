@@ -1,39 +1,58 @@
-import TranscriptService from "../../services/transcript.service.js";
-let api_key
-let project_id
-
+import {InputBoundaryInterface} from "../../interfaces/input-boundary-interface.js";
 
 export default class TranscriptsController {
 
+  static #inputBoundary
+
+  static setTranscriptInteractor(interactor) {
+    if(interactor instanceof InputBoundaryInterface){
+      this.#inputBoundary = interactor;
+    } else {
+      throw new Error("not an InputBoundary");
+    }
+  }
+
+  static #outputBoundary;
+
+  static setOutputBoundary(outputBoundary) {
+    if(outputBoundary.isOutputBoundaryInterface){
+      this.#outputBoundary = outputBoundary;
+    } else {
+      throw new Error("not an OutputBoundary");
+    }
+  }
+
   /** GET API: Gets parsed transcript data matching with the querry from MongoDB.
+   * @param transcriptDAO
    * @param {Object} req : contains additonal body passed to an API call
    * @param {Object} res : json object that is returned after making an API call
    * @param {Object} next
    */
-  static async apiGetCleanedTranscripts(req, res, next) {
+  static async apiGetCleanedTranscripts(transcriptDAO, req, res, next) {
     try{
-      const getCleanedTranscriptsResponse = await TranscriptService.getFilteredTranscripts(req.query);
+      await this.#inputBoundary.getFilteredTranscripts(this.#outputBoundary, req.query);
       res
-        .status(getCleanedTranscriptsResponse.status)
-        .json(getCleanedTranscriptsResponse.data);
+        .status(this.#outputBoundary.getOutput().status)
+        .json(this.#outputBoundary.getOutput().data);
     }catch(e){
       res.status(500).json({error: e.message});
     }
-      
+
   }
 
   /** GET API: Gets trimmed transcript data matching with the querry from MongoDB.
    * Trimmed transcripts are composed of an object with the speaker followed by the text
+   * @param textDAO
    * @param {Object} req : contains additonal body passed to an API call
    * @param {Object} res : json object that is returned after making an API call
    * @param {Object} next
    */
-  static async apiGetTextTranscripts(req, res, next) {
+  static async apiGetTextTranscripts(textDAO, req, res, next) {
     try {
-      const getTextTranscriptsResponse = await TranscriptService.getFilteredTextTranscripts(req.query);
+      await this.#inputBoundary.getFilteredTextTranscripts(this.#outputBoundary, textDAO, req.query);
       res
-        .status(getTextTranscriptsResponse.status)
-        .json(getTextTranscriptsResponse.data);
+        .status(this.#outputBoundary.getOutput().status)
+        .json(this.#outputBoundary.getOutput().data);
     } catch (e) {
       res.status(500).json({ error: e.message });
     }
@@ -41,13 +60,15 @@ export default class TranscriptsController {
 
   /**
    * Adds all the transcripts saved under a project in Voiceflow in form of 'textTranscripts' to Mongo DB
+   * @param textDAO
+   * @param transcriptDAO
    * @param {Object} req : contains additional body passed to an API call
    * @param {Object} res : json object that is returned after making an API call
    * @param {Object} next
    */
-  static async addClean(req, res, next) {
+  static async addTranscripts(textDAO, transcriptDAO, req, res, next) {
     try {
-      await TranscriptService.getVoiceFlowAPIData(api_key, project_id)
+      await this.#inputBoundary.getVoiceFlowAPIData(textDAO, transcriptDAO)
       res.json({ status: "success" });
     } catch (e) {
       res.json({ status: "failure" });
@@ -57,18 +78,26 @@ export default class TranscriptsController {
 
   /**
    * Adds all the transcripts saved under a project in Voiceflow in form of 'textTranscripts' to Mongo DB
+   * @param dao
    * @param {Object} req : contains additional body passed to an API call
    * @param {Object} res : json object that is returned after making an API call
    * @param {Object} next
    */
-  static async flushDB(req, res, next) {
-    await TranscriptService.flushCollection(req.query.collection, res)
+  //Come back to this function, deciding whether to add the dao as an if condition or just leave it
+  static async flushDB(dao, req, res, next) {
+    await this.#inputBoundary.flushCollection(dao, res)
   }
 
-  static async storeVales(req, res, next){
-    api_key = req.body[0]
-    project_id = req.body[1]
-    res.json([api_key, project_id])
-  }
+  /**
+   * @param req
+   * @return {Promise<void>}
+   */
+  static async storeVales(req){
+    try {
+      await this.#inputBoundary.saveKeys(req)
+    } catch (e) {
+      console.log("Error in saving keys")
+    }
 
+  }
 }

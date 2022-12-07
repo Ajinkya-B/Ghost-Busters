@@ -1,21 +1,20 @@
-import ProjectsDAO from "../dao/projectsDAO.js";
+import {ProjectsInterface} from "../interfaces/projects-interface.js";
+import {InputBoundaryInterface} from "../interfaces/input-boundary-interface.js";
 
 
-export default class ProjectsService {
-    // Initializing a projects dao so that there is no need to use static in ProjectsDAO.
-    static #ProjectsDAO = new ProjectsDAO();
+export default class ProjectsService extends InputBoundaryInterface {
 
-    static setProjectDAO(dao){
-        this.#ProjectsDAO = dao;
-    }
     /**
      * Gets all projects from the databse that satisfy the filters.
-     * @param filters
      * @returns {Promise<{data: *, status: string}|{data: *[], status: string}>}
+     * @param outputBoundary
+     * @param dao
+     * @param query
      */
-    static async getFilteredProjects(query) {
-        try {
-            let filters={};
+     async getFilteredProjects(outputBoundary, dao, query) {
+        if (dao instanceof ProjectsInterface) {
+            try {
+            let filters;
             if (query) {
                 if (query.project_name) {
                     filters = {project_name: {$eq: query.project_name}};
@@ -23,57 +22,72 @@ export default class ProjectsService {
                     filters = {project_id: {$eq: query.project_id}};
                 }
             }
-            const response = await this.#ProjectsDAO.getProjects(filters);
-            return {
+            const response = await dao.getProjects(filters);
+            outputBoundary.setOutput( {
                 status: response.status,
                 data: response.data,
-            };
+            })
         } catch (e) {
-            return {
+            outputBoundary.setOutput({
                 status: 500,
                 data: {error: e.message},
-            }
+            })
+        }
+        } else {
+            throw new Error("not an ProjectInterface");
         }
     }
 
 
     /**
      * Creates a new project and returns the status.
+     * @param outputBoundary
+     * @param dao
      * @param body
      * @returns {Promise<{status: string}>}
      */
-    static async createProject(body) {
-        try {
-            const response = await this.#ProjectsDAO.createProject(body);
-            return {
-                status: response.status,
-                data: response.data,
-            };
-        } catch (e) {
-            return {
-                status: 500,
-                data: {error: e.message},
+     async createProject(outputBoundary, dao, body) {
+        if (dao instanceof ProjectsInterface) {
+            try {
+                const response = await dao.createProject(body);
+                outputBoundary.setOutput({
+                    status: response.status,
+                    data: response.data,
+                });
+            } catch (e) {
+                outputBoundary.setOutput({
+                    status: 500,
+                    data: {error: e.message},
+                })
             }
+        } else {
+            throw new Error("not an ProjectInterface");
         }
     }
 
     /**
      * Deleted a project with the name projectName and returns the status.
+     * @param outputBoundary
+     * @param ao
      * @param projectName
      * @returns {Promise<{status: string}>}
      */
-    static async deleteProject(projectName) {
-        try {
-            const response = await this.#ProjectsDAO.deleteProject(projectName);
-            return {
-                status: response.status,
-                data: response.data,
-            };
-        } catch (e) {
-            return {
-                status: 500,
-                data: { error: e.message },
-            };
+    async deleteProject(outputBoundary, dao, projectName) {
+        if (dao instanceof ProjectsInterface) {
+            try {
+                const response = await dao.deleteProject(projectName);
+                return {
+                    status: response.status,
+                    data: response.data,
+                };
+            } catch (e) {
+                outputBoundary.setOutput({
+                    status: 500,
+                    data: { error: e.message },
+                })
+            }
+        } else {
+            throw new Error("not an ProjectInterface");
         }
     }
 
@@ -81,21 +95,27 @@ export default class ProjectsService {
     /**
      * If succuess, returns status and project details of the project with project_id id.
      * Otherwise, returns status failure and empty array.
+     * @param outputBoundary
+     * @param dao
      * @param id
      * @returns {Promise<{data: *, status: string}|{data: *[], status: string}>}
      */
-    static async getProjectbyID(id) {
-        try {
-            const response = await this.#ProjectsDAO.getProjectByID(id);
-            return {
-                status: response.status,
-                data: response.data,
-            };
-        } catch (e) {
-            return {
-                status: "failure",
-                data: { error: e.message },
-            };
+    async getProjectbyID(outputBoundary, dao, id) {
+        if (dao instanceof ProjectsInterface) {
+            try {
+                const response = await dao.getProjectByID(id);
+                outputBoundary.setOutput({
+                    status: response.status,
+                    data: response.data,
+                })
+            } catch (e) {
+                outputBoundary.setOutput({
+                    status: 500,
+                    data: { error: e.message },
+                })
+            }
+        } else {
+            throw new Error("not an ProjectInterface");
         }
     }
 

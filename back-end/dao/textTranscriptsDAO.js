@@ -1,6 +1,7 @@
 import { TextTranscripts } from "../schema/textTranscripts-schema.js";
+import {TextTranscriptsInterface} from "../interfaces/textTranscripts-interface.js";
 
-export default class TextTranscriptsDAO {
+export default class TextTranscriptsDAO extends TextTranscriptsInterface{
   /**
    * Get an array of all the text transcripts in MongoDB
    * @returns Array of all the text transcripts from the database
@@ -40,7 +41,11 @@ export default class TextTranscriptsDAO {
     }
   }
 
-  async flushDatabase() {
-    await TextTranscripts.deleteMany({});
+  /**
+   * Deletes the objects in the textTranscripts collection
+   * @return {Promise<void>}
+   */
+  async flushCollection(project_id) {
+    await TextTranscripts.deleteMany({project_id: `${project_id}`});
   }
 }

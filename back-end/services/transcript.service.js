@@ -2,21 +2,26 @@ import TranscriptsDAO from "../dao/transcriptsDAO.js";
 import TextTranscriptsDAO from "../dao/textTranscriptsDAO.js";
 import voiceflowAPI from "../helpers/voiceflowAPI.js";
 import transcriptDataFormatter from "../helpers/transcriptDataFormatter.js";
+import {TranscriptInterface} from "../interfaces/transcript-interface.js";
+import {TextTranscriptsInterface} from "../interfaces/textTranscripts-interface.js";
+import {InputBoundaryInterface} from "../interfaces/input-boundary-interface.js";
+let api_key
+let project_id
+export default class TranscriptService extends InputBoundaryInterface{
 
-export default class TranscriptService {
-  static #TranscriptsDAO = new TranscriptsDAO();
-  static #TextTranscriptsDAO = new TextTranscriptsDAO();
   /**
    * Receives a json file from the voiceflow api call
+   * @param textDAO
+   * @param transcriptDAO
    * @param {String} api_key : contains the current api key
    * @param {String} project_id : contains the current project id
    */
-  static async getVoiceFlowAPIData(api_key, project_id) {
+  async getVoiceFlowAPIData(textDAO, transcriptDAO) {
     try {
       console.log(api_key);
       console.log(project_id);
       const response = await voiceflowAPI.getData(api_key, project_id);
-      await this.addTranscripts(project_id, response);
+      await this.addTranscripts(textDAO, transcriptDAO, response);
       res.json({ status: "success" });
     } catch (e) {
       res.json({ status: "failure" });
@@ -26,24 +31,36 @@ export default class TranscriptService {
   /**
    * Adds all the transcripts saved under a project in Voiceflow in form of as well as
    * parsed transcripts to Mongo DB
+   * @param textDAO
+   * @param transcriptDAO
    * @param {String} project_id : contains the current project id
    * @param {Object} response : json format of the VoiceFlow API call
    */
-  static async addTranscripts(project_id, response) {
+   async addTranscripts(textDAO, transcriptDAO, response) {
     try {
-      for (const transcript of response.data) {
-        const parsedData = transcriptDataFormatter.cleanData(transcript);
-        const ReviewResponse = await this.#TranscriptsDAO.addTranscript(
-          project_id,
-          parsedData
-        );
+      await this.flushCollection(textDAO, project_id)
+      await this.flushCollection(transcriptDAO, project_id)
+      for (const transcript of response.data){
+        if (transcriptDAO instanceof TranscriptInterface) {
+          const parsedData = transcriptDataFormatter.cleanData(transcript);
+          const ReviewResponse = await transcriptDAO.addTranscript(
+              project_id,
+              parsedData
+          );
+        } else {
+          new Error("not an ParsedTranscript Interface");
+        }
 
+        if (textDAO instanceof TextTranscriptsInterface) {
         const formattedTranscript =
           transcriptDataFormatter.cleanTextTranscript(transcript);
-        const res = await this.#TextTranscriptsDAO.addTextTranscript(
+        const res = await textDAO.addTextTranscript(
           project_id,
           formattedTranscript
         );
+        } else {
+          new Error("not an TextTranscript Interface");
+        }
       }
       res.json({ status: "success" });
     } catch (e) {
@@ -52,10 +69,12 @@ export default class TranscriptService {
   }
   /**
    * Query's the database for parsed transcripts with a specific project id
-   * @param {String} project_id : Contains the current project id
-   * @param res json format of the response of the function
+   * @param outputBoundary
+   * @param dao
+   * @param query
    */
-  static async getFilteredTranscripts(query) {
+   async getFilteredTranscripts(outputBoundary, dao, query) {
+    if (dao instanceof TranscriptInterface) {
     try{
       let filters={};
       if (query) {
@@ -66,7 +85,7 @@ export default class TranscriptService {
         }
       }
 
-      const response = await this.#TranscriptsDAO.getTranscripts({
+      const response = await dao.getTranscripts({
         filters,
       });
 
@@ -74,33 +93,38 @@ export default class TranscriptService {
         transcripts: response.data,
         filters: filters,
       };
-      return {
+      outputBoundary.setOutput({
         status: response.status,
         data: data,
-      };
+      });
     }catch(e){
-      return {
+      outputBoundary.setOutput({
         status: 500,
         data: { error: e.message },
-      };
+      });
+    }
+    } else {
+      new Error("not an ParsedTranscript Interface");
     }
   }
 
   /**
    * Query's the database for text transcripts with a specific project id
-   * @param {String} project_id : Contains the current project id
-   * @param res json format of the response of the function
+   * @param outputBoundary
+   * @param dao
+   * @param query
    */
-  static async getFilteredTextTranscripts(query) {
-    try{
-      let filters = {};
-      if (query) {
-        if (query.project_id) {
-          filters = { project_name: { $eq: query.project_name } };
+   async getFilteredTextTranscripts(outputBoundary, dao, query) {
+    if (dao instanceof TextTranscriptsInterface) {
+      try {
+        let filters = {};
+        if (query) {
+          if (query.project_id) {
+            filters = {project_name: {$eq: query.project_name}};
+          }
         }
-      }
 
-      const response = await this.#TextTranscriptsDAO.getTextTranscripts({
+      const response = await dao.getTextTranscripts({
         filters,
       });
 
@@ -108,36 +132,38 @@ export default class TranscriptService {
         transcripts: response.data,
         filters: filters,
       };
-      return {
+      outputBoundary.setOutput({
         status: response.status,
         data: data,
-      };
+      });
     }catch(e){
-      return {
+        outputBoundary.setOutput({
         status: 500,
         data: { error: e.message },
-      };
+      });
     }
-    
+    } else {
+      throw new Error("not an TextTranscript Interface");
+    }
+
   }
 
   /**
    * Query's the database for text transcripts with a specific project id
-   * @param {String} collection_name :  name of the collection wished to drop
-   * @param res json format of the response of the function
+   * @param dao
+   * @param project_id
    */
-  static async flushCollection(collection_name, res) {
+   async flushCollection(dao, project_id) {
     try {
-      if (collection_name === "Parsed") {
-        await TranscriptsDAO.flushDatabase();
-      }
-      if (collection_name === "Text") {
-        await TextTranscriptsDAO.flushDatabase();
-      }
-      res.json({ status: "success" });
+      await dao.flushCollection(project_id)
     } catch (e) {
-      res.json({ status: "failure" });
     }
   }
+
+  async saveKeys(req){
+    api_key = req.body[0]
+    project_id = req.body[1]
+  }
+
 }
 

@@ -1,6 +1,7 @@
 import { Transcripts } from "../schema/transcripts-schema.js";
+import {TranscriptInterface} from "../interfaces/transcript-interface.js";
 
-export default class TranscriptsDAO {
+export default class TranscriptsDAO extends TranscriptInterface{
 
   /**
    * Get a list of all transcripts and the number of transcripts from database
@@ -30,7 +31,7 @@ export default class TranscriptsDAO {
    * @param {Array} transcriptData : Transcript conversation data
    * @returns 
    */
-  async addTranscript(projectId, transcriptData) { 
+  async addTranscript(projectId, transcriptData) {
     try {
       const transcriptDoc = { 
         project_id: projectId,
@@ -45,8 +46,8 @@ export default class TranscriptsDAO {
   }
 
   //A function to clear the database with the given name
-  async flushDatabase(){
-    await Transcripts.deleteMany({})
+  async flushCollection(project_id){
+    await Transcripts.deleteMany({project_id: `${project_id}`})
   }
 
 }

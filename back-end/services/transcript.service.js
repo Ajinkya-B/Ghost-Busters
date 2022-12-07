@@ -55,21 +55,35 @@ export default class TranscriptService {
    * @param {String} project_id : Contains the current project id
    * @param res json format of the response of the function
    */
-  static async queryForParsedTranscripts(req, res) {
-    let filters = {};
-    if(req.query.project_id){
-      filters.project_id = project_id;
+  static async getFilteredTranscripts(query) {
+    try{
+      let filters={};
+      if (query) {
+        if (query.project_id) {
+          filters = {project_name: {$eq: query.project_name}};
+        } else if (query.project_id) {
+          filters = {project_id: {$eq: query.project_id}};
+        }
+      }
+
+      const response = await this.#TranscriptsDAO.getTranscripts({
+        filters,
+      });
+
+      let data = {
+        transcripts: response.data,
+        filters: filters,
+      };
+      return {
+        status: response.status,
+        data: data,
+      };
+    }catch(e){
+      return {
+        status: 500,
+        data: { error: e.message },
+      };
     }
-
-    const transcriptsList = await this.#TranscriptsDAO.getTranscripts({
-      filters,
-    });
-
-    let response = {
-      transcripts: transcriptsList,
-      filters: filters,
-    };
-    res.json(response);
   }
 
   /**
@@ -77,19 +91,34 @@ export default class TranscriptService {
    * @param {String} project_id : Contains the current project id
    * @param res json format of the response of the function
    */
-  static async queryForTrimmedTranscripts(project_id, res) {
-    let filters = {};
-    filters.project_id = project_id;
+  static async getFilteredTextTranscripts(query) {
+    try{
+      let filters = {};
+      if (query) {
+        if (query.project_id) {
+          filters = { project_name: { $eq: query.project_name } };
+        }
+      }
 
-    const transcriptsList = await this.#TextTranscriptsDAO.getTextTranscripts({
-      filters,
-    });
+      const response = await this.#TextTranscriptsDAO.getTextTranscripts({
+        filters,
+      });
 
-    let response = {
-      transcripts: transcriptsList,
-      filters: filters,
-    };
-    res.json(response);
+      let data = {
+        transcripts: response.data,
+        filters: filters,
+      };
+      return {
+        status: response.status,
+        data: data,
+      };
+    }catch(e){
+      return {
+        status: 500,
+        data: { error: e.message },
+      };
+    }
+    
   }
 
   /**

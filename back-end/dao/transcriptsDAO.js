@@ -7,22 +7,19 @@ export default class TranscriptsDAO {
    * @param filters : A object full of querry filters that you can apply when you get the data
    * @returns : A list of talk steps for a transcript
    */
-  async getTranscripts({
-    filters = null
-  } = {}) 
-  {
-    let query
-    // Filter data from the database request
-    if (filters) {
-      if ("project_id" in filters) {
-        query = { "project_id": { $eq: filters["project_id"] } }
-      } 
-    }
+  async getTranscripts(query) {
     try {
-      return await Transcripts.find(query);
+      const transcriptList = await Transcripts.find(query);
+      return {
+        status: 200,
+        data: transcriptList,
+      };
     } catch (e) {
       console.error(`Unable to issue find command, ${e}`)
-      return []
+      return {
+        status: 500,
+        data: { error: e.message },
+      };
     }
   }
 

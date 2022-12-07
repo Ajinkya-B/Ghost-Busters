@@ -5,10 +5,10 @@ const router = express.Router()
 
 // uses the controller to call a specific api
 router.route("/getParsedTranscripts")
-    .get(TranscriptsCtrl.getParsedTranscripts)
+    .get(TranscriptsCtrl.apiGetCleanedTranscripts)
 
 router.route("/getTrimmedTranscripts")
-    .get(TranscriptsCtrl.getTrimmedTranscripts)
+    .get(TranscriptsCtrl.apiGetTextTranscripts)
 
 router.route("/trimmed")
     .post(TranscriptsCtrl.addClean)

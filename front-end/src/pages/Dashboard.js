@@ -81,27 +81,27 @@ export default function Dashboard() {
     // The data for the graph is chosen based on the current counter
     switch(currentCounter) {
         case 'Unsatisfactory Solutions':
-            chartData = Object.values(analysedData.reasons_per_day.no_solution)
+            chartData = [...[0,0], ...Object.values(analysedData.reasons_per_day.no_solution)]
             currentReason = 'Unsatisfactory Solutions'
             currentColor = '#FFE16A'
             break
         case 'Chatbot Repetitions':
-            chartData = Object.values(analysedData.reasons_per_day.chatbot_repetition)
+            chartData = [...[0,0], ...Object.values(analysedData.reasons_per_day.chatbot_repetition)]
             currentReason ='Chatbot Repetitions'
             currentColor = '#BAF27F'
             break
         case 'Lengthy Chat Durations':
-            chartData = Object.values(analysedData.reasons_per_day.lengthy_convo)
+            chartData = [...[0,0], ...Object.values(analysedData.reasons_per_day.lengthy_convo)]
             currentReason = 'Lengthy Chat Durations'
             currentColor = '#74CAFF'
             break
         case 'Live Agent Requests':
-            chartData = Object.values(analysedData.reasons_per_day.human_interaction)
+            chartData = [...[0,0], ...Object.values(analysedData.reasons_per_day.human_interaction)]
             currentReason = 'Live Agent Requests'
             currentColor = '#c9aef3'
             break
         default:
-            chartData = Object.values(analysedData.reasons_per_day.privacy)
+            chartData = [...[0,0], ...Object.values(analysedData.reasons_per_day.privacy)]
             currentReason = 'Privacy Concerns'
             currentColor = '#FFA48D'
             break
@@ -238,9 +238,9 @@ export default function Dashboard() {
                         type: "line",
                         fill: "solid",
                         color: "#2F4F4F",
-                        data: Object.values(
-                          analysedData.total_users_quit_per_day
-                        ),
+                          data: [...[0,0], ...Object.values(
+                              analysedData.total_users_quit_per_day
+                          )],
                       },
                     ]}
                   />

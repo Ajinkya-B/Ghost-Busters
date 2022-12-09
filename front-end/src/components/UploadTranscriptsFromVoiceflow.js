@@ -36,7 +36,6 @@ const UploadTranscriptsFromVoiceflow = () => {
                     Upload
                 </NavBtnLink>
             }
-
         </div>
     );
 

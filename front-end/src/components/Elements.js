@@ -67,31 +67,11 @@ export const NavBtnLink = styled(Link)`
   cursor: pointer;
   transition: all 0.2s ease-in-out;
   text-decoration: none;
-
-  /* Second Nav */
-  margin-left: 24px;
-
+  
   &:hover {
     transition: all 0.2s ease-in-out;
     background: #fff;
     color: #010606;
-  }
-`;
-
-// Inactive button
-export const BtnInactive = styled(Link)`
-  border-radius: 4px;
-  background: #bbb;
-  padding: 10px 18px;
-  color: #fff;
-  outline: none;
-  border: none;
-  cursor: not-allowed;
-  text-decoration: none;
-
-  /* Second Nav */
-  margin-left: 24px;
-
   }
 `;
 
@@ -107,14 +87,10 @@ export const BtnSelect = styled(Link)`
   outline: none;
   border: none;
   cursor: pointer;
-  // transition: all 0.2s ease-in-out;
   text-decoration: none;
-
-  /* Second Nav */
   margin-left: 24px;
 
   &:hover {
-    // transition: all 0.2s ease-in-out;
     background: #8FEA89;
     color: #138A0C;
   }
@@ -129,14 +105,10 @@ export const BtnRemove = styled(Link)`
   outline: none;
   border: none;
   cursor: pointer;
-  // transition: all 0.2s ease-in-out;
   text-decoration: none;
-
-  /* Second Nav */
   margin-left: 50px;
 
   &:hover {
-    // transition: all 0.2s ease-in-out;
     background: #DE4747;
     color: #7F0909;
   }

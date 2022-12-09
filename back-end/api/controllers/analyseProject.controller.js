@@ -11,6 +11,10 @@ export default class AnalyseProjectController{
 
     static #inputBoundary
 
+    /**
+     * set this input boundary to interactor
+     * @param interactor
+     */
     static setAnalyzeProjectInteractor(interactor) {
         if(interactor instanceof InputBoundaryInterface){
             this.#inputBoundary = interactor;
@@ -21,6 +25,10 @@ export default class AnalyseProjectController{
 
     static #outputBoundary;
 
+    /**
+     * set this output boundary to outputBoundary
+     * @param outputBoundary
+     */
     static setOutputBoundary(outputBoundary) {
         if(outputBoundary.isOutputBoundaryInterface){
             this.#outputBoundary = outputBoundary;

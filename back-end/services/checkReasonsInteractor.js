@@ -23,14 +23,17 @@ export function isPrivacyConcern(dialogues) {
     let keywords = PRIVACY_KEYWORDS;
     let l = dialogues.length;
 
+    //parse through the conversation
     for (let i = l - 1; i >= 0; i--) {
 
+        //check if bot asks for sensitive information
         if (dialogues[i].speaker === "bot") {
             let text = dialogues[i].text.toLowerCase();
             if (keywords.some(keyword => text.includes(keyword))) {
                 if (i === l - 1) {
                     return true;
                 } else {
+                    //check if user denies to share information
                     let other_keywords = ["no", "don't want to", "not comfortable", "personal information",
                         "agent"]
                     let text2 = dialogues[i + 1].text.toLowerCase();
@@ -55,7 +58,10 @@ export function isNoSolution(dialogues) {
     let keywords = NO_SOLUTION_KEYWORDS;
     let l = dialogues.length;
 
+    //parse through second half of the conversation
     for (let i = l - 1; i >= l / 2; i--) {
+
+        //check if bot doesn't have a solution
         if (dialogues[i].speaker === "bot") {
             let text = dialogues[i].text.toLowerCase();
             if (keywords.some(keyword => text.includes(keyword))) {
@@ -76,8 +82,10 @@ export function isHumanInteraction(dialogues) {
     let keywords = HUMAN_INTERAC_KEYWORDS;
     let l = dialogues.length;
 
+    //parse through conversation
     for (let i = l - 1; i >= 0; i--) {
 
+        //check if the user/human requests an agent
         if (dialogues[i].speaker === "human") {
             let text = dialogues[i].text.toLowerCase();
             if (keywords.some(keyword => text.includes(keyword))) {
@@ -89,7 +97,7 @@ export function isHumanInteraction(dialogues) {
 }
 
 /**
- * Returns whether the conversation is too long.
+ * Returns whether the conversation is too long by comparing to third quartile.
  * @param l_texts
  * @param Q3_texts
  * @param l_time
@@ -109,20 +117,20 @@ export function isLengthyConvo(l_texts, Q3_texts, l_time, Q3_time) {
 export function isChatbotRepetition(dialogue, transcript_data) {
     let l = transcript_data.length;
     let temp = false;
+
+    //parse through transcript data
     for (let i = l - 1; i >= 0; i--) {
         try {
 
+            //check if reprompt
             if (transcript_data[i].payload.path === "reprompt") {
                 temp = true;
 
             }
-        } catch (e) {
-            // console.log("no reprompt")
-        }
+        } catch (e) {}
     }
+    //check if user has to repeat.
     return temp === true && hasDuplicates(dialogue);
-
-
 }
 
 

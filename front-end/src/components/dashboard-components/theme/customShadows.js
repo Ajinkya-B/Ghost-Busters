@@ -1,11 +1,9 @@
-import React from "react";
+// Creates shadows for the components on the Dashboard UI.
 
-// @mui
+import React from "react";
 import { alpha } from '@mui/material/styles';
-//
 import palette from './palette';
 
-// ----------------------------------------------------------------------
 
 const color = palette.grey[500];
 

@@ -1,9 +1,9 @@
+// This component helps build the larger chart components (i.e., AppMainGraph.js and AppSatisfactionMeter.js).
+
 import React from "react";
 import merge from 'lodash/merge';
-// @mui
 import { useTheme } from '@mui/material/styles';
 
-// ----------------------------------------------------------------------
 
 export default function useChart(options) {
   const theme = useTheme();

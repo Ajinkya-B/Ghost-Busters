@@ -3,24 +3,15 @@
  */
 
 import React from 'react';
-import {fireEvent, render, screen} from '@testing-library/react';
-import {create} from "react-test-renderer";
+import {render, screen} from '@testing-library/react';
 import {createMemoryHistory} from "history";
-import {
-    BrowserRouter as Router,
-    MemoryRouter,
-    Routes,
-    Route,
-    createMemoryRouter,
-    BrowserRouter
-} from "react-router-dom";
+import {BrowserRouter as Router} from "react-router-dom";
 import DashboardWelcome from '../pages/DashboardWelcome.js';
-import ManageProjects from "../pages/ManageProjects";
-import Page404 from "../pages/Page404.js";
 import userEvent from "@testing-library/user-event";
 
 
-// These aren't working at the moment--the tests aren't able to mock the navigation
+// These aren't working at the moment--the tests aren't able to mock the navigation.
+// The goal was to test for correct navigation.
 describe('Dashboard Welcome Page', () => {
     it.skip('should navigate to Manage Projects', async () => {
         const history = createMemoryHistory({initialEntries: ['/']});

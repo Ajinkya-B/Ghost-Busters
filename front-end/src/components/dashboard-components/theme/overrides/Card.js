@@ -1,5 +1,7 @@
+// Override MUI's Card component with a custom Card.
+
 import React from "react";
-// ----------------------------------------------------------------------
+
 
 export default function Card(theme) {
   return {

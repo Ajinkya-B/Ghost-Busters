@@ -7,7 +7,6 @@ import "@testing-library/jest-dom";
 import {screen, render} from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import AddProject from "../components/AddProject.js"
-import ProjectsList from "../components/ProjectsList.js";
 
 
 describe("AddProject form", () => {

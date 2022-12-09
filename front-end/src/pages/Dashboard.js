@@ -267,7 +267,7 @@ export default function Dashboard() {
                         type: "area",
                         fill: "gradient",
                         color: "#A9A9A9",
-                        data: Object.values(analysedData.total_convos_per_day),
+                        data: correctDates(analysedData.total_convos_per_day),
                       },
                       {
                         name: "Total Users Leaving",

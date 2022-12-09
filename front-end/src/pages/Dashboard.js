@@ -76,32 +76,70 @@ export default function Dashboard() {
     let chartData; // current data displayed by graph
 
     // The current counter (reason why the user left a chat) is selected when a Creator clicks on the card
-    const [currentCounter, setCounter] = useState('Privacy Concerns')
+    const [currentCounter, setCounter] = useState('Privacy Concerns');
+
+    // Creating the x-axis (i.e., the dates) of the graph
+    const list_of_total_convos_per_day = Object.entries(analysedData.total_convos_per_day);
+    list_of_total_convos_per_day.sort();
+    const list_of_chartLabels = [];
+    for (let i = 0; i < list_of_total_convos_per_day.length; i++) {
+        list_of_chartLabels.push(list_of_total_convos_per_day[i][0]);
+    }
+
+    /**
+     * Return a list of values for each x-axis label of the graph with extra 0's
+     * corresponding to the dates when no users leave a chatbot.
+     * @param data
+     * @returns {*[]}
+     */
+    const correctDates = (data) => {
+        const dataCopy = {};
+        Object.assign(dataCopy, data);
+
+        // If a date on the graph's x-axis is not in this specific reason's dictionary of users leaving,
+        // add the date and indicate that 0 users left on that date.
+        for (let i = 0; i < list_of_chartLabels.length; i++) {
+            if (!(list_of_chartLabels[i] in data)) {
+                dataCopy[list_of_chartLabels[i]] = 0;
+            }
+        }
+
+        const list_of_users_leaving = Object.entries(dataCopy);
+        list_of_users_leaving.sort();
+        const list_of_chartData = [];
+
+        // A list of the number of users leaving per day, sorted according to the graph's x-axis
+        for (let i = 0; i < list_of_users_leaving.length; i++) {
+            list_of_chartData.push(list_of_users_leaving[i][1]);
+        }
+        return list_of_chartData;
+    }
+
 
     // The data for the graph is chosen based on the current counter
     switch(currentCounter) {
         case 'Unsatisfactory Solutions':
-            chartData = [...[0,0], ...Object.values(analysedData.reasons_per_day.no_solution)]
+            chartData = correctDates(analysedData.reasons_per_day.no_solution)
             currentReason = 'Unsatisfactory Solutions'
             currentColor = '#FFE16A'
             break
         case 'Chatbot Repetitions':
-            chartData = [...[0,0], ...Object.values(analysedData.reasons_per_day.chatbot_repetition)]
+            chartData = correctDates(analysedData.reasons_per_day.chatbot_repetition)
             currentReason ='Chatbot Repetitions'
             currentColor = '#BAF27F'
             break
         case 'Lengthy Chat Durations':
-            chartData = [...[0,0], ...Object.values(analysedData.reasons_per_day.lengthy_convo)]
+            chartData = correctDates(analysedData.reasons_per_day.lengthy_convo)
             currentReason = 'Lengthy Chat Durations'
             currentColor = '#74CAFF'
             break
         case 'Live Agent Requests':
-            chartData = [...[0,0], ...Object.values(analysedData.reasons_per_day.human_interaction)]
+            chartData = correctDates(analysedData.reasons_per_day.human_interaction)
             currentReason = 'Live Agent Requests'
             currentColor = '#c9aef3'
             break
         default:
-            chartData = [...[0,0], ...Object.values(analysedData.reasons_per_day.privacy)]
+            chartData = correctDates(analysedData.reasons_per_day.privacy)
             currentReason = 'Privacy Concerns'
             currentColor = '#FFA48D'
             break
@@ -215,9 +253,7 @@ export default function Dashboard() {
                   <AppGhostGraph
                     title={currentReason}
                     subheader="Month/Day 2022"
-                    chartLabels={Object.keys(
-                      analysedData.total_convos_per_day
-                    ).sort()}
+                    chartLabels={list_of_chartLabels} // Object.keys(analysedData.total_convos_per_day).sort()}
                     chartData={[
                       {
                         name: "Users Leaving due to ".concat(currentReason),
@@ -238,9 +274,7 @@ export default function Dashboard() {
                         type: "line",
                         fill: "solid",
                         color: "#2F4F4F",
-                          data: [...[0,0], ...Object.values(
-                              analysedData.total_users_quit_per_day
-                          )],
+                        data: correctDates(analysedData.total_users_quit_per_day), //Object.values(analysedData.total_users_quit_per_day),
                       },
                     ]}
                   />

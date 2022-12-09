@@ -146,8 +146,8 @@ export class AnalyseProjectInteractor {
         let usersQuitvalues = Object.values(usersQuit);
         let totalUsers = this.totalConvosPerDay(transcripts);
         let totalUsersvalues = Object.values(totalUsers);
-        let sumUsersQuit = usersQuitvalues.sum((b, a) => b + a, 0);
-        let sumTotalUsers = totalUsersvalues.sum((b, a) => b + a, 0);
+        let sumUsersQuit = usersQuitvalues.reduce((b, a) => b + a, 0);
+        let sumTotalUsers = totalUsersvalues.reduce((b, a) => b + a, 0);
         return (sumTotalUsers - sumUsersQuit) / sumTotalUsers;
     }
 

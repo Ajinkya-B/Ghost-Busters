@@ -1,8 +1,17 @@
 import ProjectsService from "./projects.service.js";
+import { ProjectsInterface } from "../interfaces/projects-interface.js";
+import { OutputBoundaryInterface } from "../interfaces/output-boundary-interface.js";
 import ProjectsDAO from "../dao/projectsDAO.js";
 
-jest.mock("../dao/projectsDAO");
+jest.mock("../interfaces/input-boundary-interface.js");
+jest.mock("../interfaces/projects-interface.js");
+jest.mock("../dao/projectsDAO.js");
+jest.mock("../interfaces/output-boundary-interface.js");
+
 let dao;
+let projectsService;
+let outputBoundary;
+
 const QUERY1 = {
     project_name: "Antighost Ghost Club Clothing Store"
 };
@@ -15,12 +24,13 @@ const QUERY2 = {
 const FILTERS2 = {
     project_id: {$eq: QUERY2.project_id}
 };
+const PROJECT_ID = "6382876295d15a6f70c40f06";
 
 describe("ProjectsService", () => {
     beforeEach(() => {
-        let newDao = new ProjectsDAO();
-        dao = newDao;
-        ProjectsService.setProjectDAO(dao);
+        outputBoundary = OutputBoundaryInterface;
+        dao = new ProjectsInterface();
+        projectsService = new ProjectsService();
         jest.clearAllMocks();
     });
 
@@ -30,7 +40,7 @@ describe("ProjectsService", () => {
               status: 200,
               data: "meow",
             });
-            await ProjectsService.getFilteredProjects({});
+            await projectsService.getFilteredProjects(outputBoundary, dao, {});
             expect(dao.getProjects).toHaveBeenCalledWith({});
         });
         it("should correctly call dao with name filter query", async () => {
@@ -38,7 +48,7 @@ describe("ProjectsService", () => {
               status: 200,
               data: "meow",
             });
-            await ProjectsService.getFilteredProjects(QUERY1);
+            await projectsService.getFilteredProjects(outputBoundary, dao, QUERY1);
             expect(dao.getProjects).toHaveBeenCalledWith(FILTERS1);
         });
         it("should correctly call dao with id filter query", async () => {
@@ -46,15 +56,15 @@ describe("ProjectsService", () => {
               status: 200,
               data: "meow",
             });
-            await ProjectsService.getFilteredProjects(QUERY2);
+            await projectsService.getFilteredProjects(outputBoundary, dao, QUERY2);
             expect(dao.getProjects).toHaveBeenCalledWith(FILTERS2);
         });
         it("should correctly throw an error", async () => {
-            dao.getProjects.mockImplementationOnce(() =>{
+            dao.getProjects.mockImplementationOnce(() => {
                 throw Error;
             } 
             );
-            await ProjectsService.getFilteredProjects({});
+            await projectsService.getFilteredProjects(outputBoundary, dao, {});
             expect(dao.getProjects).toHaveBeenCalledWith({});
         });
     });
@@ -64,14 +74,14 @@ describe("ProjectsService", () => {
                 status: 200,
                 data: "meow",
             });
-            await ProjectsService.createProject({});
+            await projectsService.createProject(outputBoundary, dao, {});
             expect(dao.createProject).toHaveBeenCalledWith({});
         });
         it("should correctly throw an error", async () => {
             dao.createProject.mockImplementationOnce(() => {
                 throw Error;
             });
-            await ProjectsService.createProject({});
+            await projectsService.createProject(outputBoundary, dao, {});
             expect(dao.createProject).toHaveBeenCalledWith({});
         });
     });
@@ -81,15 +91,15 @@ describe("ProjectsService", () => {
                 status: 200,
                 data: "meow",
             });
-            await ProjectsService.deleteProject({});
+            await projectsService.deleteProject(outputBoundary, dao, {});
             expect(dao.deleteProject).toHaveBeenCalledWith({});
         });
         it("should correctly throw an error", async () => {
-            dao.deleteProject.mockImplementationOnce(() => {
+            dao.createProject.mockImplementationOnce(() => {
                 throw Error;
             });
-            await ProjectsService.deleteProject({});
-            expect(dao.deleteProject).toHaveBeenCalledWith({});
+            await projectsService.deleteProject(outputBoundary, dao, "meow");
+            expect(dao.deleteProject).toHaveBeenCalledWith("meow");
         });
     });
     describe("Get Projects By Id", () => {
@@ -98,15 +108,15 @@ describe("ProjectsService", () => {
                 status: 200,
                 data: "meow",
             });
-            await ProjectsService.getProjectbyID("6382876295d15a6f70c40f06");
-            expect(dao.getProjectByID).toHaveBeenCalledWith("6382876295d15a6f70c40f06");
+            await projectsService.getProjectbyID(outputBoundary, dao, PROJECT_ID);
+            expect(dao.getProjectByID).toHaveBeenCalledWith(PROJECT_ID);
         });
         it("should correctly throw an error", async () => {
             dao.getProjectByID.mockImplementationOnce(() => {
                 throw Error;
             });
-            await ProjectsService.getProjectbyID({});
-            expect(dao.getProjectByID).toHaveBeenCalledWith({});
+            await projectsService.getProjectbyID(outputBoundary, dao, PROJECT_ID);
+            expect(dao.getProjectByID).toHaveBeenCalledWith(PROJECT_ID);
         });
     });
 });

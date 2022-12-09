@@ -5,7 +5,7 @@ import {AnalyseProjectInteractor}  from "./AnalyseProjectInteractor.js";
 export default class AnalyseProjectService extends InputBoundaryInterface {
   analyser = new AnalyseProjectInteractor;
 
-   setAnalyser(analyser){
+  setAnalyser(analyser){
     this.analyser = analyser;
   }
   /**

@@ -11,10 +11,10 @@ export default class ProjectsService extends InputBoundaryInterface {
      * @param dao Instance of DAO which the projects are querryed from
      * @param query An id of a project that you want to search the database for
      */
-     async getFilteredProjects(outputBoundary, dao, query) {
+    async getFilteredProjects(outputBoundary, dao, query) {
         if (dao instanceof ProjectsInterface) {
             try {
-            let filters;
+            let filters={};
             if (query) {
                 if (query.project_name) {
                     filters = {project_name: {$eq: query.project_name}};

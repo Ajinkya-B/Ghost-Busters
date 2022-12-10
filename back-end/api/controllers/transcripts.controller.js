@@ -83,9 +83,11 @@ export default class TranscriptsController {
   static async addTranscripts(textDAO, transcriptDAO, req, res, next) {
     try {
       await this.#inputBoundary.getVoiceFlowAPIData(this.#outputBoundary, textDAO, transcriptDAO)
-      res.json(this.#outputBoundary.getOutput().status)
+      res
+        .status(this.#outputBoundary.getOutput().status)
+        .json(this.#outputBoundary.getOutput().data);
     } catch (e) {
-      res.json(this.#outputBoundary.getOutput().status)
+      res.status(500).json({ error: e.message });
     }
 
   }

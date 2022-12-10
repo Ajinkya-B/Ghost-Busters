@@ -108,10 +108,10 @@ describe("TranscriptsController", () => {
         it("Should correctly delete a project ", async () => {
             const res = mockResponse();
             interactor.getVoiceFlowAPIData = jest.fn().mockImplementation((obj) => obj);
-            outputBoundary.getOutput = jest.fn().mockReturnValue({});
+            outputBoundary.getOutput = jest.fn().mockReturnValue({status: 200, data: "HEHE"});
             await TranscriptsController.addTranscripts(textDao, cleanedDao,{}, res, {});
             expect(interactor.getVoiceFlowAPIData).toHaveBeenCalled();
-            expect(res.json).toHaveBeenCalledWith({ status: "success" });
+            expect(res.json).toHaveBeenCalledWith("HEHE");
         });
 
         it("Should correctly throw a error", async () => {
@@ -120,7 +120,7 @@ describe("TranscriptsController", () => {
                 throw { message: "e" };
             });
             await TranscriptsController.addTranscripts(textDao, cleanedDao,{body:{project_name: "meow"}}, res, {});
-            expect(res.json).toHaveBeenCalledWith({ status: "failure" });
+            expect(res.json).toHaveBeenCalledWith({error: "e"});
         });
     });
 });

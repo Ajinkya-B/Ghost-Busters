@@ -17,13 +17,17 @@ export default class TranscriptService extends InputBoundaryInterface{
    */
   async getVoiceFlowAPIData(outputBoundary, textDAO, transcriptDAO) {
     try {
-      console.log(api_key);
-      console.log(project_id);
-      const response = await voiceflowAPI.getData(api_key, project_id);
-      await this.addTranscripts(textDAO, transcriptDAO, response);
-      outputBoundary.setOutput({status: "success"})
+      const rawData = await voiceflowAPI.getData(api_key, project_id);
+      const response = await this.addTranscripts(textDAO, transcriptDAO, rawData);
+      outputBoundary.setOutput({
+        status: response.status,
+        data: response.data,
+      });
     } catch (e) {
-        outputBoundary.setOutput({status: "failure in getting voiceFlowApiData"})
+        outputBoundary.setOutput({
+          status: 500,
+          data: {error: e.message}
+        });
     }
   }
 
@@ -42,26 +46,32 @@ export default class TranscriptService extends InputBoundaryInterface{
         if (transcriptDAO instanceof TranscriptInterface) {
           const parsedData = transcriptDataFormatter.cleanData(transcript);
           await transcriptDAO.addTranscript(
-              project_id,
-              parsedData
+            project_id,
+            parsedData
           );
         } else {
           new Error("not an ParsedTranscript Interface");
         }
 
         if (textDAO instanceof TextTranscriptsInterface) {
-        const formattedTranscript =
-          transcriptDataFormatter.cleanTextTranscript(transcript);
-        await textDAO.addTextTranscript(
+          const formattedTranscript = transcriptDataFormatter.cleanTextTranscript(transcript);
+          await textDAO.addTextTranscript(
             project_id,
             formattedTranscript
-        );
+          );
         } else {
           new Error("not an TextTranscript Interface");
         }
       }
+      return {
+        status: 200,
+        data: "successfully added transcripts",
+      };
     } catch (e) {
-        console.log("Error in the service layer when adding transcripts")
+      return {
+        status: 500,
+        data: e.message
+      }
     }
   }
   /**
@@ -76,8 +86,6 @@ export default class TranscriptService extends InputBoundaryInterface{
       let filters={};
       if (query) {
         if (query.project_id) {
-          filters = {project_name: {$eq: query.project_name}};
-        } else if (query.project_id) {
           filters = {project_id: {$eq: query.project_id}};
         }
       }
@@ -117,7 +125,7 @@ export default class TranscriptService extends InputBoundaryInterface{
         let filters = {};
         if (query) {
           if (query.project_id) {
-            filters = {project_name: {$eq: query.project_name}};
+            filters = {project_id: {$eq: query.project_id}};
           }
         }
 

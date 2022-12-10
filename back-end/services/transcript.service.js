@@ -1,40 +1,38 @@
-import TranscriptsDAO from "../dao/transcriptsDAO.js";
-import TextTranscriptsDAO from "../dao/textTranscriptsDAO.js";
 import voiceflowAPI from "../helpers/voiceflowAPI.js";
 import transcriptDataFormatter from "../helpers/transcriptDataFormatter.js";
 import {TranscriptInterface} from "../interfaces/transcript-interface.js";
 import {TextTranscriptsInterface} from "../interfaces/textTranscripts-interface.js";
 import {InputBoundaryInterface} from "../interfaces/input-boundary-interface.js";
+
+// Both of these variables are defined to save the temporary state of the project selected
 let api_key
 let project_id
 export default class TranscriptService extends InputBoundaryInterface{
 
   /**
    * Receives a json file from the voiceflow api call
-   * @param textDAO
-   * @param transcriptDAO
-   * @param {String} api_key : contains the current api key
-   * @param {String} project_id : contains the current project id
+   * @param outputBoundary Object which passes the returned data back to the controller
+   * @param textDAO Instance of DAO which the parsed transcripts must be added too
+   * @param transcriptDAO Instance of DAO which the text transcripts must be added too
    */
-  async getVoiceFlowAPIData(textDAO, transcriptDAO) {
+  async getVoiceFlowAPIData(outputBoundary, textDAO, transcriptDAO) {
     try {
       console.log(api_key);
       console.log(project_id);
       const response = await voiceflowAPI.getData(api_key, project_id);
       await this.addTranscripts(textDAO, transcriptDAO, response);
-      res.json({ status: "success" });
+      outputBoundary.setOutput({status: "success"})
     } catch (e) {
-      res.json({ status: "failure" });
+        outputBoundary.setOutput({status: "failure in getting voiceFlowApiData"})
     }
   }
 
   /**
    * Adds all the transcripts saved under a project in Voiceflow in form of as well as
    * parsed transcripts to Mongo DB
-   * @param textDAO
-   * @param transcriptDAO
-   * @param {String} project_id : contains the current project id
-   * @param {Object} response : json format of the VoiceFlow API call
+   * @param textDAO Instance of DAO which the parsed transcripts must be added too
+   * @param transcriptDAO Instance of DAO which the text transcripts must be added too
+   * @param response response from the voiceflow api call which contains a json object of all transcripts
    */
    async addTranscripts(textDAO, transcriptDAO, response) {
     try {
@@ -43,7 +41,7 @@ export default class TranscriptService extends InputBoundaryInterface{
       for (const transcript of response.data){
         if (transcriptDAO instanceof TranscriptInterface) {
           const parsedData = transcriptDataFormatter.cleanData(transcript);
-          const ReviewResponse = await transcriptDAO.addTranscript(
+          await transcriptDAO.addTranscript(
               project_id,
               parsedData
           );
@@ -54,24 +52,23 @@ export default class TranscriptService extends InputBoundaryInterface{
         if (textDAO instanceof TextTranscriptsInterface) {
         const formattedTranscript =
           transcriptDataFormatter.cleanTextTranscript(transcript);
-        const res = await textDAO.addTextTranscript(
-          project_id,
-          formattedTranscript
+        await textDAO.addTextTranscript(
+            project_id,
+            formattedTranscript
         );
         } else {
           new Error("not an TextTranscript Interface");
         }
       }
-      res.json({ status: "success" });
     } catch (e) {
-      return { status: "failure" };
+        console.log("Error in the service layer when adding transcripts")
     }
   }
   /**
    * Query's the database for parsed transcripts with a specific project id
-   * @param outputBoundary
-   * @param dao
-   * @param query
+   * @param outputBoundary Object which passes the returned data back to the controller
+   * @param dao Instance where the database operations are preformed on
+   * @param query parameter which looks for a specific body in the database
    */
    async getFilteredTranscripts(outputBoundary, dao, query) {
     if (dao instanceof TranscriptInterface) {
@@ -110,9 +107,9 @@ export default class TranscriptService extends InputBoundaryInterface{
 
   /**
    * Query's the database for text transcripts with a specific project id
-   * @param outputBoundary
-   * @param dao
-   * @param query
+   * @param outputBoundary Object which passes the returned data back to the controller
+   * @param dao Instance of the Data access object where the collection will be querryed
+   * @param query A project id to query the database with
    */
    async getFilteredTextTranscripts(outputBoundary, dao, query) {
     if (dao instanceof TextTranscriptsInterface) {
@@ -150,17 +147,21 @@ export default class TranscriptService extends InputBoundaryInterface{
 
   /**
    * Query's the database for text transcripts with a specific project id
-   * @param dao
-   * @param project_id
+   * @param dao Instance of the Data access object where the collection will be querryed
+   * @param project_id the current project id which is selected
    */
    async flushCollection(dao, project_id) {
     try {
       await dao.flushCollection(project_id)
     } catch (e) {
+        console.log("Error in flushing collection")
     }
   }
-
-  async saveKeys(req){
+    /**
+     * Stores the current project_id and API key for the current state
+     * @param req contains data of the current state from the front end
+     */
+    async saveKeys(req){
     api_key = req.body[0]
     project_id = req.body[1]
   }

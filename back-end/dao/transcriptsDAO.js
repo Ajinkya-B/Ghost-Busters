@@ -1,11 +1,13 @@
 import { Transcripts } from "../schema/transcripts-schema.js";
 import {TranscriptInterface} from "../interfaces/transcript-interface.js";
 
+// Extends the TextTranscriptInterface, for all operations the correct Data Access Object Interface
+// must be used when a call to this DAO is made
 export default class TranscriptsDAO extends TranscriptInterface{
 
   /**
    * Get a list of all transcripts and the number of transcripts from database
-   * @param filters : A object full of query filters that you can apply when you get the data
+   * @param query : object full of query filters that you can apply when you get the data
    * @returns : A list of talk steps for a transcript
    */
   async getTranscripts(query) {
@@ -45,7 +47,11 @@ export default class TranscriptsDAO extends TranscriptInterface{
     }
   }
 
-  //A function to clear the database with the given name
+  /**
+   * FLush a collection from the database
+   * @param {String} project_id : Project id associated with a transcipt
+   * @returns
+   */
   async flushCollection(project_id){
     await Transcripts.deleteMany({project_id: `${project_id}`})
   }

@@ -1,10 +1,15 @@
-import ProjectsService from "../../services/projects.service.js";
 import {InputBoundaryInterface} from "../../interfaces/input-boundary-interface.js";
 
 export default class ProjectsController {
 
+    //Setting the input boundary for an instance of the Transcript Controller
     static #inputBoundary
 
+    /**
+     * Checks to make sure the interactor being passed in from the route is a proper
+     * InputBoundaryInterface
+     * @param interactor should be an instance of ProjectService
+     */
     static setProjectInteractor(interactor) {
         if(interactor instanceof InputBoundaryInterface){
             this.#inputBoundary = interactor;
@@ -13,8 +18,14 @@ export default class ProjectsController {
         }
     }
 
+    //Sets the output boundary for an instance of the controller
     static #outputBoundary;
 
+    /**
+     * All the data coming out of the service layer is passed through the output boundary
+     * which is set here
+     * @param outputBoundary instance of outputBoundary
+     */
     static setOutputBoundary(outputBoundary) {
         if(outputBoundary.isOutputBoundaryInterface){
             this.#outputBoundary = outputBoundary;
@@ -24,10 +35,10 @@ export default class ProjectsController {
     }
 
     /**
-     * A GET API for getting an array of all project objects.
-     * @param dao
-     * @param req
-     * @param res
+     * A GET API for getting an array of all project objects. Returned Projects are sent through the output boundary
+     * @param dao instance of projectsDAO, when the db is queryed it uses a specific dao
+     * @param req contains additional body passed to an API call
+     * @param res json object that is returned after making an API call
      * @param next
      * @returns {Promise<void>}
      */
@@ -45,10 +56,10 @@ export default class ProjectsController {
 
 
     /**
-     * A POST API for creating a project object in MongoDB.
-     * @param dao
-     * @param req
-     * @param res
+     * A POST API for creating a project object in MongoDB. The response if a project was successfully created is sent through the output boundary
+     * @param dao instance of projectsDAO, when the db is queryed it uses a specific dao
+     * @param req contains additional body passed to an API call
+     * @param res json object that is returned after making an API call
      * @param next
      * @returns {Promise<void>}
      */
@@ -66,9 +77,10 @@ export default class ProjectsController {
 
     /**
      * A Delete API for deleting a project object in MongoDB.
-     * @param dao
-     * @param req
-     * @param res
+     * @param dao instance of projectsDAO, when the db is queryed it uses a specific dao.
+     * The response if a project was successfully deleted is sent through the output boundary
+     * @param req contains additional body passed to an API call
+     * @param res json object that is returned after making an API call
      * @param next
      * @returns {Promise<void>}
      */
@@ -88,9 +100,10 @@ export default class ProjectsController {
 
     /**
      * A GET API for getting a project object with a particular id from MongoDB.
-     * @param dao
-     * @param req
-     * @param res
+     * @param dao instance of projectsDAO, when the db is queryed it uses a specific dao.
+     * The response is the project that was found in the database with that corresponding ID
+     * @param req contains additional body passed to an API call
+     * @param res json object that is returned after making an API call
      * @param next
      * @returns {Promise<void>}
      */

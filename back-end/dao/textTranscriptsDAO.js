@@ -1,9 +1,12 @@
 import { TextTranscripts } from "../schema/textTranscripts-schema.js";
 import {TextTranscriptsInterface} from "../interfaces/textTranscripts-interface.js";
 
+// Extends the TextTranscriptInterface, for all operations the correct Data Access Object Interface
+// must be used when a call to this DAO is made
 export default class TextTranscriptsDAO extends TextTranscriptsInterface{
   /**
    * Get an array of all the text transcripts in MongoDB
+   * @param query : object full of query filters that you can apply when you get the data
    * @returns Array of all the text transcripts from the database
    */
   async getTextTranscripts(query) {
@@ -23,10 +26,10 @@ export default class TextTranscriptsDAO extends TextTranscriptsInterface{
   }
 
   /**
-   * Add a text transcript object into the database
+   * Add a single transcript to database
+   * @param {String} projectId : Project id associated with a transcript
+   * @param {Array} dialogue : Transcript conversation data
    * @returns
-   * @param projectId
-   * @param dialogue
    */
   async addTextTranscript(projectId, dialogue) {
     try {
@@ -43,6 +46,7 @@ export default class TextTranscriptsDAO extends TextTranscriptsInterface{
 
   /**
    * Deletes the objects in the textTranscripts collection
+   * @param {String} project_id : Project id associated with a transcript
    * @return {Promise<void>}
    */
   async flushCollection(project_id) {

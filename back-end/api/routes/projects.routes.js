@@ -8,16 +8,19 @@ const ProjectServiceInteractor = new ProjectsService()
 const router = express.Router()
 const dao = new ProjectsDAO()
 router.route('/')
+    // Creates a project in the database
     .post((req, res, next) => {
         ProjectsController.setProjectInteractor(ProjectServiceInteractor)
         ProjectsController.setOutputBoundary(OutputDataBoundary)
         ProjectsController.apiCreateProject(dao, req, res, next);
     })
+    //Deletes a project in the database
     .delete((req, res, next) => {
         ProjectsController.setProjectInteractor(ProjectServiceInteractor)
         ProjectsController.setOutputBoundary(OutputDataBoundary)
         ProjectsController.apiDeleteProject(dao, req, res, next)
     })
+    //Returns all projects from the database
     .get((req, res, next) => {
         ProjectsController.setProjectInteractor(ProjectServiceInteractor)
         ProjectsController.setOutputBoundary(OutputDataBoundary)
@@ -25,6 +28,7 @@ router.route('/')
     })
 
 router.route("/id/:id")
+    //Returns a project from the database with a specific id
     .get((req, res, next) => {
         ProjectsController.setProjectInteractor(ProjectServiceInteractor)
         ProjectsController.setOutputBoundary(OutputDataBoundary)

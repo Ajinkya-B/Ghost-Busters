@@ -1,4 +1,3 @@
-import {ObjectId} from "mongodb";
 import {Projects} from "../schema/projects-schema.js"
 import mongoose from "mongoose";
 import {ProjectsInterface} from "../interfaces/projects-interface.js";
@@ -74,7 +73,7 @@ export default class ProjectsDAO extends ProjectsInterface {
     /**
      * Get a project object with a particular id from MongoDB.
      * Also, add parsed and trimmed transcripts corresponding to that project to the project object.
-     * @param id
+     * @param id the id of the current project that must be analyzed
      * @returns {Promise<*>}
      */
     async getProjectByID(id) {

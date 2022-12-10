@@ -9,10 +9,10 @@ export class TranscriptInterface extends EventEmitter{
 
     /**
      * Get a list of all transcripts and the number of transcripts from database
-     * @param filters : A object full of querry filters that you can apply when you get the data
+     * @param query : object full of query filters that you can apply when you get the data
      * @returns : A list of talk steps for a transcript
      */
-    async getTranscripts() {
+    async getTranscripts(query) {
         throw new Error("not implemented");
     }
 
@@ -23,15 +23,16 @@ export class TranscriptInterface extends EventEmitter{
      * @param {Array} transcriptData : Transcript conversation data
      * @returns
      */
-    async addTranscript(query = {}) {
+    async addTranscript(projectId , transcriptData) {
         throw new Error("not implemented");
     }
 
     /**
-     * Deletes the objects in the textTranscripts collection
-     * @return {Promise<void>}
+     * FLush a collection from the database
+     * @param {String} project_id : Project id associated with a transcipt
+     * @returns
      */
-    async flushDatabase(query = {}) {
+    async flushCollection(project_id ) {
         throw new Error("not implemented");
     }
 

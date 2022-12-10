@@ -6,8 +6,8 @@ export default class transcriptDataFormatter {
      * @returns
      */
     static cleanData(transcript) {
-        var res = [];
-        var block;
+        let res = [];
+        let block;
 
         transcript.forEach(function (node) {
             block = {
@@ -33,16 +33,15 @@ export default class transcriptDataFormatter {
             // and returns it to the service layer in the form of an array
             transcipt.forEach(function (step) {
                 let data;
+
+                //Checks if the current item in the list either contains a text object or intent object
+                //If it does then we have text that must be added to the database
                 if (step.payload && (step.payload.type === "text" || step.payload.type === "intent")) {
                     if (step.payload.payload && step.payload.payload.message) {
                         question = String(step.payload.payload.message);
                         // Checks if current block is said my a bot
                         if (!question.includes("audio")) {
                             tempBotChat = question
-                            //     question.substring(
-                            //   question.indexOf(">") + 1,
-                            //   question.lastIndexOf("<")
-                            // );
                             if (tempBotChat !== "") {
                                 data = {
                                     speaker: "bot",
@@ -52,6 +51,7 @@ export default class transcriptDataFormatter {
                             }
                         }
                     }
+                    //Checks if the current block was said by a human
                     if (step.payload.payload.query) {
                         let answer = String(step.payload.payload.query);
                         data = {

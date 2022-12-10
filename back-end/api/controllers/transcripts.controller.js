@@ -2,8 +2,14 @@ import {InputBoundaryInterface} from "../../interfaces/input-boundary-interface.
 
 export default class TranscriptsController {
 
+  //Setting the input boundary for an instance of the Transcript Controller
   static #inputBoundary
 
+  /**
+   * Checks to make sure the interactor being passed in from the route is a proper
+   * InputBoundaryInterface
+   * @param interactor should be an instance of TranscriptService
+   */
   static setTranscriptInteractor(interactor) {
     if(interactor instanceof InputBoundaryInterface){
       this.#inputBoundary = interactor;
@@ -12,8 +18,14 @@ export default class TranscriptsController {
     }
   }
 
+  //Sets the output boundary for an instance of the controller
   static #outputBoundary;
 
+  /**
+   * All the data coming out of the service layer is passed through the output boundary
+   * which is set here
+   * @param outputBoundary instance of outputBoundary
+   */
   static setOutputBoundary(outputBoundary) {
     if(outputBoundary.isOutputBoundaryInterface){
       this.#outputBoundary = outputBoundary;
@@ -23,8 +35,8 @@ export default class TranscriptsController {
   }
 
   /** GET API: Gets parsed transcript data matching with the querry from MongoDB.
-   * @param transcriptDAO
-   * @param {Object} req : contains additonal body passed to an API call
+   * @param transcriptDAO : instance of transcriptDAO, when the db is queryed it uses a specific dao
+   * @param {Object} req : contains additional body passed to an API call
    * @param {Object} res : json object that is returned after making an API call
    * @param {Object} next
    */
@@ -40,9 +52,9 @@ export default class TranscriptsController {
 
   }
 
-  /** GET API: Gets trimmed transcript data matching with the querry from MongoDB.
+  /** GET API: Gets trimmed transcript data matching with the query from MongoDB.
    * Trimmed transcripts are composed of an object with the speaker followed by the text
-   * @param textDAO
+   * @param textDAO: instance of textDAO, when the db is queryed it uses a specific dao
    * @param {Object} req : contains additonal body passed to an API call
    * @param {Object} res : json object that is returned after making an API call
    * @param {Object} next
@@ -59,37 +71,40 @@ export default class TranscriptsController {
   }
 
   /**
-   * Adds all the transcripts saved under a project in Voiceflow in form of 'textTranscripts' to Mongo DB
-   * @param textDAO
-   * @param transcriptDAO
+   * Adds all the transcripts saved under a project in Voiceflow in form of 'textTranscripts' which is composed
+   * of just the text values of each transcript. 'Transcripts' are also added which contains parsed
+   * versions of the transcripts with additional data to be analyzed
+   * @param textDAO: instance of textDAO, when the text transcripts are added to the Mongo
+   * @param transcriptDAO: instance of transcriptDAO, when the text transcripts are added to the Mongo
    * @param {Object} req : contains additional body passed to an API call
    * @param {Object} res : json object that is returned after making an API call
    * @param {Object} next
    */
   static async addTranscripts(textDAO, transcriptDAO, req, res, next) {
     try {
-      await this.#inputBoundary.getVoiceFlowAPIData(textDAO, transcriptDAO)
-      res.json({ status: "success" });
+      await this.#inputBoundary.getVoiceFlowAPIData(this.#outputBoundary, textDAO, transcriptDAO)
+      res.json(this.#outputBoundary.getOutput().status)
     } catch (e) {
-      res.json({ status: "failure" });
+      res.json(this.#outputBoundary.getOutput().status)
     }
 
   }
 
   /**
-   * Adds all the transcripts saved under a project in Voiceflow in form of 'textTranscripts' to Mongo DB
-   * @param dao
+   * Flushes a collection from Mongo
+   * @param dao: Flushes the collection to the respective DAO that is passed in
    * @param {Object} req : contains additional body passed to an API call
    * @param {Object} res : json object that is returned after making an API call
    * @param {Object} next
    */
-  //Come back to this function, deciding whether to add the dao as an if condition or just leave it
   static async flushDB(dao, req, res, next) {
     await this.#inputBoundary.flushCollection(dao, res)
   }
 
   /**
-   * @param req
+   * Stores the API key and the ProjectID of the currently selected project for use when
+   * adding or flushing transcripts
+   * @param req contains the value of the API key and the ProjectID
    * @return {Promise<void>}
    */
   static async storeVales(req){

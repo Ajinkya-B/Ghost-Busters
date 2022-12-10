@@ -17,20 +17,21 @@ export class TextTranscriptsInterface extends EventEmitter{
     }
 
     /**
-     * Add a text transcript object into the database
+     * Add a single transcript to database
+     * @param {String} projectId : Project id associated with a transcipt
+     * @param {Array} dialogue : Transcript conversation data
      * @returns
-     * @param projectId
-     * @param dialogue
      */
-    async addTextTranscript(query = {}) {
+    async addTextTranscript(projectId, dialogue) {
         throw new Error("not implemented");
     }
 
     /**
      * Deletes the objects in the textTranscripts collection
+     * @param {String} project_id : Project id associated with a transcript
      * @return {Promise<void>}
      */
-    async flushDatabase(query = {}) {
+    async flushCollection(project_id) {
         throw new Error("not implemented");
     }
 

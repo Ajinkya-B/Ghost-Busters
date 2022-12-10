@@ -9,7 +9,7 @@ const transcriptDao = new TranscriptDAO()
 const TranscriptServiceInteractor = new TranscriptService()
 import OutputDataBoundary from "../../helpers/outputDataBoundary.js";
 
-// uses the controller to call a specific api
+//Returns a query from the database for the parsed version of transcripts
 router.route("/getParsedTranscripts")
     .get((req, res, next) => {
         TranscriptsCtrl.setTranscriptInteractor(TranscriptServiceInteractor)
@@ -17,6 +17,7 @@ router.route("/getParsedTranscripts")
         TranscriptsCtrl.apiGetCleanedTranscripts(transcriptDao, req, res, next)
     })
 
+//Returns a query from the database for the text version of transcripts
 router.route("/getTrimmedTranscripts")
     .get((req, res, next) =>{
         TranscriptsCtrl.setTranscriptInteractor(TranscriptServiceInteractor)
@@ -24,19 +25,23 @@ router.route("/getTrimmedTranscripts")
         TranscriptsCtrl.apiGetTextTranscripts(textDao, req, res, next)
     })
 
+//Adds clean and parsed versions of transcripts to the database
 router.route("/trimmed")
     .post((req, res, next) => {
         TranscriptsCtrl.setTranscriptInteractor(TranscriptServiceInteractor)
+        TranscriptsCtrl.setOutputBoundary(OutputDataBoundary)
         TranscriptsCtrl.addTranscripts(textDao, transcriptDao, req, res, next)
     })
 
+//Flushes the database of a specific collection
 router.route("/flush")
     .get((req, res, next) => {
         TranscriptsCtrl.flushDB(transcriptDao, req, res, next)
     })
 
+//Stores the API key and the ProjectID in the service layer for local use
 router.route("/store")
-    .post((req, res, next) => {
+    .post((req) => {
         TranscriptsCtrl.setTranscriptInteractor(TranscriptServiceInteractor)
         TranscriptsCtrl.storeVales(req)
     });

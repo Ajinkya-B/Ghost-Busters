@@ -1,20 +1,59 @@
-import React, {Component, useEffect} from "react";
-import axios from "axios";
+// This component displays the selected project name on the dashboard.
 
-class SelectProject extends Component {
+import React, {useState, useEffect} from "react";
+import {useParams} from 'react-router-dom';
+import ProjectDataService from "../services/ProjectDataService";
+import TranscriptDataService from "../services/TranscriptDataService";
 
-    // This function displays the project objects from MongoDB on the console/terminal.
-    // This is incomplete! We want to display the project names on the frontend (i.e., the ManageProject page)
 
+const Project = () => {
+    const {id} = useParams()
 
-    render() {
-        return (
-            <div>
+    const initialProjectState = {
+        id: "",
+        project_name: "",
+        project_id: null,
+        api_key: null,
+        transcripts: []
+    };
 
-            </div>
-        )
-    }
+    const [project, setProject] = useState(initialProjectState);
 
-}
+    const getProject = id => {
+        ProjectDataService.get(id)
+            .then(response => {
+                setProject(response.data);
+                let values = [response.data.api_key, response.data.project_id]
+                TranscriptDataService.storeCredentials(values).then()
+            })
+            .catch(e => {
+                console.log(e);
+            });
+    };
 
-export default SelectProject;
+    useEffect(() => {
+        getProject(id)
+    }, [id]);
+
+    return (
+        <div>
+            {project.project_id ? (
+                <div>
+                    <h3 style={ {paddingLeft: '0px'} }>{project.project_name}</h3>
+                    <p>
+                        {/*<strong>API_KEY: </strong>{project.api_key}<br/>*/}
+                        {/*<strong>PROJECT_ID: </strong>{project.project_id}<br/>*/}
+                    </p>
+                </div>
+            ) : (
+                <div>
+                    <br/>
+                    <p>No project selected.</p>
+                </div>
+            )
+            }
+        </div>
+    );
+};
+
+export default Project;

@@ -1,31 +1,37 @@
 import React, {Component} from 'react';
 import './styles/App.css';
-import './styles/index2.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import "bootstrap/dist/css/bootstrap.min.css";
+import {Helmet, HelmetProvider} from "react-helmet-async";
+import ThemeProvider from "./components/dashboard-components/theme";
 
-import Navbar from './components/Navbar';
-
+import DashboardWelcomePage from "./pages/DashboardWelcome";
 import Dashboard from './pages/Dashboard';
-import ManageProject from './pages/ManageProject';
-import AnalyzeTranscripts from './pages/AnalyzeTranscripts';
+import ManageProjects from './pages/ManageProjects';
+import Page404 from "./pages/Page404";
+
 
 class App extends Component {
-  render () {
-    return (
-      <div>
-        <Router>
-          <Navbar />
-          <br />
-          <Routes>
-            <Route exact path='/Dashboard' element={< Dashboard />} />
-            <Route exact path='/ManageProject' element={< ManageProject />} />
-            <Route exact path='/AnalyzeTranscripts' element={< AnalyzeTranscripts />} />
-          </Routes>
-        </Router>
-      </div>
-    );
+    render() {
+        return (
+            <ThemeProvider>
+              <HelmetProvider>
+                <Helmet>
+                    <title> Ghostboard </title>
+                </Helmet>
+
+                <Router>
+                  <Routes>
+                    <Route path='*' element={<Page404 />} />
+                    <Route path='/' element={<DashboardWelcomePage />} />
+                    <Route path='/Dashboard/:id' element={< Dashboard />} />
+                    <Route exact path='/ManageProjects' element={< ManageProjects />} />
+                  </Routes>
+                </Router>
+              </HelmetProvider>
+            </ThemeProvider>
+        )
   }
+
 }
 
 export default App;

@@ -1,55 +1,28 @@
-import {MongoClient} from "mongodb";
+import { Transcripts } from "../schema/transcripts-schema.js";
+import {TranscriptInterface} from "../interfaces/transcript-interface.js";
 
-let transcripts
-
-export default class TranscriptsDAO {
-
-  /**
-   * Sets up an initial connection with MongoDB and store sit onto a variable named transcripts
-   * @param conn : mongo client for the database URI
-   * @returns : throws an error if the conenction is nto estabilshed
-   */
-  static async injectDB(conn) {
-    if (transcripts) {
-      return
-    }
-    try {
-        // Connect to a specific database and a specific collection in that database
-      transcripts = await conn.db(process.env.RESTREVIEWS_NS).collection("transcripts")
-    } catch (e) {
-      console.error(
-        `Unable to establish a collection handle in transcriptsDAO: ${e}`,
-      )
-    }
-  }
-
+// Extends the TextTranscriptInterface, for all operations the correct Data Access Object Interface
+// must be used when a call to this DAO is made
+export default class TranscriptsDAO extends TranscriptInterface{
 
   /**
    * Get a list of all transcripts and the number of transcripts from database
-   * @param filters : A object full of querry filters that you can apply when you get the data
+   * @param query : object full of query filters that you can apply when you get the data
    * @returns : A list of talk steps for a transcript
    */
-  static async getTranscripts({
-    filters = null
-  } = {}) 
-  {
-    let query
-    // Filter data from the database request
-    if (filters) {
-      if ("project_id" in filters) {
-        query = { "project_id": { $eq: filters["project_id"] } }
-      } 
-    }
-
-    let cursor
-    
+  async getTranscripts(query) {
     try {
-      cursor = await transcripts
-        .find(query)
-      return cursor.toArray()
+      const transcriptList = await Transcripts.find(query);
+      return {
+        status: 200,
+        data: transcriptList,
+      };
     } catch (e) {
       console.error(`Unable to issue find command, ${e}`)
-      return []
+      return {
+        status: 500,
+        data: { error: e.message },
+      };
     }
   }
 
@@ -57,29 +30,30 @@ export default class TranscriptsDAO {
   /**
    * Add a single transcript to database
    * @param {String} projectId : Project id associated with a transcipt
-   * @param {Array} transcriptData : Transcript conversation data 
+   * @param {Array} transcriptData : Transcript conversation data
    * @returns 
    */
-  static async addTranscript(projectId, transcriptData) { 
+  async addTranscript(projectId, transcriptData) {
     try {
       const transcriptDoc = { 
         project_id: projectId,
         transcript_data: transcriptData
       }
 
-      return await transcripts.insertOne(transcriptDoc)
+      return await Transcripts.create(transcriptDoc);
     } catch (e) {
-      console.error(`Unable to post transcripts: ${e}`)
+      console.error(`Unable to issue create command, ${e}`);
       return { error: e }
     }
   }
 
-
-  //A function to clear the database with the given name
-  static async flushDatabase(name){
-    await transcripts.deleteMany({})
+  /**
+   * FLush a collection from the database
+   * @param {String} project_id : Project id associated with a transcipt
+   * @returns
+   */
+  async flushCollection(project_id){
+    await Transcripts.deleteMany({project_id: `${project_id}`})
   }
-
-
 
 }

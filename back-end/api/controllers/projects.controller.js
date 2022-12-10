@@ -1,75 +1,122 @@
-import ProjectsDAO from "../../dao/projectsDAO.js";
-import {project} from "../../entities/project.js";
-
+import {InputBoundaryInterface} from "../../interfaces/input-boundary-interface.js";
 
 export default class ProjectsController {
 
+    //Setting the input boundary for an instance of the Transcript Controller
+    static #inputBoundary
+
     /**
-     * A POST API for creating a project object in MongoDB.
-     * @param req
-     * @param res
+     * Checks to make sure the interactor being passed in from the route is a proper
+     * InputBoundaryInterface
+     * @param interactor should be an instance of ProjectService
+     */
+    static setProjectInteractor(interactor) {
+        if(interactor instanceof InputBoundaryInterface){
+            this.#inputBoundary = interactor;
+        } else {
+            throw new Error("not an InputBoundary");
+        }
+    }
+
+    //Sets the output boundary for an instance of the controller
+    static #outputBoundary;
+
+    /**
+     * All the data coming out of the service layer is passed through the output boundary
+     * which is set here
+     * @param outputBoundary instance of outputBoundary
+     */
+    static setOutputBoundary(outputBoundary) {
+        if(outputBoundary.isOutputBoundaryInterface){
+            this.#outputBoundary = outputBoundary;
+        } else {
+            throw new Error("not an OutputBoundary");
+        }
+    }
+
+    /**
+     * A GET API for getting an array of all project objects. Returned Projects are sent through the output boundary
+     * @param dao instance of projectsDAO, when the db is queryed it uses a specific dao
+     * @param req contains additional body passed to an API call
+     * @param res json object that is returned after making an API call
      * @param next
      * @returns {Promise<void>}
      */
-    static async apiCreateProject(req, res, next) {
-        console.log(req.body)
-        await ProjectsDAO.createProject(req.body);
-        console.log("Project Created");
+    static async apiGetFilteredProjects(dao, req, res, next) {
+        try{
+            await this.#inputBoundary.getFilteredProjects(this.#outputBoundary, dao, req.query);
+            res
+                .status(this.#outputBoundary.getOutput().status)
+                .json(this.#outputBoundary.getOutput().data);
+        }catch(e) {
+            res.status(500).json({error: e.message})
+        }
+
+    }
+
+
+    /**
+     * A POST API for creating a project object in MongoDB. The response if a project was successfully created is sent through the output boundary
+     * @param dao instance of projectsDAO, when the db is queryed it uses a specific dao
+     * @param req contains additional body passed to an API call
+     * @param res json object that is returned after making an API call
+     * @param next
+     * @returns {Promise<void>}
+     */
+    static async apiCreateProject(dao, req, res, next) {
+            try {
+                await this.#inputBoundary.createProject(this.#outputBoundary, dao, req.body);
+                res
+                    .status(this.#outputBoundary.getOutput().status)
+                    .json(this.#outputBoundary.getOutput().data);
+            } catch (e) {
+                res.status(500).json({error: e.message})
+            }
+
     }
 
     /**
      * A Delete API for deleting a project object in MongoDB.
-     * @param req
-     * @param res
+     * @param dao instance of projectsDAO, when the db is queryed it uses a specific dao.
+     * The response if a project was successfully deleted is sent through the output boundary
+     * @param req contains additional body passed to an API call
+     * @param res json object that is returned after making an API call
      * @param next
      * @returns {Promise<void>}
      */
-    static async apiDeleteProject(req, res, next) {
+    static async apiDeleteProject(dao, req, res, next) {
         try {
-            const projectName = req.query.project_name
-            console.log(projectName)
-            const projectResponse = await ProjectsDAO.deleteProject(projectName)
-            res.json({ status: "success" })
+            const projectName = req.body.project_name;
+            await this.#inputBoundary.deleteProject(this.#outputBoundary, dao, projectName);
+            res
+                .status(this.#outputBoundary.getOutput().status)
+                .json(this.#outputBoundary.getOutput().data);
         } catch (e) {
-            res.status(500).json({ error: e.message })
+            res.status(500).json({error: e.message})
         }
+
     }
+
 
     /**
-     * A GET API for getting an array of all project objects from MongoDB.
+     * A GET API for getting a project object with a particular id from MongoDB.
+     * @param dao instance of projectsDAO, when the db is queryed it uses a specific dao.
+     * The response is the project that was found in the database with that corresponding ID
+     * @param req contains additional body passed to an API call
+     * @param res json object that is returned after making an API call
+     * @param next
+     * @returns {Promise<void>}
      */
-    static async apiGetAllProjects(req, res, next) {
-        let itemsSoFar = []
-        let response = await ProjectsDAO.getAllProjects()
-        for (let x = 0; x < response.length; x++) {
-            let tempObject = new project(response[x]["project_name"], response[x]["project_id"],
-                response[x]["api_key"], response[x]["transcripts"]);
-            itemsSoFar.push(tempObject);
-        }
-        console.log(itemsSoFar);
-        res.json(itemsSoFar);
+    static async apiGetProjectByID(dao, req, res, next) {
+            try {
+                let id = req.params.id || {};
+                await this.#inputBoundary.getProjectbyID(this.#outputBoundary, dao, id);
+                res
+                    .status(this.#outputBoundary.getOutput().status)
+                    .json(this.#outputBoundary.getOutput().data);
+            } catch (e) {
+                res.status(500).json({error: e.message});
+            }
 
     }
-
-    // Chelsea: Is this function the same as the one above? I made this one
-    // by following that MERN stack tutorial on YT (by free code camp).
-    static async apiGetFilteredProjects(req, res, next) {
-        let filters = {}
-        if (req.query.project_name) {
-            filters.project_name = req.query.project_name
-        } else if (req.query.project_id) {
-            filters.project_id = req.query.project_id
-        }
-
-        const projectsList = await ProjectsDAO.getFilteredProjects({
-            filters
-        })
-
-        let response = {
-            projects: projectsList,
-            filters: filters
-        }
-        res.json(response)
-    }
-
 }

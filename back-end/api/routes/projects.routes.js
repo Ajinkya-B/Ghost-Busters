@@ -1,27 +1,38 @@
 import express from "express";
 import ProjectsController from "../controllers/projects.controller.js";
+import ProjectsDAO from "../../dao/projectsDAO.js";
+import OutputDataBoundary from "../../helpers/outputDataBoundary.js";
+import ProjectsService from "../../services/projects.service.js";
 
-
+const ProjectServiceInteractor = new ProjectsService()
 const router = express.Router()
+const dao = new ProjectsDAO()
+router.route('/')
+    // Creates a project in the database
+    .post((req, res, next) => {
+        ProjectsController.setProjectInteractor(ProjectServiceInteractor)
+        ProjectsController.setOutputBoundary(OutputDataBoundary)
+        ProjectsController.apiCreateProject(dao, req, res, next);
+    })
+    //Deletes a project in the database
+    .delete((req, res, next) => {
+        ProjectsController.setProjectInteractor(ProjectServiceInteractor)
+        ProjectsController.setOutputBoundary(OutputDataBoundary)
+        ProjectsController.apiDeleteProject(dao, req, res, next)
+    })
+    //Returns all projects from the database
+    .get((req, res, next) => {
+        ProjectsController.setProjectInteractor(ProjectServiceInteractor)
+        ProjectsController.setOutputBoundary(OutputDataBoundary)
+        ProjectsController.apiGetFilteredProjects(dao, req, res, next)
+    })
 
-// CHELSEA: I CHANGED THE ROUTES ON NOV 2
-// router.route('/createProject')
-//     .post(ProjectsController.apiCreateProject)
-//
-// router.route('/deleteProject')
-//     .post(ProjectsController.apiCreateProject)
-//
-// router.route('/getAllProjects')
-//     .get(ProjectsController.apiGetAllProjects)
-
-router
-    .route('/')
-    .post(ProjectsController.apiCreateProject)
-    .delete(ProjectsController.apiDeleteProject)
-    .get(ProjectsController.apiGetAllProjects)
-
-router.route('/getFilteredProjects')
-    .get(ProjectsController.apiGetFilteredProjects)
-
+router.route("/id/:id")
+    //Returns a project from the database with a specific id
+    .get((req, res, next) => {
+        ProjectsController.setProjectInteractor(ProjectServiceInteractor)
+        ProjectsController.setOutputBoundary(OutputDataBoundary)
+        ProjectsController.apiGetProjectByID(dao, req, res, next)
+    })
 
 export default router

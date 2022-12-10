@@ -1,31 +1,49 @@
 import express from "express"
 import TranscriptsCtrl from "../controllers/transcripts.controller.js"
-import controller from "../../api/controllers/transcripts.controller.js"
-
-import server from "../../server.js"
-
-
+import TextTranscriptDAO from "../../dao/textTranscriptsDAO.js";
+import TranscriptDAO from "../../dao/transcriptsDAO.js"
+import TranscriptService from "../../services/transcript.service.js";
 const router = express.Router()
+const textDao = new TextTranscriptDAO()
+const transcriptDao = new TranscriptDAO()
+const TranscriptServiceInteractor = new TranscriptService()
+import OutputDataBoundary from "../../helpers/outputDataBoundary.js";
 
-// uses the controller to call a specific api
-router.route("/")
-    .get(TranscriptsCtrl.apiGetTranscripts)
-    .post(TranscriptsCtrl.apiPostTranscripts)
+//Returns a query from the database for the parsed version of transcripts
+router.route("/getParsedTranscripts")
+    .get((req, res, next) => {
+        TranscriptsCtrl.setTranscriptInteractor(TranscriptServiceInteractor)
+        TranscriptsCtrl.setOutputBoundary(OutputDataBoundary)
+        TranscriptsCtrl.apiGetCleanedTranscripts(transcriptDao, req, res, next)
+    })
 
+//Returns a query from the database for the text version of transcripts
+router.route("/getTrimmedTranscripts")
+    .get((req, res, next) =>{
+        TranscriptsCtrl.setTranscriptInteractor(TranscriptServiceInteractor)
+        TranscriptsCtrl.setOutputBoundary(OutputDataBoundary)
+        TranscriptsCtrl.apiGetTextTranscripts(textDao, req, res, next)
+    })
+
+//Adds clean and parsed versions of transcripts to the database
 router.route("/trimmed")
-    .post(controller.addClean)
+    .post((req, res, next) => {
+        TranscriptsCtrl.setTranscriptInteractor(TranscriptServiceInteractor)
+        TranscriptsCtrl.setOutputBoundary(OutputDataBoundary)
+        TranscriptsCtrl.addTranscripts(textDao, transcriptDao, req, res, next)
+    })
 
+//Flushes the database of a specific collection
 router.route("/flush")
-    .get(controller.flushDB)
+    .get((req, res, next) => {
+        TranscriptsCtrl.flushDB(transcriptDao, req, res, next)
+    })
 
-router.route("/getTrimmed")
-    .get(controller.getTrim)
-
-router.route('/createProject')
-    .post(controller.createProject)
-
-router.route('/test')
-    .post(controller.enterProject)
-
+//Stores the API key and the ProjectID in the service layer for local use
+router.route("/store")
+    .post((req) => {
+        TranscriptsCtrl.setTranscriptInteractor(TranscriptServiceInteractor)
+        TranscriptsCtrl.storeVales(req)
+    });
 
 export default router

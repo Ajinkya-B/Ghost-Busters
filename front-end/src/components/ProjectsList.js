@@ -1,8 +1,11 @@
-import React, {Component, useState, useEffect } from "react";
-import ProjectDataService from "../services/ProjectDataService";
-import { NavBtn, NavBtnLink2, NavBtnLink3 } from "./NavbarElements";
+// This component is the table of projects shown on the Manage Projects page.
+// It also allows the Voiceflow Creator to delete and select projects.
 
-// TO DO: Provide each project name with a "select project" button
+import React, { useState, useEffect } from "react";
+import ProjectDataService from "../services/ProjectDataService";
+import { NavBtn, BtnSelect, BtnRemove } from "./Elements";
+import {Table} from "react-bootstrap";
+
 
 // The header of the table that lists the project names
 const TableHeader = () => {
@@ -11,49 +14,18 @@ const TableHeader = () => {
         <tr>
             <th>Project Name</th>
             <th>Action</th>
-            {/*<th>Remove</th>*/}
         </tr>
         </thead>
     );
 }
 
-// The body of the table
-const TableBody = props => {
-    const rows = props.projectData.map((row, index) => {
-        return (
-            <tr key={index}>
-                <td>{row.project_name}</td>
-                <td>
-                    <NavBtn>
-                        <NavBtnLink2>
-                            Select
-                        </NavBtnLink2>
-                        <NavBtnLink3>
-                            Remove
-                        </NavBtnLink3>
-                    </NavBtn>
-                </td>
-                {/*<td>*/}
-                {/*    <NavBtn>*/}
-                {/*        <NavBtnLink3>*/}
-                {/*            Remove*/}
-                {/*        </NavBtnLink3>*/}
-                {/*    </NavBtn>*/}
-                {/*</td>*/}
-            </tr>
-        );
-    });
-    return <tbody>{rows}</tbody>;
-}
-
-const ProjectsList = props => {
+export default function ProjectsList() {
     const [projects, setProjects] = useState([]);
 
     // Getting the Project objects
     const retrieveProjects = async () => {
-        const response = await ProjectDataService.getAllProjects() // axios.get('http://localhost:8000/api/v1/projects')
-        const res = await response.data
-        return res
+        const response = await ProjectDataService.getAllProjects()
+        return await response.data
     }
 
     const getProjects = async () => {
@@ -65,29 +37,42 @@ const ProjectsList = props => {
         getProjects()
     }, [])
 
-    // const deleteProject = (projectName, index) => {
-    //     ProjectDataService.deleteProject(projectName)
-    //         .then(res => {
-    //             setProjects((prevState) => {
-    //                 prevState.projects.splice(index, 1)
-    //                 return({
-    //                     ...prevState
-    //                 })
-    //             })
-    //         })
-    //         .catch (e => {
-    //             console.log(e);
-    //         });
-    // };
+    // Method to delete a project from the database
+    const deleteProject = async (projectName) => {
+        console.log(projectName)
+        await ProjectDataService.deleteProject(projectName)
+        const res = await ProjectDataService.getAllProjects()
+        setProjects(res.data)
+    }
+
+    // The body of the table
+    const TableBody = () => {
+        const rows = projects.map((row, index) => {
+            return (
+                <tr key={index}>
+                    <td>{row.project_name}</td>
+                    <td>
+                        <NavBtn>
+                            <BtnSelect to={'/Dashboard/' + row._id} >
+                                Select
+                            </BtnSelect>
+                            <BtnRemove onClick={() => deleteProject(row.project_name)}>
+                                Remove
+                            </BtnRemove>
+                        </NavBtn>
+                    </td>
+                </tr>
+            );
+        });
+        return <tbody>{rows}</tbody>;
+    }
 
     return (
-        <div>
-            <table>
+        <div className='container-fluid'>
+            <Table striped bordered hover>
                 <TableHeader />
-                <TableBody projectData={projects} />
-            </table>
+                <TableBody />
+            </Table>
         </div>
     )
 }
-
-export default ProjectsList;

@@ -1,8 +1,94 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+/* This is the font and format styling file for App.js.
 
+Aspects of this file are derived from Tania Rascia's Primitive UI
+(Source: https://github.com/taniarascia/primitive |
+Documentation: https://taniarascia.github.io/primitive |
+MIT License).
+
+*/
+
+/* Fonts
+   ========================================================================== */
+/*@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');*/
 * {
   font-family: 'Roboto', sans-serif;
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
+
+/**
+ * Setting the font weight
+ */
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font: normal normal normal 1rem/1.6 -apple-system, BlinkMacSystemFont, Helvetica Neue, Helvetica, Arial, sans-serif;
+}
+
+/**
+ * Correct the font size and margin on `h3` elements within `section` and
+ * `article` contexts in Chrome, Firefox, and Safari.
+ */
+h3 {
+  font-size: 2em;
+  margin: 0.67em 0;
+  padding-left: 15px;
+}
+
+
+/* Document
+   ========================================================================== */
+/**
+/**
+* 1. Correct the line height in all browsers.
+* 2. Prevent adjustments of font size after orientation changes in iOS.
+*/
+html {
+  line-height: 1.15;
+  /* 1 */
+  -webkit-text-size-adjust: 100%;
+  /* 2 */
+}
+
+
+/* Forms
+   ========================================================================== */
+/**
+ * Format the form text fields.
+ */
+[type=text] {
+  display: block;
+  border: 1px solid #dedede;
+  border-radius: 10px;
+  padding: 0.65rem;
+  outline: none;
+  background: transparent;
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
+  width: 50%;
+  max-width: 50%;
+  line-height: 1;
+}
+label {
+  font-weight: 600;
+  max-width: 100%;
+  display: block;
+  margin: 1rem 0 0.5rem;
+  padding-left: 30px;
+}
+
+
+/* Buttons
+   ========================================================================== */
+counterButton {
+  cursor: pointer;
+}
+
+
+/* Misc
+ ========================================================================== */
+/**
+ * Extra space for the dashboard UI
+ */
+.footer { margin-top: 200px; }

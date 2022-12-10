@@ -1,116 +1,120 @@
-import TranscriptsDAO from "../../dao/transcriptsDAO.js";
-import TextTranscriptsDAO from "../../dao/textTranscriptsDAO.js";
-import voiceflowAPI from "../../helpers/voiceflowAPI.js";
-import transcriptDataFormatter from "../../helpers/transcriptDataFormatter.js";
-import cors from "cors";
+import {InputBoundaryInterface} from "../../interfaces/input-boundary-interface.js";
 
 export default class TranscriptsController {
-  /** GET API: Gets transcript data matching with the querry from MongoDB.
-   * POST API: Sends all the transcripts saved under a project in Voiceflow to Mongo DB
-   * @param {Object} req : contains additonal body passed to an API call
-   * @param {Object} res : json object that is returned after making an API call
-   * @param {Object} next
-   */
-  static async apiGetTranscripts(req, res, next) {
-    let filters = {};
-    if (req.query.project_id) {
-      filters.project_id = req.query.project_id;
-    }
 
-    const transcriptsList = await TranscriptsDAO.getTranscripts({
-      filters,
-    });
-
-    let response = {
-      transcripts: transcriptsList,
-      filters: filters,
-    };
-    res.json(response);
-  }
-
-  // POST API: sends all the transcripts saved in the Voiceflow to Mongo DB
-
-  // TODO 2(AJ): Change from POST -> PUT (so there are no duplicates)
-  /**
-   * POST API: Adds all the transcripts saved under a project in Voiceflow to Mongo DB
-   * @param {Object} req : contains additonal body passed to an API call
-   * @param {Object} res : json object that is returned after making an API call
-   * @param {Object} next
-   */
-  static async apiPostTranscripts(req, res, next) {
-    try {
-      // Get transcript data for a project given the API KEY and VERSION ID.
-      const response = await voiceflowAPI.getData(
-        process.env.VOICEFLOW_API_KEY,
-        process.env.VOICEFLOW_VERSION
-      );
-      response.data.forEach(async function (transcript) {
-        const projectId = transcript[0].projectID;
-        const transcriptData = transcriptDataFormatter.cleanData(transcript);
-
-        const ReviewResponse = await TranscriptsDAO.addTranscript(
-          projectId,
-          transcriptData
-        );
-      });
-
-      res.json({ status: "success" });
-    } catch (e) {
-      res.json({ status: "failure" });
-    }
-  }
-
-  static async getTrim(req, res, next) {
-    const response = await TextTranscriptsDAO.getTextTranscripts({});
-    res.json(response)
-  }
+  //Setting the input boundary for an instance of the Transcript Controller
+  static #inputBoundary
 
   /**
-   * Adds all the transcripts saved under a project in Voiceflow in form of 'textTranscripts' to Mongo DB
+   * Checks to make sure the interactor being passed in from the route is a proper
+   * InputBoundaryInterface
+   * @param interactor should be an instance of TranscriptService
+   */
+  static setTranscriptInteractor(interactor) {
+    if(interactor instanceof InputBoundaryInterface){
+      this.#inputBoundary = interactor;
+    } else {
+      throw new Error("not an InputBoundary");
+    }
+  }
+
+  //Sets the output boundary for an instance of the controller
+  static #outputBoundary;
+
+  /**
+   * All the data coming out of the service layer is passed through the output boundary
+   * which is set here
+   * @param outputBoundary instance of outputBoundary
+   */
+  static setOutputBoundary(outputBoundary) {
+    if(outputBoundary.isOutputBoundaryInterface){
+      this.#outputBoundary = outputBoundary;
+    } else {
+      throw new Error("not an OutputBoundary");
+    }
+  }
+
+  /** GET API: Gets parsed transcript data matching with the querry from MongoDB.
+   * @param transcriptDAO : instance of transcriptDAO, when the db is queryed it uses a specific dao
+   * @param {Object} req : contains additional body passed to an API call
+   * @param {Object} res : json object that is returned after making an API call
+   * @param {Object} next
+   */
+  static async apiGetCleanedTranscripts(transcriptDAO, req, res, next) {
+    try{
+      await this.#inputBoundary.getFilteredTranscripts(this.#outputBoundary, req.query);
+      res
+        .status(this.#outputBoundary.getOutput().status)
+        .json(this.#outputBoundary.getOutput().data);
+    }catch(e){
+      res.status(500).json({error: e.message});
+    }
+
+  }
+
+  /** GET API: Gets trimmed transcript data matching with the query from MongoDB.
+   * Trimmed transcripts are composed of an object with the speaker followed by the text
+   * @param textDAO: instance of textDAO, when the db is queryed it uses a specific dao
    * @param {Object} req : contains additonal body passed to an API call
    * @param {Object} res : json object that is returned after making an API call
    * @param {Object} next
    */
-  // I found a bug with this function, if you spam the upload button from the upload transcripts modal it breaks teh function
-  static async addClean(req, res, next) {
+  static async apiGetTextTranscripts(textDAO, req, res, next) {
     try {
-      const response = await voiceflowAPI.getData(
-        process.env.VOICEFLOW_API_KEY,
-        process.env.VOICEFLOW_VERSION
-      );
-      response.data.forEach(async function (transcript) {
-        const projectId = transcript[0].projectID;
-        const formattedTranscript =
-          await transcriptDataFormatter.cleanTextTranscript(transcript);
-        const res = await TextTranscriptsDAO.addTextTranscript(
-          projectId,
-          formattedTranscript
-        );
-      });
-      res.json({ status: "success" });
+      await this.#inputBoundary.getFilteredTextTranscripts(this.#outputBoundary, textDAO, req.query);
+      res
+        .status(this.#outputBoundary.getOutput().status)
+        .json(this.#outputBoundary.getOutput().data);
     } catch (e) {
-      res.json({ status: "failure" });
+      res.status(500).json({ error: e.message });
     }
   }
 
-  // POST API:
-  static async createProject(req, res, next) {
-    console.log(req.body);
-    await TranscriptsDAO.createProject(req.body);
-    console.log("Project Created");
+  /**
+   * Adds all the transcripts saved under a project in Voiceflow in form of 'textTranscripts' which is composed
+   * of just the text values of each transcript. 'Transcripts' are also added which contains parsed
+   * versions of the transcripts with additional data to be analyzed
+   * @param textDAO: instance of textDAO, when the text transcripts are added to the Mongo
+   * @param transcriptDAO: instance of transcriptDAO, when the text transcripts are added to the Mongo
+   * @param {Object} req : contains additional body passed to an API call
+   * @param {Object} res : json object that is returned after making an API call
+   * @param {Object} next
+   */
+  static async addTranscripts(textDAO, transcriptDAO, req, res, next) {
+    try {
+      await this.#inputBoundary.getVoiceFlowAPIData(this.#outputBoundary, textDAO, transcriptDAO)
+      res
+        .status(this.#outputBoundary.getOutput().status)
+        .json(this.#outputBoundary.getOutput().data);
+    } catch (e) {
+      res.status(500).json({ error: e.message });
+    }
+
   }
 
-  static async flushDB(req, res, next) {
-    await TranscriptsDAO.flushDatabase("Trimmed");
-    await TranscriptsDAO.flushDatabase("Raw");
-    console.log("Database Flushed");
+  /**
+   * Flushes a collection from Mongo
+   * @param dao: Flushes the collection to the respective DAO that is passed in
+   * @param {Object} req : contains additional body passed to an API call
+   * @param {Object} res : json object that is returned after making an API call
+   * @param {Object} next
+   */
+  static async flushDB(dao, req, res, next) {
+    await this.#inputBoundary.flushCollection(dao, res)
   }
 
-  static async dropDB(db) {
-    db.dropDatabase();
-  }
+  /**
+   * Stores the API key and the ProjectID of the currently selected project for use when
+   * adding or flushing transcripts
+   * @param req contains the value of the API key and the ProjectID
+   * @return {Promise<void>}
+   */
+  static async storeVales(req){
+    try {
+      await this.#inputBoundary.saveKeys(req)
+    } catch (e) {
+      console.log("Error in saving keys")
+    }
 
-  static async enterProject(req, res, next) {
-    // console.log(req);
   }
 }

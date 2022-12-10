@@ -1,11 +1,17 @@
 {
+  "license": "UNLICENSED",
   "scripts": {
     "client": "cd back-end && nodemon server",
     "server": "cd front-end && npm start",
-    "dev": "concurrently \"npm run server\" \"npm run client\""
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "test": "jest"
   },
   "dependencies": {
+    "@faker-js/faker": "^7.6.0",
+    "@mui/material": "^5.10.15",
     "concurrently": "^7.5.0",
-    "save-dev": "^0.0.1-security"
+    "react-router-dom": "^6.4.3",
+    "save-dev": "^0.0.1-security",
+    "yarn": "^1.22.19"
   }
 }

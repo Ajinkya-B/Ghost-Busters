@@ -30,9 +30,6 @@ function VerticallyCenteredModal(props) {
                     <br />
                     {/*This component returns a button that logs textTranscripts into the console*/}
                     <UploadTranscriptsFromVoiceflow />
-
-                    {/*<p>Upload from your device:</p>*/}
-                    {/*<UploadTranscriptsFromDevice />*/}
                     <br />
                 </center>
             </Modal.Body>

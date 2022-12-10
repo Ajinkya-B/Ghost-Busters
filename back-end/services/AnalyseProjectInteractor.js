@@ -93,6 +93,7 @@ export class AnalyseProjectInteractor {
         let l = transcripts.length;
         let map = {};
 
+        //map dates to #conversations that day.
         for (let j = 0; j < l; j++) {
             let transcript = transcripts[j];
             let date = new Date(transcript.transcript_data[0].startTime.toString().slice(0, 10));
@@ -117,6 +118,7 @@ export class AnalyseProjectInteractor {
         let l = Math.min(text_transcripts.length, transcripts.length);
         let map = {};
 
+        // parse through transcripts and map dates to #users quit that day
         for (let j = 0; j < l; j++) {
             let textTranscript = text_transcripts[j];
             let transcript = transcripts[j];
@@ -200,12 +202,11 @@ export class AnalyseProjectInteractor {
         };
 
 
+        // parse through transcripts to find reasons for each.
         for (let j = 0; j < l; j++) {
 
             let textTranscript = text_transcripts[j];
             let transcript = transcripts[j];
-
-            // Get the date of the user quitting the chat
 
 
             // Find the reason for the user quitting the chat
@@ -260,6 +261,7 @@ export class AnalyseProjectInteractor {
             "other": {}
         }
 
+        //parse through transcripts
         for (let j = 0; j < l; j++) {
 
             let textTranscript = text_transcripts[j];
@@ -273,6 +275,7 @@ export class AnalyseProjectInteractor {
             let temp = this.transcriptAnalyser.checkReason(
                 textTranscript.dialogue, Q3_text, transcript.transcript_data, Q3_time);
 
+            // Map each reason to an array mapping dates to the users left on that day.
             if (temp.includes("privacy")) {
                 let map = reasonsPerDay.privacy[key];
                 if (map) {

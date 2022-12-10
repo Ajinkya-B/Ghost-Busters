@@ -3,11 +3,18 @@ import {InputBoundaryInterface} from "../interfaces/input-boundary-interface.js"
 import {AnalyseProjectInteractor}  from "./AnalyseProjectInteractor.js";
 
 export default class AnalyseProjectService extends InputBoundaryInterface {
+
   analyser = new AnalyseProjectInteractor;
 
+  /**
+   * set this analyser to analyser.
+    * @param analyser
+   */
   setAnalyser(analyser){
     this.analyser = analyser;
   }
+
+
   /**
    * Returns analysed metrics for a project with the project_id id.
    * @param outputBoundary

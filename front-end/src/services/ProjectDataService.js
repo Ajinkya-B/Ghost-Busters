@@ -1,6 +1,5 @@
 import http from "../http-common/http-common";
 
-//Provides a simple common link
 
 
 // This class contains all the functions that make API calls and return info from the calls.
